@@ -268,28 +268,30 @@
                 <section id="basics" class="bg-white rounded-lg shadow-md p-8 mb-8">
                     <h2 class="text-2xl font-bold text-blue-700 mb-4">1. Basics of Bayesian Inference</h2>
                     
+                    <p class="mb-4">Bayesian statistics treats parameters (θ) as random variables, allowing us to express our beliefs and update them as we observe data (y). It's a formal way of learning from experience.</p>
+
                     <h3 class="text-xl font-semibold text-blue-600 mb-3">1.1 Bayesian Learning: Likelihood, Prior and Posterior</h3>
                     
-                    <p class="mb-4">Bayesian inference is built on three key components:</p>
+                    <p class="mb-4">The core of Bayesian learning involves combining our initial beliefs with evidence from data:</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div class="card bg-blue-50 p-4">
-                            <h4 class="font-bold text-blue-700">Prior</h4>
-                            <p>Your initial belief about a parameter before seeing data</p>
+                            <h4 class="font-bold text-blue-700">Prior Density π(θ)</h4>
+                            <p>Your initial belief about a parameter θ before seeing data y</p>
                             <div class="text-center text-3xl mt-2">
                                 <i class="fas fa-brain text-blue-500"></i>
                             </div>
                         </div>
                         <div class="card bg-blue-50 p-4">
-                            <h4 class="font-bold text-blue-700">Likelihood</h4>
-                            <p>How probable your data is given different parameter values</p>
+                            <h4 class="font-bold text-blue-700">Likelihood Function f(y|θ)</h4>
+                            <p>How probable your data y is given different parameter values θ</p>
                             <div class="text-center text-3xl mt-2">
                                 <i class="fas fa-chart-line text-blue-500"></i>
                             </div>
                         </div>
                         <div class="card bg-blue-50 p-4">
-                            <h4 class="font-bold text-blue-700">Posterior</h4>
-                            <p>Your updated belief about the parameter after seeing data</p>
+                            <h4 class="font-bold text-blue-700">Posterior Density π(θ|y)</h4>
+                            <p>Your updated belief about the parameter θ after seeing data y</p>
                             <div class="text-center text-3xl mt-2">
                                 <i class="fas fa-lightbulb text-blue-500"></i>
                             </div>
@@ -301,7 +303,7 @@
                             <!-- Prior Distribution -->
                             <g transform="translate(50, 100)">
                                 <path d="M0,80 C20,80 40,20 80,20 C120,20 140,80 160,80" stroke="#3b82f6" fill="none" stroke-width="3"/>
-                                <text x="80" y="100" text-anchor="middle" font-size="14">Prior P(θ)</text>
+                                <text x="80" y="100" text-anchor="middle" font-size="14">Prior π(θ)</text>
                             </g>
                             
                             <!-- Multiplication Sign -->
@@ -310,16 +312,16 @@
                             <!-- Likelihood -->
                             <g transform="translate(260, 100)">
                                 <path d="M0,80 C30,-20 80,-20 160,80" stroke="#10b981" fill="none" stroke-width="3"/>
-                                <text x="80" y="100" text-anchor="middle" font-size="14">Likelihood P(D|θ)</text>
+                                <text x="80" y="100" text-anchor="middle" font-size="14">Likelihood f(y|θ)</text>
                             </g>
                             
                             <!-- Equals Sign -->
-                            <text x="445" y="100" text-anchor="middle" font-size="24">=</text>
+                            <text x="445" y="100" text-anchor="middle" font-size="24">∝</text>
                             
                             <!-- Posterior -->
                             <g transform="translate(470, 100)">
                                 <path d="M0,50 C20,50 40,0 60,0 C80,0 100,20 120,80" stroke="#f97316" fill="none" stroke-width="3"/>
-                                <text x="60" y="100" text-anchor="middle" font-size="14">Posterior P(θ|D)</text>
+                                <text x="60" y="100" text-anchor="middle" font-size="14">Posterior π(θ|y)</text>
                             </g>
                         </svg>
                     </div>
@@ -343,51 +345,66 @@
                         
                         <p class="mt-4">After seeing the word "free," your belief that the email is spam increased from 30% to 77%.</p>
                     </div>
+
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.2 Bayes' Theorem</h3>
                     
-                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.2 Bayes' Theorem for Dominated Models</h3>
-                    
-                    <p class="mb-4">Bayes' theorem can be applied in different contexts:</p>
+                    <p class="mb-4">Bayes' theorem provides the mathematical rule for updating beliefs:</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <h4 class="font-bold">1.2.1 Bayes' Theorem for Events</h4>
                             <div class="formula">
-                                P(A|B) = P(B|A) × P(A) / P(B)
+                                P(Hⱼ|E) = P(E|Hⱼ) × P(Hⱼ) / P(E)
                             </div>
-                            <p>Where A and B are events, and P(B) > 0</p>
+                            <p>Where H₁, ..., Hₖ is a partition of the sample space, E is an event, and P(E) > 0. P(E) = Σ P(E|Hᵢ)P(Hᵢ).</p>
                         </div>
                         <div>
-                            <h4 class="font-bold">1.2.2 Bayes' Theorem for Random Variables</h4>
+                            <h4 class="font-bold">1.2.2 Bayes' Theorem for Random Variables (Densities)</h4>
                             <div class="formula">
-                                f(θ|x) = f(x|θ) × f(θ) / f(x)
+                                π(θ|y) = f(y|θ) × π(θ) / m(y)
                             </div>
-                            <p>Where θ is a parameter and x is observed data</p>
+                            <p>Where θ is a parameter vector, y is observed data, π(θ) is the prior density, f(y|θ) is the likelihood, and m(y) is the marginal likelihood of the data.</p>
                         </div>
                     </div>
                     
                     <div>
-                        <h4 class="font-bold">1.2.3 Bayes' Theorem for Dominated Models</h4>
-                        <p class="mb-2">For continuous distributions, the posterior distribution is proportional to the product of the likelihood and the prior:</p>
+                        <h4 class="font-bold">Marginal Likelihood (Evidence)</h4>
+                        <p class="mb-2">The denominator m(y) ensures the posterior integrates to 1. It's calculated by integrating the joint distribution over all possible parameter values:</p>
                         <div class="formula">
-                            f(θ|x) ∝ f(x|θ) × f(θ)
+                             m(y) = ∫ f(y|θ) π(θ) dθ
                         </div>
-                        <p>The symbol ∝ means "proportional to". The denominator f(x) is often hard to calculate but serves as a normalizing constant.</p>
+                        <p>Often, we work with proportionality, as m(y) is constant with respect to θ:</p>
+                        <div class="formula">
+                             π(θ|y) ∝ f(y|θ) × π(θ)
+                        </div>
+                    </div>
+
+                    <div class="note-box mt-4">
+                        <h4 class="font-bold">Sequential Updating</h4>
+                        <p>Bayesian inference naturally handles sequential data. The posterior π(θ|y₁) from the first dataset y₁ becomes the prior for analyzing the second dataset y₂ (assuming conditional independence). The final posterior π(θ|y₁,y₂) is the same as if both datasets were analyzed together.</p>
                     </div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.3 Main Inferential Problems</h3>
                     
+                    <p>The posterior distribution π(θ|y) contains all information about θ after observing y. We summarize it for inference:</p>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <h4 class="font-bold">1.3.1 Point and Interval Estimation</h4>
-                            <p class="mb-2">In Bayesian analysis, we can derive various estimates from the posterior distribution:</p>
+                            <p class="mb-2">Summarizing the location and spread of the posterior:</p>
                             <ul class="list-disc ml-6">
-                                <li><strong>Point estimates:</strong> Posterior mean, median, or mode</li>
-                                <li><strong>Interval estimates:</strong> Credible intervals (e.g., 95% highest posterior density interval)</li>
+                                <li><strong>Point estimates:</strong> Common choices include the posterior mean E[θ|y], posterior median, or posterior mode (MAP - maximum a posteriori).</li>
+                                <li><strong>Interval estimates (Credible Intervals):</strong> An interval C such that P(θ ∈ C | y) ≥ 1-α. Examples:
+                                    <ul class="list-circle ml-4">
+                                        <li>Equal-tailed interval (using quantiles).</li>
+                                        <li>Highest Posterior Density Interval (HPDI): The narrowest interval containing the desired probability mass.</li>
+                                    </ul>
+                                </li>
                             </ul>
                             
-                            <div class="mt-4">
+                            <div class="example-box mt-4">
                                 <p class="font-semibold">Example: Estimating Batting Average</p>
-                                <p>A baseball player gets 7 hits in 20 at-bats. With a Beta(1,1) prior (uniform), the posterior is Beta(8,14):</p>
+                                <p>A player gets y=7 hits in n=20 at-bats (Binomial likelihood). With a Beta(1,1) prior for the average θ, the posterior is Beta(1+y, 1+n-y) = Beta(8,14):</p>
                                 <ul class="list-disc ml-6 mt-2">
                                     <li>Posterior mean: 8/(8+14) = 0.364</li>
                                     <li>95% credible interval: [0.193, 0.544]</li>
@@ -396,44 +413,53 @@
                         </div>
                         <div>
                             <h4 class="font-bold">1.3.2 Hypothesis Testing</h4>
-                            <p class="mb-2">Bayesian hypothesis testing involves calculating the posterior probabilities of competing hypotheses:</p>
+                            <p class="mb-2">Comparing competing hypotheses (e.g., H₀: θ ∈ Θ₀ vs H₁: θ ∈ Θ₁) using posterior probabilities or odds:</p>
                             <div class="formula">
-                                P(H₁|Data) / P(H₂|Data) = [P(Data|H₁) / P(Data|H₂)] × [P(H₁) / P(H₂)]
+                                Posterior Odds = (P(H₀|y) / P(H₁|y)) = BF₀₁ × (π₀ / π₁)
                             </div>
-                            
-                            <div class="mt-4">
-                                <p class="font-semibold">Example: Testing a New Drug</p>
-                                <p>Comparing hypotheses H₁: "drug is effective" vs H₂: "drug is not effective"</p>
-                                <ul class="list-disc ml-6 mt-2">
-                                    <li>Prior odds: P(H₁)/P(H₂) = 1 (equal prior probability)</li>
-                                    <li>Bayes Factor: P(Data|H₁)/P(Data|H₂) = 20</li>
-                                    <li>Posterior odds: 20 × 1 = 20</li>
-                                    <li>So P(H₁|Data) = 20/21 ≈ 0.95 or 95%</li>
+                            <p>Where π₀/π₁ is the Prior Odds and BF₀₁ is the Bayes Factor.</p>
+                            <div class="formula">
+                                BF₀₁ = m(y|H₀) / m(y|H₁) = [∫<sub>Θ₀</sub> f(y|θ)g₀(θ)dθ] / [∫<sub>Θ₁</sub> f(y|θ)g₁(θ)dθ]
+                            </div>
+                            <p>The Bayes Factor measures the evidence provided by the data y in favor of H₀ over H₁. g₀ and g₁ are prior densities under H₀ and H₁.</p>
+
+                            <div class="tip-box mt-4">
+                                <h4 class="font-bold">Interpreting Bayes Factors (Jeffreys' Scale)</h4>
+                                <ul class="list-disc ml-6 mt-2 text-sm">
+                                    <li>1 &lt; BF₀₁ &lt; 3: Anecdotal evidence for H₀</li>
+                                    <li>3 &lt; BF₀₁ &lt; 10: Moderate evidence for H₀</li>
+                                    <li>10 &lt; BF₀₁ &lt; 30: Strong evidence for H₀</li>
+                                    <li>30 &lt; BF₀₁ &lt; 100: Very Strong evidence for H₀</li>
+                                    <li>BF₀₁ &gt; 100: Decisive evidence for H₀</li>
                                 </ul>
+                                <p class="text-xs">(Note: BF₁₀ = 1/BF₀₁)</p>
+                            </div>
+
+                            <div class="example-box mt-4">
+                                <p class="font-semibold">Example: Testing a New Drug</p>
+                                <p>H₀: "drug not effective", H₁: "drug effective". Prior odds = 1. Data yields BF₁₀ = 20 (evidence favors H₁).</p>
+                                <p>Posterior Odds (H₁ vs H₀) = BF₁₀ × Prior Odds = 20 × 1 = 20.</p>
+                                <p>P(H₁|y) = Post.Odds / (1 + Post.Odds) = 20/21 ≈ 0.95.</p>
                             </div>
                         </div>
                     </div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.4 Posterior Predictive Distributions</h3>
                     
-                    <p class="mb-4">The posterior predictive distribution gives us the probability of future observations based on our current data:</p>
+                    <p class="mb-4">Predicting future observations (y<sub>new</sub>) given the observed data (y). This involves averaging the predictive distribution f(y<sub>new</sub>|θ) over the posterior distribution π(θ|y):</p>
                     
                     <div class="formula">
-                        p(x̃|x) = ∫ p(x̃|θ) p(θ|x) dθ
+                         π(y<sub>new</sub>|y) = ∫ f(y<sub>new</sub>|θ) π(θ|y) dθ
                     </div>
                     
-                    <p>Where x̃ is a future observation, x is our observed data, and θ represents our parameters.</p>
+                    <p>The posterior predictive distribution accounts for both the uncertainty about the parameters θ (via π(θ|y)) and the inherent randomness of the process (via f(y<sub>new</sub>|θ)).</p>
                     
                     <div class="example-box mt-4">
                         <h4 class="font-bold">Example: Predicting Future Sales</h4>
-                        <p>A coffee shop has recorded daily sales that follow a normal distribution. After collecting data for several months:</p>
-                        <ul class="list-disc ml-6 mt-2">
-                            <li>The posterior distribution for the mean is N(80, 5²)</li>
-                            <li>The known variance is 100</li>
-                        </ul>
-                        <p class="mt-2">The posterior predictive distribution for tomorrow's sales is:</p>
+                        <p>Daily sales yᵢ ~ N(θ, σ²), with known σ²=100. After observing data y, the posterior for the mean is π(θ|y) ~ N(80, 5²).</p>
+                        <p class="mt-2">The posterior predictive distribution for tomorrow's sales y<sub>new</sub> is:</p>
                         <div class="formula">
-                            p(x̃|data) ~ N(80, 5² + 10²) = N(80, 125)
+                             π(y<sub>new</sub>|y) ~ N(E[θ|y], Var[θ|y] + σ²) = N(80, 5² + 10²) = N(80, 125)
                         </div>
                         <p>This means our prediction incorporates both our uncertainty about the mean and the inherent variability in daily sales.</p>
                     </div>
@@ -452,7 +478,7 @@
                         </ul>
                     </div>
                     
-                    <p class="mt-4">By de Finetti's theorem, exchangeable sequences can be represented as mixtures of i.i.d. sequences, which provides theoretical justification for Bayesian modeling.</p>
+                    <p class="mt-4">By de Finetti's theorem, an infinite sequence of exchangeable (binary) random variables behaves as if the observations were conditionally independent and identically distributed given some underlying parameter θ, which itself has a prior distribution. This provides a philosophical justification for the Bayesian approach.</p>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.6 Specifying Prior Distributions</h3>
                     
@@ -460,8 +486,8 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <h4 class="font-bold">1.6.1 Reference Priors</h4>
-                            <p>Reference priors are "minimally informative" and aim to let the data speak for themselves. Common choices include:</p>
+                            <h4 class="font-bold">1.6.1 Reference Priors (Convenience Priors)</h4>
+                            <p>Used when minimal prior information is available or desired, aiming to let the data dominate the posterior. They are NOT truly "non-informative".</p>
                             <ul class="list-disc ml-6 mt-2">
                                 <li>Uniform priors</li>
                                 <li>Maximum entropy priors</li>
@@ -472,19 +498,22 @@
                                 <p class="font-semibold">Example: Estimating a Proportion</p>
                                 <p>For estimating a proportion θ, a uniform prior Beta(1,1) is a common reference prior, representing equal probability for all possible values of θ between 0 and 1.</p>
                             </div>
+                            <div class="note-box mt-2">
+                                <p class="text-sm">Caution: Improper priors (that don't integrate to 1, like π(θ)=c on R) can lead to improper posteriors if the likelihood isn't strong enough to make it integrable.</p>
+                            </div>
                         </div>
                         <div>
                             <h4 class="font-bold">1.6.2 Jeffreys Priors</h4>
-                            <p>Jeffreys priors are invariant to reparameterization and are proportional to the square root of the Fisher information:</p>
+                            <p>A type of reference prior invariant to parameter transformation. Proportional to the square root of the Fisher information:</p>
                             <div class="formula">
-                                p(θ) ∝ √|I(θ)|
+                                π(θ) ∝ √|I(θ)|
                             </div>
-                            <p>Where I(θ) is the Fisher information.</p>
+                            <p>Where I(θ) = E<sub>y|θ</sub>[ -∂² log f(y|θ) / ∂θ² ] is the Fisher information.</p>
                             
                             <div class="example-box mt-4">
-                                <p class="font-semibold">Example: Normal Distribution</p>
-                                <p>For a normal distribution with known variance σ², the Jeffreys prior for the mean μ is proportional to a constant, which simplifies to a uniform prior.</p>
-                                <p class="mt-2">For unknown variance σ², the Jeffreys prior is p(σ) ∝ 1/σ.</p>
+                                <p class="font-semibold">Example: Normal Distribution Priors</p>
+                                <p>• Known σ²: Jeffreys prior for mean μ is π(μ) ∝ 1 (Uniform).</p>
+                                <p>• Known μ: Jeffreys prior for variance σ² is π(σ²) ∝ 1/σ² (or π(σ) ∝ 1/σ).</p>
                             </div>
                         </div>
                     </div>
@@ -492,43 +521,37 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <h4 class="font-bold">1.6.3 Scientifically Informed Priors</h4>
-                            <p>When prior knowledge or expert opinion is available, we can construct informative priors:</p>
+                            <p>Incorporate external knowledge (e.g., from previous studies, physical constraints, expert opinion) into the model. This is generally preferred when reliable information exists.</p>
                             <ul class="list-disc ml-6 mt-2">
-                                <li>Based on previous studies or historical data</li>
-                                <li>Elicited from expert knowledge</li>
-                                <li>Derived from physical or theoretical constraints</li>
+                                <li>Choose a distributional family (e.g., Beta for proportion, Normal for location)</li>
+                                <li>Set hyperparameters (e.g., mean, variance) to reflect the external knowledge</li>
+                                <li>Always check if the chosen prior makes sense for the scientifically relevant parameters</li>
                             </ul>
-                            
                             <div class="example-box mt-4">
                                 <p class="font-semibold">Example: Drug Efficacy</p>
                                 <p>Based on similar drugs, scientists believe a new treatment has between 30% and 60% efficacy, with 50% being most likely. This could be modeled as a Beta(5,5) prior centered at 0.5 with most mass between 0.3 and 0.7.</p>
                             </div>
                         </div>
                         <div>
-                            <h4 class="font-bold">1.6.4 Merging of the Priors</h4>
-                            <p>When multiple sources of prior information exist, they can be combined:</p>
+                            <h4 class="font-bold">1.6.4 Merging of Priors & Posterior Consistency</h4>
+                            <p>As more data accumulates, the influence of the prior diminishes, and the likelihood dominates the posterior. Different reasonable priors will lead to increasingly similar posterior distributions.</p>
                             <ul class="list-disc ml-6 mt-2">
-                                <li>Linear pooling: weighted average of individual priors</li>
-                                <li>Logarithmic pooling: geometric mean of priors</li>
-                                <li>Using one source as prior and others as data</li>
+                                <li><strong>Posterior Consistency:</strong> Under suitable conditions, as n → ∞, the posterior distribution concentrates around the true parameter value θ₀.</li>
+                                <li>This means that eventually, enough data can overcome initial differences in prior beliefs.</li>
+                                <!-- Removed pooling example as it's less central than consistency -->
                             </ul>
-                            
-                            <div class="example-box mt-4">
-                                <p class="font-semibold">Example: Weather Forecasting</p>
-                                <p>Three meteorologists provide probability estimates for rain tomorrow: 0.3, 0.5, and 0.7. With equal weights, linear pooling gives (0.3 + 0.5 + 0.7)/3 = 0.5 as the combined prior probability.</p>
-                            </div>
                         </div>
                     </div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.7 Asymptotic Normality of the Posterior Distribution</h3>
                     
-                    <p class="mb-4">As sample size increases, under mild conditions, the posterior distribution approaches a normal distribution centered at the maximum likelihood estimate:</p>
+                    <p>The posterior distribution π(θ|y) often resembles a Normal distribution (Bernstein-von Mises Theorem):</p>
                     
                     <div class="formula">
-                        p(θ|x) ≈ N(θ̂, I⁻¹(θ̂)/n)
+                         π(θ|y) ≈ N(θ̂, [nI(θ̂)]⁻¹)
                     </div>
                     
-                    <p>Where θ̂ is the maximum likelihood estimate, I(θ̂) is the Fisher information, and n is the sample size.</p>
+                    <p>Where θ̂ is the Maximum Likelihood Estimator (MLE) or posterior mode, and I(θ̂) is the Fisher information evaluated at θ̂.</p>
                     
                     <div class="note-box">
                         <h4 class="font-bold">Important Implications</h4>
@@ -560,66 +583,151 @@
                     
                     <h3 class="text-xl font-semibold text-blue-600 mb-3">2.1 The Monte Carlo Method</h3>
                     
-                    <p class="mb-4">Monte Carlo methods use random sampling to obtain numerical results. The basic idea is to draw many samples from a distribution and use these samples to approximate quantities of interest.</p>
+                    <p class="mb-4">The Monte Carlo method is used to learn relevant features of a target distribution π through simulation. In the Bayesian framework, π is typically the posterior distribution. The method assumes we can draw independent and identically distributed samples from π: θ<sup>(1)</sup>, θ<sup>(2)</sup>, ... ~ π.</p>
                     
-                    <div class="example-box">
-                        <h4 class="font-bold">Example: Estimating an Expected Value</h4>
-                        <p>Suppose we want to calculate E[g(θ)] where θ has posterior distribution p(θ|x).</p>
-                        <ol class="list-decimal ml-6 mt-2">
-                            <li>Draw N samples θ₁, θ₂, ..., θₙ from p(θ|x)</li>
-                            <li>Compute g(θᵢ) for each sample</li>
-                            <li>Estimate E[g(θ)] ≈ (1/N) Σᵢ g(θᵢ)</li>
-                        </ol>
-                        
-                        <div class="mt-4">
-                            <p class="font-semibold">Application: Insurance Risk Assessment</p>
-                            <p>An insurance company wants to estimate the expected payout for a new policy. If the distribution of claims follows a complex model with posterior parameters from historical data, Monte Carlo sampling can approximate the expected payout and help set appropriate premiums.</p>
-                        </div>
+                    <div class="formula">
+                        <p>For a parameter θ ∈ Θ ⊂ ℝ<sup>d</sup> with target distribution π, we simulate draws θ<sup>(1)</sup>, θ<sup>(2)</sup>, ..., θ<sup>(T)</sup> from the posterior π(θ|y)</p>
                     </div>
                     
-                    <h4 class="font-bold mt-6">2.1.1 Monte Carlo Method for the Posterior Predictive Distribution</h4>
+                    <div class="note-box">
+                        <h4 class="font-bold">Theorem 2.1: Strong Law of Large Numbers (SLLN)</h4>
+                        <p>Let π be a distribution over Θ and h: Θ→ℝ be a function such that ∫<sub>Θ</sub> |h(θ)|π(dθ) < +∞. Moreover, let θ<sup>(1)</sup>, θ<sup>(2)</sup>, ... be a sequence of random variables independent and identically distributed from π. Then:</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>The sequence of random variables h̄<sup>(T)</sup> := (1/T)∑<sub>i=1</sub><sup>T</sup> h(θ<sup>(i)</sup>) converges almost surely to ∫<sub>Θ</sub> h(θ)π(dθ) = h̄ as T→+∞.</li>
+                            <li>For any p ∈ (0,1), if q<sub>p</sub> is the p-quantile of h(θ) and q<sub>p</sub><sup>(T)</sup> is the empirical p-quantile of {h(θ<sup>(1)</sup>), ..., h(θ<sup>(T)</sup>)}, then q<sub>p</sub><sup>(T)</sup> converges almost surely to q<sub>p</sub> as T→+∞.</li>
+                        </ol>
+                    </div>
                     
-                    <p class="mb-4">The posterior predictive distribution p(x̃|x) can be approximated using Monte Carlo methods:</p>
+                    <p class="mb-4">The SLLN is used to implement the Monte Carlo method by computing h̄<sup>(T)</sup> for a smart choice of the function h:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>To approximate π(A), use h(θ) = I<sub>A</sub>(θ) (indicator function)</li>
+                        <li>To approximate E<sub>π</sub>[θ<sub>i</sub>], use h(θ) = θ<sub>i</sub> (the i-th component of θ)</li>
+                    </ul>
                     
-                    <ol class="list-decimal ml-6 mb-4">
-                        <li>Draw samples θ₁, θ₂, ..., θₙ from the posterior p(θ|x)</li>
-                        <li>For each θᵢ, draw a future observation x̃ᵢ from p(x̃|θᵢ)</li>
-                        <li>The set {x̃₁, x̃₂, ..., x̃ₙ} provides a sample from the posterior predictive distribution</li>
-                    </ol>
+                    <div class="note-box">
+                        <h4 class="font-bold">Theorem 2.2: Central Limit Theorem (CLT)</h4>
+                        <p>Let π be a distribution over Θ and h: Θ→ℝ be a function such that ∫<sub>Θ</sub> |h(θ)|π(dθ) < +∞ and 0 < Var(h(θ)) =: σ² < +∞. Moreover, let θ<sup>(1)</sup>, θ<sup>(2)</sup>, ... be a sequence of random variables independent and identically distributed from π. Then:</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>√T(h̄<sup>(T)</sup> - h̄) converges in distribution to N(0, σ²) as T→+∞.</li>
+                            <li>σ²<sup>(T)</sup> = (1/T)∑<sub>i=1</sub><sup>T</sup>(h(θ<sup>(i)</sup>) - h̄<sup>(T)</sup>)² converges almost surely to σ² as T→+∞.</li>
+                        </ol>
+                        <p class="mt-2">In particular, the CLT tells us that if T is large, then err<sup>(T)</sup> = h̄<sup>(T)</sup> - h̄ ≈ N(0, σ²/T). For any c > 0, the probability that |err<sup>(T)</sup>| > c becomes small when T is large.</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example 2.1: Educational Attainment and Children</h4>
+                        <p>The General Social Survey collected data on educational attainment and number of children of 155 women in the 1990s. We compare women with college degrees (n₂ = 44) to those without (n₁ = 111).</p>
+                        <div class="formula">
+                            <p>Y<sub>11</sub>,...,Y<sub>n₁1</sub> | θ₁ ~ Poisson(θ₁)</p>
+                            <p>Y<sub>12</sub>,...,Y<sub>n₂2</sub> | θ₂ ~ Poisson(θ₂)</p>
+                            <p>θ<sub>j</sub> ~ Gamma(a, b), j = 1, 2  with a = 2, b = 1</p>
+                        </div>
+                        <p>The posterior distribution is:</p>
+                        <div class="formula">
+                            <p>(θ₁, θ₂) | y₁, y₂ ~ Gamma(219, 112) × Gamma(68, 45)</p>
+                        </div>
+                        <p>We want to compute P(θ₁ > θ₂ | y₁, y₂) using Monte Carlo with h(θ₁, θ₂) = I(θ₁ > θ₂).</p>
+                        <p>With T = 1000 samples, we get h̄<sup>(T)</sup> ≈ 0.97, which matches the true value computed by numerical integration.</p>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">2.1.1 Monte Carlo Method for the Posterior Predictive Distribution: The Augmentation Trick</h4>
+                    
+                    <p class="mb-4">In the Bayesian framework, the posterior predictive distribution is an important object. For conditionally i.i.d. data, its density can be written as:</p>
+                    
+                    <div class="formula">
+                        <p>m<sub>Y<sub>n+1</sub>|Y<sub>1</sub>,...,Y<sub>n</sub></sub>(y|y<sub>1</sub>,...,y<sub>n</sub>) = ∫<sub>Θ</sub> f(y|θ) π(dθ|y<sub>1</sub>,...,y<sub>n</sub>)</p>
+                    </div>
+                    
+                    <p class="mb-4">If we only need to evaluate the posterior predictive density via Monte Carlo method, we can approximate:</p>
+                    
+                    <div class="formula">
+                        <p>m<sub>Y<sub>n+1</sub>|Y<sub>1</sub>,...,Y<sub>n</sub></sub>(y|y<sub>1</sub>,...,y<sub>n</sub>) ≈ (1/T) ∑<sub>i=1</sub><sup>T</sup> f(y|θ<sup>(i)</sup>)</p>
+                    </div>
+
+                    <p class="mb-4">where θ<sup>(1)</sup>, θ<sup>(2)</sup>, ..., θ<sup>(T)</sup> are i.i.d. draws from π(θ|y<sub>1</sub>,...,y<sub>n</sub>).</p>
                     
                     <div class="note-box">
                         <h4 class="font-bold">The Augmentation Trick</h4>
-                        <p>Sometimes working with a joint distribution p(θ,z|x) is easier than the marginal p(θ|x), where z is an auxiliary variable. Steps:</p>
+                        <p>To obtain i.i.d. samples from the posterior predictive distribution, we need to apply the augmentation trick.</p>
+                        <p class="mt-2">In general, suppose we cannot simulate directly from the distribution L(X<sub>1</sub>), but there exists another random variable X<sub>2</sub> such that we can simulate from L(X<sub>1</sub>|X<sub>2</sub>) and L(X<sub>2</sub>). Then:</p>
                         <ol class="list-decimal ml-6 mt-2">
-                            <li>Draw (θᵢ,zᵢ) from the joint posterior p(θ,z|x)</li>
-                            <li>Use the θᵢ values and discard the zᵢ</li>
+                            <li>For t = 1,...,T:
+                                <ul class="list-disc ml-6">
+                                    <li>Draw a sample x<sub>2</sub><sup>(t)</sup> ~ L(X<sub>2</sub>)</li>
+                                    <li>Draw a sample x<sub>1</sub><sup>(t)</sup> ~ L(X<sub>1</sub>|X<sub>2</sub>=x<sub>2</sub><sup>(t)</sup>)</li>
+                                </ul>
+                            </li>
                         </ol>
+                        <p class="mt-2">The resulting samples x<sub>1</sub><sup>(1)</sup>, x<sub>1</sub><sup>(2)</sup>, ..., x<sub>1</sub><sup>(T)</sup> are i.i.d. from L(X<sub>1</sub>).</p>
                     </div>
+                    
+                    <p class="mb-4">For the posterior predictive distribution, we can set:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>L(X<sub>1</sub>) = L(Y<sub>n+1</sub>|Y<sub>1</sub>,...,Y<sub>n</sub>) (posterior predictive)</li>
+                        <li>L(X<sub>1</sub>|X<sub>2</sub>) = L(Y<sub>n+1</sub>|θ) (sampling model)</li>
+                        <li>L(X<sub>2</sub>) = L(θ|Y<sub>1</sub>,...,Y<sub>n</sub>) (posterior)</li>
+                    </ul>
+                    
+                    <p class="mb-4">The algorithm becomes:</p>
+                    <ol class="list-decimal ml-6 mb-4">
+                        <li>Draw samples θ<sup>(1)</sup>, θ<sup>(2)</sup>, ..., θ<sup>(T)</sup> from the posterior π(θ|y<sub>1</sub>,...,y<sub>n</sub>)</li>
+                        <li>For each θ<sup>(i)</sup>, draw a future observation y<sub>n+1</sub><sup>(i)</sup> from f(·|θ<sup>(i)</sup>)</li>
+                        <li>The set {y<sub>n+1</sub><sup>(1)</sup>, y<sub>n+1</sub><sup>(2)</sup>, ..., y<sub>n+1</sub><sup>(T)</sup>} provides a sample from the posterior predictive distribution</li>
+                    </ol>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.2 Rejection Sampling</h3>
                     
-                    <p class="mb-4">Rejection sampling is a technique for generating samples from a distribution when direct sampling is difficult.</p>
+                    <p class="mb-4">Rejection Sampling is a method to draw samples from a target density π(θ) that we cannot directly sample from, by using another density that is easier to sample from.</p>
                     
+                    <div class="formula">
+                        <p>Let π(θ) be the target density and assume:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>We can evaluate π(θ) for any θ ∈ Θ</li>
+                            <li>There exist c > 0 and a density m(θ) such that:</li>
+                            <li>We can sample from m(θ)</li>
+                            <li>π(θ) ≤ c·m(θ) holds for all θ</li>
+                        </ul>
+                        <p>Note: If the inequality holds, c must be larger than 1</p>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+                        <h4 class="font-bold mb-2">Rejection Sampling Algorithm</h4>
+                        <ol class="list-decimal ml-6">
+                            <li>Draw a sample z ~ m(·) and compute r(z) = π(z)/(c·m(z)) ∈ (0,1)</li>
+                            <li>Generate u ~ Uniform(0,1)</li>
+                            <li>If u ≤ r(z), accept θ = z; otherwise, reject it and go back to step 1</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Proof of Correctness</h4>
+                        <p>For the accepted sample θ and any t:</p>
+                        <div class="formula">
+                            <p>P(θ ≤ t) = P(Z ≤ t | U ≤ π(Z)/(c·m(Z))) = ∫<sub>-∞</sub><sup>t</sup> π(z)dz / ∫<sub>ℝ</sub> π(z)dz</p>
+                        </div>
+                        <p>This confirms that the accepted samples follow the target distribution π.</p>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <h4 class="font-bold">How It Works</h4>
-                            <ol class="list-decimal ml-6">
-                                <li>Find a proposal distribution q(θ) that is easy to sample from and a constant M such that p(θ|x) ≤ M·q(θ) for all θ</li>
-                                <li>Draw a sample θ' from q(θ)</li>
-                                <li>Generate a uniform random number u between 0 and 1</li>
-                                <li>If u ≤ p(θ'|x)/(M·q(θ')), accept θ'; otherwise, reject and go back to step 2</li>
-                            </ol>
+                            <h4 class="font-bold">Key Points</h4>
+                            <ul class="list-disc ml-6">
+                                <li>The efficiency depends on choosing a good proposal m(θ) that closely approximates π(θ)</li>
+                                <li>Smaller values of c result in higher acceptance rates</li>
+                                <li>The acceptance rate is approximately 1/c</li>
+                                <li>The proposal density should have heavier tails than the target</li>
+                            </ul>
                         </div>
                         <div>
                             <div class="concept-diagram">
                                 <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
                                     <!-- Target Distribution -->
                                     <path d="M50,180 C70,100 120,60 150,60 C180,60 230,100 250,180" stroke="#f97316" fill="none" stroke-width="3"/>
-                                    <text x="150" y="50" text-anchor="middle" font-size="12">Target p(θ|x)</text>
+                                    <text x="150" y="100" text-anchor="middle" font-size="14">Target π(θ)</text>
                                     
                                     <!-- Proposal Distribution -->
                                     <path d="M20,180 C70,40 230,40 280,180" stroke="#3b82f6" fill="none" stroke-width="2" stroke-dasharray="5,5"/>
-                                    <text x="150" y="30" text-anchor="middle" font-size="12">Proposal M·q(θ)</text>
+                                    <text x="150" y="30" text-anchor="middle" font-size="14">Proposal M·q(θ)</text>
                                     
                                     <!-- Accepted Points -->
                                     <circle cx="80" cy="120" r="4" fill="#10b981"/>
@@ -653,42 +761,74 @@
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.3 Markov Chain Monte Carlo Methods</h3>
                     
-                    <p class="mb-4">MCMC methods construct a Markov chain such that its stationary distribution is the target posterior distribution. After running the chain for a while (burn-in), samples from the chain approximate samples from the posterior.</p>
+                    <p class="mb-4">The goal of MCMC methods is to compute draws that are approximately from π(θ|y), the posterior distribution (density) of θ in our Bayesian model. Only for very simple models can we sample i.i.d. from the posterior directly.</p>
                     
                     <h4 class="font-bold mt-6">2.3.1 General State Space Markov Chains</h4>
                     
-                    <p class="mb-4">A Markov chain is a sequence of random variables where the future state depends only on the current state, not on the sequence of states that preceded it.</p>
+                    <p class="mb-4">A Markov chain is a sequence of random variables where the future state depends only on the current state, not on the sequence of states that preceded it. For Bayesian MCMC, we need to consider general state space Markov chains where the state space E is typically a subset of ℝ<sup>d</sup>.</p>
+                    
+                    <div class="formula">
+                        <p>P(X<sub>n+1</sub> ∈ A | X<sub>0</sub> = x<sub>0</sub>, ..., X<sub>n</sub> = x<sub>n</sub>) = P(X<sub>n+1</sub> ∈ A | X<sub>n</sub> = x<sub>n</sub>) =: P(x<sub>n</sub>, A)</p>
+                    </div>
+                    
+                    <p class="mb-4">The function P(x, A) is called the <strong>transition probability kernel</strong>. The goal of MCMC is to construct a Markov chain with a stationary distribution equal to our target posterior π(θ|y).</p>
                     
                     <div class="note-box">
-                        <h4 class="font-bold">Key Properties of Markov Chains</h4>
+                        <h4 class="font-bold">Key Properties of Markov Chains for MCMC</h4>
                         <ul class="list-disc ml-6 mt-2">
-                            <li><strong>Irreducibility:</strong> The chain can reach any state from any other state</li>
+                            <li><strong>Irreducibility:</strong> The chain can reach any set with positive posterior probability from any starting state</li>
                             <li><strong>Aperiodicity:</strong> The chain doesn't cycle in a deterministic pattern</li>
-                            <li><strong>Positive recurrence:</strong> All states are visited infinitely often</li>
+                            <li><strong>Positive recurrence:</strong> The chain admits an invariant distribution (our posterior)</li>
                         </ul>
-                        <p class="mt-2">A Markov chain with these properties converges to a unique stationary distribution, regardless of the starting state.</p>
+                        <p class="mt-2">A Markov chain with these properties is <strong>ergodic</strong> and converges to its unique stationary distribution, regardless of the starting state.</p>
                     </div>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Ergodic Theorem</h4>
+                        <p>For an ergodic Markov chain {X<sub>n</sub>} with stationary distribution π and function h where E<sub>π</sub>[|h|] < ∞:</p>
+                        <div class="formula">
+                            <p>(1/n)∑<sub>i=1</sub><sup>n</sup>h(X<sub>i</sub>) → ∫h(θ)π(dθ) almost surely as n → ∞</p>
+                        </div>
+                        <p>This means we can approximate expectations with respect to π by averaging over the chain states after an initial burn-in period.</p>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Statistical Inference with MCMC</h4>
+                        <p>To compute posterior expectations E<sub>π</sub>[h(θ)]:</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>Construct a Markov chain with stationary distribution π(θ|y)</li>
+                            <li>Simulate T steps of the chain: θ<sup>(1)</sup>, θ<sup>(2)</sup>, ..., θ<sup>(T)</sup></li>
+                            <li>Discard the first B iterations (burn-in period)</li>
+                            <li>Approximate E<sub>π</sub>[h(θ)] ≈ (1/(T-B))∑<sub>t=B+1</sub><sup>T</sup>h(θ<sup>(t)</sup>)</li>
+                        </ol>
+                    </div>
+                    
+                    <p class="mb-4">In the following sections, we'll explore two popular MCMC algorithms: the Metropolis-Hastings algorithm and the Gibbs sampler.</p>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.4 The Metropolis-Hastings Algorithm</h3>
                     
-                    <p class="mb-4">The Metropolis-Hastings algorithm is a general MCMC method for obtaining a sequence of random samples from a probability distribution that is difficult to sample from directly.</p>
+                    <p class="mb-4">The Metropolis-Hastings algorithm is a general MCMC method for obtaining a sequence of random samples from a probability distribution that is difficult to sample from directly. It constructs a Markov chain that has the target posterior distribution as its stationary distribution.</p>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Setup for the Metropolis-Hastings Algorithm</h4>
+                        <p>Assume that the target distribution π has a density with respect to some measure µ (e.g., the Lebesgue measure) and denote this density by π(θ). Let E<sup>+</sup> = {θ ∈ E : π(θ) > 0} and consider a transition probability kernel Q(θ, dy) = q(θ, y) µ(dy).</p>
+                    </div>
                     
                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
                         <h4 class="font-bold mb-2">Algorithm Steps</h4>
                         <ol class="list-decimal ml-6">
-                            <li>Start with an initial value θ⁰</li>
-                            <li>For t = 1 to T:
-                                <ol class="list-decimal ml-6">
-                                    <li>Generate a candidate θ* from a proposal distribution q(θ*|θᵗ⁻¹)</li>
-                                    <li>Calculate the acceptance ratio:
-                                        <div class="formula">
-                                            α = min(1, [p(θ*|x) / p(θᵗ⁻¹|x)] × [q(θᵗ⁻¹|θ*) / q(θ*|θᵗ⁻¹)])
-                                        </div>
-                                    </li>
-                                    <li>Generate u ~ Uniform(0,1)</li>
-                                    <li>If u ≤ α, set θᵗ = θ*; otherwise, set θᵗ = θᵗ⁻¹</li>
-                                </ol>
+                            <li>At iteration n, with the chain in state θ<sup>(n)</sup> = θ, generate a candidate y from the proposal distribution Q(θ, ·).</li>
+                            <li>Calculate the acceptance probability:
+                                <div class="formula">
+                                    α(θ, y) = min\left\{\frac{π(y)q(y,θ)}{π(θ)q(θ,y)}, 1\right\} if π(θ)q(θ,y) > 0
+                                </div>
+                                <div class="formula">
+                                    α(θ, y) = 1 if π(θ)q(θ,y) = 0
+                                </div>
                             </li>
+                            <li>Generate u ~ Uniform(0,1)</li>
+                            <li>If u ≤ α(θ, y), set θ<sup>(n+1)</sup> = y; otherwise, set θ<sup>(n+1)</sup> = θ</li>
+                            <li>Advance to the next iteration</li>
                         </ol>
                     </div>
                     
@@ -701,6 +841,44 @@
                             <li>Accept or reject based on how well they explain the data and the prior beliefs</li>
                         </ol>
                         <p class="mt-2">After convergence, the samples provide estimates of the posterior distribution for all parameters.</p>
+                    </div>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Proof of Stationarity</h4>
+                        <p>To verify that π is a stationary distribution for the chain, we need to show that the chain is reversible with respect to π, meaning:</p>
+                        <div class="formula">
+                            <p>π(x) p(x,y) = π(y) p(y,x) for all x,y ∈ E</p>
+                        </div>
+                        <p>where p(x,y) is the transition density of the Markov chain. This can be verified by direct calculation using the definition of the acceptance probability α(x,y).</p>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Common Proposal Distributions</h4>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li><strong>Random Walk Metropolis-Hastings:</strong> q(x,y) = f(y-x) where f is a density
+                                <ul class="list-disc ml-6">
+                                    <li>This is equivalent to setting Y = x + Z with Z ~ f (typically Z ~ N(0,σ) or Z ~ t-distribution)</li>
+                                    <li>If f(x) > 0 for all x ∈ E, then the chain is (π-)irreducible, recurrent, and aperiodic</li>
+                                    <li>For a symmetric proposal (f(z) = f(-z)), the acceptance probability simplifies to α(x,y) = min(1, π(y)/π(x))</li>
+                                </ul>
+                            </li>
+                            <li><strong>Independence Metropolis-Hastings:</strong> q(x,y) = f(y) where f is a density that doesn't depend on x
+                                <ul class="list-disc ml-6">
+                                    <li>This is equivalent to setting Y ~ f independent of the current state</li>
+                                    <li>If f(x) > 0 almost everywhere on E<sup>+</sup>, then the chain is (π-)irreducible, recurrent, and aperiodic</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Practical Tips for Metropolis-Hastings</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>In practice, the acceptance rate should typically be between 0.2 and 0.5</li>
+                            <li>Too low an acceptance rate means the chain gets "stuck" at the same values</li>
+                            <li>Too high an acceptance rate is associated with high correlation between successive draws</li>
+                            <li>The acceptance rate can be controlled by tuning parameters in the proposal distribution (e.g., the variance in the random walk)</li>
+                        </ul>
                     </div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.5 Gibbs Sampler</h3>
@@ -726,10 +904,10 @@
                     <div class="concept-diagram text-center">
                         <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
                             <!-- Axes -->
-                            <line x1="50" y1="200" x2="350" y2="200" stroke="black" stroke-width="1"/>
-                            <line x1="50" y1="50" x2="50" y2="200" stroke="black" stroke-width="1"/>
-                            <text x="200" y="220" text-anchor="middle" font-size="14">θ₁</text>
-                            <text x="30" y="125" text-anchor="middle" font-size="14" transform="rotate(-90, 30, 125)">θ₂</text>
+                            <line x1="50" y1="150" x2="350" y2="150" stroke="black" stroke-width="1"/>
+                            <line x1="50" y1="50" x2="50" y2="150" stroke="black" stroke-width="1"/>
+                            <text x="200" y="180" text-anchor="middle" font-size="14">θ₁</text>
+                            <text x="30" y="100" text-anchor="middle" font-size="14" transform="rotate(-90, 30, 100)">θ₂</text>
                             
                             <!-- Contours of joint distribution -->
                             <ellipse cx="200" cy="100" rx="120" ry="70" fill="none" stroke="#3b82f6" stroke-width="1"/>
@@ -751,14 +929,30 @@
                     </div>
                     
                     <div class="example-box mt-6">
-                        <h4 class="font-bold">Example: Normal Distribution with Unknown Mean and Variance</h4>
-                        <p>For a normal model with data x = (x₁, ..., xₙ), we want to estimate both the mean μ and variance σ².</p>
-                        <p class="mt-2">With conjugate priors μ ~ N(μ₀, τ₀²) and σ² ~ Inv-Gamma(α, β), the conditional distributions are:</p>
-                        <ul class="list-disc ml-6 mt-2">
-                            <li>μ|σ², x ~ N((τ₀⁻²μ₀ + nσ⁻²x̄)/(τ₀⁻² + nσ⁻²), 1/(τ₀⁻² + nσ⁻²))</li>
-                            <li>σ²|μ, x ~ Inv-Gamma(α + n/2, β + Σ(xᵢ - μ)²/2)</li>
-                        </ul>
-                        <p class="mt-2">The Gibbs sampler alternates between sampling from these two conditionals.</p>
+                        <h4 class="font-bold">Example: Wing Length of Midges</h4>
+                        <p>We have collected n measurements of the wing length of midges (of the same species): y<sub>1</sub>, ..., y<sub>n</sub>. We assume:</p>
+                        <div class="formula">
+                            <p>Y<sub>1</sub>, ..., Y<sub>n</sub> | θ, τ ~ iid N(θ, 1/τ)</p>
+                        </div>
+                        <p>The prior for the bidimensional parameter (θ, τ) is such that θ and τ are a priori independent with:</p>
+                        <div class="formula">
+                            <p>θ ~ N(μ₀, t₀²), τ ~ Gamma(ν₀/2, ν₀s₀²/2)</p>
+                        </div>
+                        <p>To build the Gibbs sampler, we need the full conditional distributions:</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>[θ|τ, y] ∝ e<sup>-τ/2 ∑(y<sub>i</sub>-θ)<sup>2</sup></sup> · e<sup>-(1/2t₀²)(θ-μ₀)<sup>2</sup></sup>, which simplifies to:
+                                <div class="formula">
+                                    <p>θ|τ, y ~ N(θ<sub>n</sub>, [nτ + 1/t₀²]<sup>-1</sup>)</p>
+                                </div>
+                                <p>where θ<sub>n</sub> = (nτȳ + μ₀/t₀²)/(nτ + 1/t₀²)</p>
+                            </li>
+                            <li>[τ|θ, y] ∝ τ<sup>(n+ν₀)/2-1</sup> · e<sup>-(τ/2)[∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]</sup>, which gives:
+                                <div class="formula">
+                                    <p>τ|θ, y ~ Gamma((n+ν₀)/2, [∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]/2)</p>
+                                </div>
+                            </li>
+                        </ol>
+                        <p class="mt-2">The Gibbs sampler alternates between sampling from these two conditional distributions, generating a Markov chain that converges to the posterior distribution.</p>
                     </div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.6 Convergence Diagnostics</h3>
@@ -1131,9 +1325,9 @@
                             <svg width="500" height="200" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
                                 <!-- Axes -->
                                 <line x1="50" y1="150" x2="450" y2="150" stroke="black" stroke-width="1"/>
-                                <line x1="50" y1="30" x2="50" y2="150" stroke="black" stroke-width="1"/>
+                                <line x1="50" y1="50" x2="50" y2="150" stroke="black" stroke-width="1"/>
                                 <text x="250" y="180" text-anchor="middle" font-size="14">Time</text>
-                                <text x="25" y="90" text-anchor="middle" font-size="14" transform="rotate(-90, 25, 90)">Recovery</text>
+                                <text x="25" y="100" text-anchor="middle" font-size="14" transform="rotate(-90, 25, 100)">Recovery</text>
                                 
                                 <!-- Population (fixed effects) line -->
                                 <line x1="50" y1="120" x2="450" y2="60" stroke="#3b82f6" stroke-width="3"/>
@@ -1234,7 +1428,8 @@
                                     <li>BF_ij = 1-3: Weak evidence for Mᵢ</li>
                                     <li>BF_ij = 3-20: Positive evidence for Mᵢ</li>
                                     <li>BF_ij = 20-150: Strong evidence for Mᵢ</li>
-                                    <li>BF_ij > 150: Very strong evidence for Mᵢ</li>
+                                    <li>BF_ij = 150-1000: Very strong evidence for Mᵢ</li>
+                                    <li>BF_ij > 1000: Decisive evidence for Mᵢ</li>
                                 </ul>
                             </div>
                         </div>
@@ -1450,8 +1645,8 @@
                                     <!-- Axes -->
                                     <line x1="30" y1="120" x2="220" y2="120" stroke="black" stroke-width="1"/>
                                     <line x1="30" y1="30" x2="30" y2="120" stroke="black" stroke-width="1"/>
-                                    <text x="125" y="140" text-anchor="middle" font-size="12">Time</text>
-                                    <text x="15" y="75" text-anchor="middle" font-size="12" transform="rotate(-90, 15, 75)">S(t)</text>
+                                    <text x="125" y="140" text-anchor="middle" font-size="14">Time</text>
+                                    <text x="15" y="75" text-anchor="middle" font-size="14" transform="rotate(-90, 15, 75)">S(t)</text>
                                     
                                     <!-- Survival curve -->
                                     <path d="M30,30 L80,30 L80,50 L130,50 L130,70 L160,70 L160,90 L190,90 L190,120 L220,120" stroke="#3b82f6" fill="none" stroke-width="2"/>
@@ -1470,8 +1665,8 @@
                                     <!-- Axes -->
                                     <line x1="30" y1="120" x2="220" y2="120" stroke="black" stroke-width="1"/>
                                     <line x1="30" y1="30" x2="30" y2="120" stroke="black" stroke-width="1"/>
-                                    <text x="125" y="140" text-anchor="middle" font-size="12">Time</text>
-                                    <text x="15" y="75" text-anchor="middle" font-size="12" transform="rotate(-90, 15, 75)">h(t)</text>
+                                    <text x="125" y="140" text-anchor="middle" font-size="14">Time</text>
+                                    <text x="15" y="75" text-anchor="middle" font-size="14" transform="rotate(-90, 15, 75)">h(t)</text>
                                     
                                     <!-- Hazard curve (bathtub shape) -->
                                     <path d="M30,90 C60,50 100,100 150,100 C180,100 200,50 220,30" stroke="#f97316" fill="none" stroke-width="2"/>
@@ -2112,7 +2307,7 @@
                         </div>
                     </div>
                        <p class="text-center text-sm text-gray-500">Conceptual diagram of a Dirichlet Process Mixture model.</p>
-                       
+
                     <h4 class="font-bold mt-6">8.2.2 Clustering under the Dirichlet Process Mixture</h4>
                     <p class="mb-4">The DPM automatically infers the number of clusters from the data. Posterior inference typically involves MCMC methods:</p>
                     <ul class="list-disc ml-6 mb-4">
