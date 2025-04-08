@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprehensive Guide to Bayesian Statistics</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- MathJax for rendering mathematical expressions -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <style>
         body {
@@ -2263,23 +2265,107 @@
                 <section id="spatial" class="bg-white rounded-lg shadow-md p-8 mb-8">
                     <h2 class="text-2xl font-bold text-blue-700 mb-4">7. Spatial Models</h2>
                     
-                    <p class="mb-4">Spatial models account for dependencies between observations based on their locations in space. Bayesian methods are particularly well-suited for spatial modeling due to their ability to incorporate complex dependency structures.</p>
-                    
-                    <h3 class="text-xl font-semibold text-blue-600 mb-3">7.1 References and Software</h3>
-                    
-                    <div class="tip-box">
-                        <h4 class="font-bold">Common Tools for Bayesian Spatial Analysis</h4>
-                        <ul class="list-disc ml-6 mt-2">
-                            <li><strong>Stan:</strong> Flexible platform for Bayesian modeling with efficient HMC sampling</li>
-                            <li><strong>INLA:</strong> Integrated Nested Laplace Approximation for fast spatial inference</li>
-                            <li><strong>R packages:</strong> spBayes, CARBayes, geoR, spTDyn</li>
-                            <li><strong>Python libraries:</strong> PyMC, GeoPandas with Bambi</li>
+                    <p class="mb-4">Spatial models are crucial in fields like climatology, ecology, environmental health, and real estate marketing, where data are often highly multivariate, geographically referenced, and temporally correlated. These models account for dependencies between observations based on their locations in space. Bayesian methods are particularly well-suited for spatial modeling due to their ability to incorporate complex dependency structures.</p>
+
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Types of Spatial Data</h4>
+                    <p class="mb-4">Spatial data are typically classified into three main types:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Point-referenced data (Geostatistical data):</strong> Y(s) is a random vector at location s ∈ D, where s varies continuously over a domain D ⊂ ℝʳ that contains an r-dimensional rectangle of positive volume.</li>
+                        <li><strong>Areal data:</strong> Y(s) is observed over s ∈ D, where D is partitioned into a finite number of areal units with well-defined boundaries.</li>
+                        <li><strong>Point pattern data:</strong> D itself is random, and the index set of D gives the locations of random events forming the spatial point pattern. For example, Y(s) = 1 for all s ∈ D.</li>
+                    </ul>
+
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Stationarity and Spatial Dependence</h4>
+                    <p class="mb-4">Several types of stationarity characterize spatial processes:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Strict Stationarity:</strong> The joint distribution of (Y(s₁),...,Y(sₙ)) equals the joint distribution of (Y(s₁+h),...,Y(sₙ+h)) for any spatial shift h.</li>
+                        <li><strong>Intrinsic Stationarity:</strong> Assumes E(Y(s+h)-Y(s)) = 0 and defines the <strong>semivariogram</strong> γ(h) where 2γ(h) = Var(Y(s+h)-Y(s)).</li>
+                        <li><strong>Weak Stationarity:</strong> The process has constant mean and a covariance function C(h) = Cov(Y(s), Y(s+h)) that depends only on h. This gives γ(h) = C(0)-C(h).</li>
+                        <li><strong>Isotropy:</strong> The process characteristics depend only on distance ||h||, not direction. We write γ(h) = γ(||h||).</li>
+                        <li><strong>Homogeneity:</strong> A process that is both intrinsically stationary and isotropic.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">7.1 References and Software</h3>
+
+                    <div class="note-box">
+                        <h4 class="font-bold">Key Resources for Bayesian Spatial Analysis</h4>
+                        <p class="mt-2 mb-2">Important references include:</p>
+                        <ul class="list-disc ml-6 mb-2">
+                            <li>Banerjee, S., Carlin, B. P., & Gelfand, A. E. (2014). <em>Hierarchical modeling and analysis for spatial data</em> (Chapters 1, 4, 6, 11). CRC Press.</li>
+                            <li>Sahu, S. K. (2022). <em>Bayesian Modeling of Spatio-Temporal Data with R</em> (Chapters 6, 7). CRC Press.</li>
+                            <li>Lee, D. (2022). <em>CARBayes and CARBayesST: An R Package for Bayesian Spatial and Spatio-Temporal Areal Unit Modelling</em>.</li>
+                        </ul>
+                        <p class="mt-2 mb-2">Recommended software:</p>
+                        <ul class="list-disc ml-6">
+                            <li><strong>General:</strong> Stan</li>
+                            <li><strong>Point-referenced data:</strong> R packages: <code>INLA</code>, <code>spBayes</code>, <code>bmstdr</code>, <code>inlabru</code>, <code>geostan</code>, <code>sptimer</code></li>
+                            <li><strong>Areal data:</strong> R packages: <code>CARBayes</code>, <code>CARBayesST</code></li>
                         </ul>
                     </div>
+
+                    <p class="mb-4">A key question in spatial analysis is whether there is any spatial pattern in data Y(s₁), Y(s₂), ..., Y(sₙ). A spatial pattern suggests that measurements for locations near each other tend to take more similar values than those far from each other. Independent measurements across locations would indicate no spatial pattern.</p>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">7.2 Point-referenced Data</h3>
                     
                     <p class="mb-4">Point-referenced data (also called geostatistical data) consist of measurements at specific locations, typically represented as coordinates.</p>
+                    
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Semivariograms and Covariance Functions for Homogeneous Processes</h4>
+                    <p class="mb-4">Common models for the semivariogram γ(d) or covariance C(d) (where d = ||h||) in homogeneous processes include:</p>
+
+                    <div class="example-box">
+                        <h4 class="font-bold">Exponential Model</h4>
+                        <div class="formula">
+                            γ(d) = τ² + σ²(1 - e^{-ϕd}) \text{ if } d > 0, \quad γ(0) = 0
+                        </div>
+                        <div class="formula">
+                            C(d) = σ²e^{-ϕd} \text{ if } d > 0, \quad C(0) = τ² + σ²
+                        </div>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Nugget:</strong> τ² = lim_{d→0+} γ(d), representing non-spatial variability</li>
+                            <li><strong>Range:</strong> R = 1/ϕ, where ϕ is the decay parameter</li>
+                            <li><strong>Sill:</strong> τ² + σ² = lim_{d→+∞} γ(d)</li>
+                            <li><strong>Partial sill:</strong> σ²</li>
+                        </ul>
+                    </div>
+
+                    <div class="example-box mt-4">
+                        <h4 class="font-bold">Matérn Model</h4>
+                        <div class="formula">
+                            C(d) = σ² \frac{(ϕd)^ν}{2^{ν-1}Γ(ν)} κ_ν(ϕd) \text{ for } d > 0, \quad C(0) = τ² + σ²
+                        </div>
+                        <p class="mt-2">where κ_ν is the modified Bessel function of order ν.</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>When ν → +∞: approximates the Gaussian covariance</li>
+                            <li>When ν = 1/2: gives the exponential covariance</li>
+                        </ul>
+                    </div>
+
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Gaussian Spatial Regression Model</h4>
+                    <p class="mb-4">A common hierarchical model structure is:</p>
+                    <div class="formula">
+                        Y(s) = x(s)^T \beta + w(s) + \epsilon(s)
+                    </div>
+                    <p class="mb-4">Here:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>x(s)^T \beta represents the large-scale variation explained by covariates x(s)</li>
+                        <li>w(s) is a latent, zero-mean Gaussian spatial process with variance σ² and correlation function ρ</li>
+                        <li>\epsilon(s) is uncorrelated measurement error or microscale variability (the "nugget effect")</li>
+                    </ul>
+                    
+                    <p class="mb-4">The full hierarchical model is:</p>
+                    <div class="formula">
+                        Y | w, \beta, \tau^2 \sim N_n(X\beta + w, \tau^2 I_n)\\
+                        w | \sigma^2, \Phi \sim N_n(0, \Sigma(\sigma^2, \Phi))\\
+                        \beta \sim N_p(\mu_\beta, \Sigma_\beta)\\
+                        \sigma^2, \Phi, \tau^2 \sim \text{independent priors}
+                    </div>
+                    
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Bayesian Kriging</h4>
+                    <p class="mb-4">Bayesian kriging is essentially Bayesian prediction. It finds the posterior predictive distribution of the response y₀ at a new location s₀ with covariates x₀:</p>
+                    <div class="formula">
+                        p(y_0 | y, X, x_0) = \int p(y_0 | y, \beta, \theta, x_0) \, p(\beta, \theta | y, X) \, d\beta \, d\theta
+                    </div>
+                    <p class="mb-4">The prediction is based on the joint multivariate distribution of (y₀, y) given the parameters.</p>
                     
                     <div class="concept-diagram text-center mb-6">
                         <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
@@ -2593,15 +2679,38 @@
                 <section id="nonparametrics" class="bg-white rounded-lg shadow-md p-8 mb-8">
                     <h2 class="text-2xl font-bold text-blue-700 mb-4">8. Bayesian Nonparametrics</h2>
                     
-                    <p class="mb-4">Bayesian Nonparametrics (BNP) offers flexible modeling by placing priors on infinite-dimensional spaces (e.g., spaces of functions or distributions), allowing model complexity to adapt to the data.</p>
+                    <p class="mb-4">Bayesian Nonparametrics (BNP) offers flexible modeling by placing priors on infinite-dimensional spaces (e.g., spaces of functions or distributions), allowing model complexity to adapt to the data. Unlike parametric models that assume a fixed finite-dimensional parameter, nonparametric approaches allow the parameter to be infinite-dimensional, such as an unknown probability distribution.</p>
                     
+                    <p class="mb-4">In a standard nonparametric setting, we might have data following:</p>
+                    <div class="formula">
+                        Y_1, \ldots, Y_n | P \stackrel{iid}{\sim} P
+                    </div>
+                    <p class="mb-4">Where \(P\) is a random probability distribution (rather than a fixed parameter). We need to assign a prior distribution for this random measure \(P\).</p>
+
+                    <div class="note-box">
+                        <h5 class="font-bold">Framework for Bayesian Nonparametrics</h5>
+                        <div class="formula">
+                            Y_1, \ldots, Y_n | P \stackrel{iid}{\sim} P\\
+                            P \sim \pi
+                        </div>
+                        <p>The Bayesian estimate for the population distribution is the posterior mean \(E[P|Y_1,\ldots,Y_n]\), which equals the posterior predictive distribution for a new observation \(Y_{n+1}\).</p>
+                    </div>
+
                     <h3 class="text-xl font-semibold text-blue-600 mb-3">8.1 The Dirichlet Process</h3>
-                    
                     <p class="mb-4">The Dirichlet Process (DP) is a fundamental BNP prior. It's a distribution over probability distributions.</p>
-                    <p>Key properties:</p>
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Definition</h4>
+                    <p class="mb-4">A random probability measure P is a Dirichlet process if for any finite measurable partition {A₁,...,Aₖ} of R, we have:</p>
+                    <div class="formula">
+                        \[(P(A_1), \ldots, P(A_k)) \sim \text{Dir}(\alpha(A_1), \ldots, \alpha(A_k))\]
+                    </div>
+                    <p class="mb-4">We write P ~ Dα or P ~ DP(a, α₀), where a = α(R) is the total mass parameter and α₀ = α/a is the base measure.</p>
+
+                    <h4 class="font-semibold text-lg text-blue-600 mt-6 mb-2">Key Properties</h4>
                     <ul class="list-disc ml-6 mb-4">
                         <li><strong>Parameters:</strong> Base measure G₀ (prior expectation) and concentration parameter α (controls discreteness).</li>
                         <li><strong>Samples:</strong> Samples G ~ DP(α, G₀) are discrete probability measures almost surely.</li>
+                        <li><strong>Expected Value:</strong> For any set A, E[P(A)] = α₀(A) and Var(P(A)) = α₀(A)α₀(Aᶜ)/(a+1)</li>
+                        <li><strong>Conjugacy:</strong> If Y₁,...,Yₙ|P ~ P (iid) and P ~ DP(α, G₀), then P|Y₁,...,Yₙ ~ DP(α + ∑ᵢ₌₁ⁿ δYᵢ)</li>
                     </ul>
                     
                     <div class="formula">
@@ -2609,17 +2718,18 @@
                     </div>
 
                     <h4 class="font-bold mt-6">8.1.1 Stick Breaking Construction</h4>
-                    <p class="mb-4">Provides a constructive way to sample from a DP:</p>
-                    <div class="formula">
-                        G = ∑_{k=1}^∞ wₖ δ_{θ*ₖ}
-                    </div>
-                    <p>Where:</p>
+                    <p class="mb-4">This constructive definition of the Dirichlet process uses:</p>
                     <ul class="list-disc ml-6 mb-4">
-                        <li>θ*ₖ ~ G₀ (Atom locations)</li>
-                        <li>wₖ are weights derived from Beta(1, α) variables (Stick-breaking weights).</li>
+                        <li>Independent sequences {Yᵢ} ~ Beta(1,a) and {τᵢ} ~ α₀</li>
+                        <li>Define weights: V₁ = Y₁, V₂ = Y₂(1-Y₁), V₃ = Y₃(1-Y₁)(1-Y₂), etc.</li>
+                        <li>Set P = ∑_{i=1}^∞ Vᵢδτᵢ</li>
+                        <li>Then P ~ Dα</li>
                     </ul>
+                    <p class="mb-4">This shows that Dirichlet process realizations are discrete with probability 1, explaining why DP is often used as a prior for mixture models rather than directly for continuous data.</p>
+
                     <div class="stick-breaking-viz concept-diagram">
                         <div class="stick">
+                            <div class="stick-segment w1">w₁</div>
                             <div class="stick-segment w1">w₁</div>
                             <div class="stick-segment w2">w₂</div>
                             <div class="stick-segment w3">w₃</div>
@@ -2628,9 +2738,14 @@
                         </div>
                         <p class="text-center text-sm text-gray-500">Visualization of the stick-breaking process generating weights.</p>
                     </div>
-
                     <h4 class="font-bold mt-6">8.1.2 Weak Convergence of sequences of Dirichlet Processes</h4>
-                    <p class="mb-4">Relates to the asymptotic consistency of BNP posteriors. Under suitable conditions, the posterior distribution concentrates around the true data-generating distribution as sample size increases.</p>
+                    <p class="mb-4">Consider a sequence of measures {αₘ}ₘ≥₁ with αₘ = aₘα₀ₘ. If α₀ₘ converges weakly to α₀, then:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>If aₘ → a with 0 < a < ∞, then Pₘ converges in distribution to P ~ Daα₀</li>
+                        <li>If aₘ → 0, then Pₘ converges to δX where X ~ α₀</li>
+                        <li>If aₘ → +∞, then Pₘ converges to α₀</li>
+                    </ul>
+                    <p class="mb-4">These properties show how the concentration parameter a controls the discreteness vs. smoothness of the process.</p>
 
                     <h4 class="font-bold mt-6">8.1.3 Marginal Distribution of a Sample from a Dirichlet Process</h4>
                     <p class="mb-4">Samples θ₁, θ₂, ... drawn hierarchically (θᵢ ~ G, G ~ DP) exhibit a clustering property described by the Polya Urn Scheme (or Blackwell-MacQueen Urn Scheme).</p>
