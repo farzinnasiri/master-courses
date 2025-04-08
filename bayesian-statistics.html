@@ -932,27 +932,16 @@
                         <h4 class="font-bold">Example: Wing Length of Midges</h4>
                         <p>We have collected n measurements of the wing length of midges (of the same species): y<sub>1</sub>, ..., y<sub>n</sub>. We assume:</p>
                         <div class="formula">
-                            y<sub>1</sub>, ..., y<sub>n</sub> | θ, τ ~ iid N(θ, 1/τ)
+                            y = Xβ + Zu + ε
                         </div>
-                        <p>The prior for the bidimensional parameter (θ, τ) is such that θ and τ are a priori independent with:</p>
-                        <div class="formula">
-                            θ ~ N(μ₀, t₀²), τ ~ Gamma(ν₀/2, ν₀s₀²/2)
-                        </div>
-                        <p>To build the Gibbs sampler, we need the full conditional distributions:</p>
-                        <ol class="list-decimal ml-6 mt-2">
-                            <li>[θ|τ, y] ∝ e<sup>-τ/2 ∑(y<sub>i</sub>-θ)<sup>2</sup></sup> · e<sup>-(1/2t₀²)(θ-μ₀)<sup>2</sup></sup>, which simplifies to:
-                                <div class="formula">
-                                    θ|τ, y ~ N(θ<sub>n</sub>, [nτ + 1/t₀²]<sup>-1</sup>)
-                                </div>
-                                <p>where θ<sub>n</sub> = (nτȳ + μ₀/t₀²)/(nτ + 1/t₀²)</p>
-                            </li>
-                            <li>[τ|θ, y] ∝ τ<sup>(n+ν₀)/2-1</sup> · e<sup>-(τ/2)[∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]</sup>, which gives:
-                                <div class="formula">
-                                    τ|θ, y ~ Gamma((n+ν₀)/2, [∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]/2)
-                                </div>
-                            </li>
-                        </ol>
-                        <p class="mt-2">The Gibbs sampler alternates between sampling from these two conditional distributions, generating a Markov chain that converges to the posterior distribution.</p>
+                        
+                        <p class="mt-4">With a Bayesian approach:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Prior:</strong> Normal priors for β coefficients based on previous studies</li>
+                            <li><strong>Likelihood:</strong> Multivariate normal likelihood for wing length measurements</li>
+                            <li><strong>Posterior inference:</strong> Gibbs sampler for posterior distribution</li>
+                            <li><strong>Prediction:</strong> Posterior predictive probabilities with uncertainty quantification</li>
+                        </ul>
                     </div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.6 Convergence Diagnostics</h3>
@@ -1704,7 +1693,7 @@
                         Yᵢⱼ = xᵢⱼᵀθ + xᵢⱼᵀγⱼ + εᵢⱼ
                     </div>
                     
-                    <p class="mb-4">Here, θ is called a <strong>fixed effect</strong> (constant across groups), and γ₁,...,γⱼ are <strong>random effects</strong> (group-specific). This explains the name "mixed effects" model.</p>
+                    <p>Here, θ is called a <strong>fixed effect</strong> (constant across groups), and γ₁,...,γⱼ are <strong>random effects</strong> (group-specific). This explains the name "mixed effects" model.</p>
                     
                     <p class="mb-4">A more general form allows different covariates for fixed and random effects:</p>
                     
@@ -1712,7 +1701,7 @@
                         Yᵢⱼ = xᵢⱼᵀθ + zᵢⱼᵀγⱼ + εᵢⱼ
                     </div>
                     
-                    <p class="mb-4">Typical priors for the parameters are:</p>
+                    <p>Typical priors for the parameters are:</p>
                     
                     <ul class="list-disc ml-6 mb-4">
                         <li>θ ~ N(μ₀,L₀)</li>
@@ -1722,7 +1711,7 @@
                     
                     <div class="example-box">
                         <h4 class="font-bold">Example: Math Scores and Socioeconomic Status</h4>
-                        <p class="mb-2">Extending our math score example to include socioeconomic status (SES):</p>
+                        <p>Extending our math score example to include socioeconomic status (SES):</p>
                         <div class="formula">
                             Yᵢⱼ = β₁ⱼ + β₂ⱼSESᵢⱼ + εᵢⱼ
                         </div>
@@ -1770,15 +1759,21 @@
                                 <p class="font-semibold">Bayes Factors</p>
                                 <p>The Bayes factor for comparing models i and j is:</p>
                                 <div class="formula">
-                                    BF_ij = P(y|Mᵢ) / P(y|Mⱼ)
+                                    BF_ij = P(y|Mᵢ) / P(y|Mⱼ) = m_i(y) / m_j(y)
                                 </div>
+                                <p>Where m_i(y) = ∫ f_i(y|θ_i)g_i(θ_i)dθ_i is the marginal likelihood of model i.</p>
+                                <p>For models with common parameter space Θ:</p>
+                                <div class="formula">
+                                    BF₀₁ = ∫ r(θ)g₁(θ|y)dθ
+                                </div>
+                                <p>Where r(θ) = f₀(y|θ)g₀(θ)/f₁(y|θ)g₁(θ)</p>
                                 <p>Interpretations of Bayes factors:</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li>BF_ij = 1-3: Weak evidence for Mᵢ</li>
-                                    <li>BF_ij = 3-20: Positive evidence for Mᵢ</li>
-                                    <li>BF_ij = 20-150: Strong evidence for Mᵢ</li>
-                                    <li>BF_ij = 150-1000: Very strong evidence for Mᵢ</li>
-                                    <li>BF_ij > 1000: Decisive evidence for Mᵢ</li>
+                                    <li>1 &lt; BF₀₁ &lt; 3: Anecdotal evidence for H₀</li>
+                                    <li>3 &lt; BF₀₁ &lt; 10: Moderate evidence for H₀</li>
+                                    <li>10 &lt; BF₀₁ &lt; 30: Strong evidence for H₀</li>
+                                    <li>30 &lt; BF₀₁ &lt; 100: Very Strong evidence for H₀</li>
+                                    <li>BF₀₁ &gt; 100: Decisive evidence for H₀</li>
                                 </ul>
                             </div>
                         </div>
@@ -1800,6 +1795,16 @@
                                     WAIC = -2(lppd - p_WAIC)
                                 </div>
                                 <p>Where lppd is the log pointwise predictive density, and p_WAIC measures model complexity.</p>
+                                <p class="mt-2">WAIC is an improvement over DIC that better handles hierarchical models. For large samples, WAIC approximates leave-one-out cross-validation.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="font-semibold">Log Pseudo-Marginal Likelihood (LPML)</p>
+                                <div class="formula">
+                                    LPML_j = ∑ log(CPO_i)
+                                </div>
+                                <p>Where CPO_i = p(y_i|y_{-i}) is the conditional predictive ordinate for observation i, using leave-one-out cross-validation.</p>
+                                <p>Higher LPML values indicate better predictive performance.</p>
                             </div>
                             
                             <div class="mt-4">
@@ -1832,7 +1837,7 @@
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">5.2 Model Checking</h3>
                     
-                    <p class="mb-4">Model checking evaluates how well a model fits the observed data and identifies potential problems.</p>
+                    <p class="mb-4">Model checking evaluates how well a model fits the observed data and identifies potential problems. Even the "best" model according to selection criteria may still provide a poor fit.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
@@ -1870,6 +1875,12 @@
                         </div>
                     </div>
 
+                    <p class="mt-2">For outlier detection, we can use predictive tail probabilities:</p>
+                    <div class="formula">
+                        p_i = min{P(y > y_i|y), P(y < y_i|y)}
+                    </div>
+                    <p>Values of p_i below 0.05 suggest the observation might be an outlier.</p>
+                    
                     <div class="tip-box">
                         <h4 class="font-bold">Diagnostic Plots for Model Checking</h4>
                         <ul class="list-disc ml-6 mt-2">
@@ -2032,6 +2043,17 @@
                     
                     <p>The cumulative hazard function is H(t) = -log(S(t)).</p>
                     
+                    <div class="note-box">
+                        <h4 class="font-bold">Advantages of Bayesian Survival Analysis</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Naturally incorporates prior information about survival patterns</li>
+                            <li>Handles different types of censoring in a unified framework</li>
+                            <li>Provides full posterior distributions for all parameters</li>
+                            <li>Easily extends to complex hierarchical models</li>
+                            <li>Generates probabilistic predictions with uncertainty quantification</li>
+                        </ul>
+                    </div>
+                    
                     <h4 class="font-bold mt-6">6.1.2 Censoring</h4>
                     
                     <p class="mb-4">Censoring occurs when the exact event time is not observed:</p>
@@ -2080,22 +2102,40 @@
                     </div>
                     
                     <div class="note-box">
-                        <h4 class="font-bold">Advantages of Bayesian Survival Analysis</h4>
-                        <ul class="list-disc ml-6 mt-2">
-                            <li>Naturally incorporates prior information about survival patterns</li>
-                            <li>Handles different types of censoring in a unified framework</li>
-                            <li>Provides full posterior distributions for all parameters</li>
-                            <li>Easily extends to complex hierarchical models</li>
-                            <li>Generates probabilistic predictions with uncertainty quantification</li>
-                        </ul>
+                        <h4 class="font-bold">Increasing and Decreasing Failure Rate</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-semibold">IFR (Increasing Failure Rate)</p>
+                                <ul class="list-disc ml-6">
+                                    <li>Hazard h(t) increases over time</li>
+                                    <li>Represents aging/deterioration</li>
+                                    <li>P(T > t+s | T > t) < P(T > s)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold">DFR (Decreasing Failure Rate)</p>
+                                <ul class="list-disc ml-6">
+                                    <li>Hazard h(t) decreases over time</li>
+                                    <li>Represents improvement/burn-in</li>
+                                    <li>P(T > t+s | T > t) > P(T > s)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="mt-2">The exponential distribution is the only continuous distribution with constant hazard (both IFR and DFR).</p>
                     </div>
                     
                     <h4 class="font-bold mt-6">6.1.3 Likelihood for Right Censored Data</h4>
                     
-                    <p class="mb-4">For right-censored data, the likelihood contribution is:</p>
+                    <p class="mb-4">For right-censored data, we observe pairs (Yi, δi) where:</p>
                     <ul class="list-disc ml-6 mb-4">
-                        <li>For exact failure times: f(t_i) = h(t_i) × S(t_i)</li>
-                        <li>For right-censored observations: S(t_i)</li>
+                        <li>Yi = min(Ti, Ci) is the observed time (either event or censoring)</li>
+                        <li>δi = 1 if the event is observed (Ti ≤ Ci), or 0 if censored (Ti > Ci)</li>
+                    </ul>
+                    
+                    <p>The likelihood contribution is:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>For exact failure times (δi = 1): f(ti) = h(ti) × S(ti)</li>
+                        <li>For right-censored observations (δi = 0): S(ti)</li>
                     </ul>
                     
                     <div class="formula">
@@ -2104,9 +2144,13 @@
                     
                     <p>Where D is the set of individuals with observed events, and C is the set of censored individuals.</p>
                     
-                    <h4 class="font-bold mt-6">6.1.4 Parametric Models</h4>
+                    <p class="mt-2">For valid inference, we assume:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Independent censoring:</strong> T is independent of C</li>
+                        <li><strong>Non-informative censoring:</strong> The censoring distribution doesn't depend on the same parameters as S(t)</li>
+                    </ul>
                     
-                    <p class="mb-4">Common parametric survival distributions include:</p>
+                    <p class="mb-4">For parametric models, we can use:</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
