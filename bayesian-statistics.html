@@ -327,7 +327,7 @@
                     </div>
 
                     <div class="example-box mt-6">
-                        <h4 class="font-bold">Real-World Example: Email Spam Filter</h4>
+                        <h4 class="font-bold">Example: Email Spam Filter</h4>
                         <p>Imagine you're building a spam filter:</p>
                         <ul class="list-disc ml-6 mt-2">
                             <li><strong>Prior:</strong> Initially, you believe 30% of all emails are spam (P(spam) = 0.3)</li>
@@ -703,7 +703,7 @@
                         <h4 class="font-bold">Proof of Correctness</h4>
                         <p>For the accepted sample θ and any t:</p>
                         <div class="formula">
-                            <p>P(θ ≤ t) = P(Z ≤ t | U ≤ π(Z)/(c·m(Z))) = ∫<sub>-∞</sub><sup>t</sup> π(z)dz / ∫<sub>ℝ</sub> π(z)dz</p>
+                            P(θ ≤ t) = P(Z ≤ t | U ≤ π(Z)/(c·m(Z))) = ∫<sub>-∞</sub><sup>t</sup> π(z)dz / ∫<sub>ℝ</sub> π(z)dz
                         </div>
                         <p>This confirms that the accepted samples follow the target distribution π.</p>
                     </div>
@@ -761,17 +761,17 @@
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.3 Markov Chain Monte Carlo Methods</h3>
                     
-                    <p class="mb-4">The goal of MCMC methods is to compute draws that are approximately from π(θ|y), the posterior distribution (density) of θ in our Bayesian model. Only for very simple models can we sample i.i.d. from the posterior directly.</p>
+                    <p>The goal of MCMC methods is to compute draws that are approximately from π(θ|y), the posterior distribution (density) of θ in our Bayesian model. Only for very simple models can we sample i.i.d. from the posterior directly.</p>
                     
                     <h4 class="font-bold mt-6">2.3.1 General State Space Markov Chains</h4>
                     
-                    <p class="mb-4">A Markov chain is a sequence of random variables where the future state depends only on the current state, not on the sequence of states that preceded it. For Bayesian MCMC, we need to consider general state space Markov chains where the state space E is typically a subset of ℝ<sup>d</sup>.</p>
+                    <p>A Markov chain is a sequence of random variables where the future state depends only on the current state, not on the sequence of states that preceded it. For Bayesian MCMC, we need to consider general state space Markov chains where the state space E is typically a subset of ℝ<sup>d</sup>.</p>
                     
                     <div class="formula">
                         <p>P(X<sub>n+1</sub> ∈ A | X<sub>0</sub> = x<sub>0</sub>, ..., X<sub>n</sub> = x<sub>n</sub>) = P(X<sub>n+1</sub> ∈ A | X<sub>n</sub> = x<sub>n</sub>) =: P(x<sub>n</sub>, A)</p>
                     </div>
                     
-                    <p class="mb-4">The function P(x, A) is called the <strong>transition probability kernel</strong>. The goal of MCMC is to construct a Markov chain with a stationary distribution equal to our target posterior π(θ|y).</p>
+                    <p>The function P(x, A) is called the <strong>transition probability kernel</strong>. The goal of MCMC is to construct a Markov chain with a stationary distribution equal to our target posterior π(θ|y).</p>
                     
                     <div class="note-box">
                         <h4 class="font-bold">Key Properties of Markov Chains for MCMC</h4>
@@ -932,23 +932,23 @@
                         <h4 class="font-bold">Example: Wing Length of Midges</h4>
                         <p>We have collected n measurements of the wing length of midges (of the same species): y<sub>1</sub>, ..., y<sub>n</sub>. We assume:</p>
                         <div class="formula">
-                            <p>Y<sub>1</sub>, ..., Y<sub>n</sub> | θ, τ ~ iid N(θ, 1/τ)</p>
+                            y<sub>1</sub>, ..., y<sub>n</sub> | θ, τ ~ iid N(θ, 1/τ)
                         </div>
                         <p>The prior for the bidimensional parameter (θ, τ) is such that θ and τ are a priori independent with:</p>
                         <div class="formula">
-                            <p>θ ~ N(μ₀, t₀²), τ ~ Gamma(ν₀/2, ν₀s₀²/2)</p>
+                            θ ~ N(μ₀, t₀²), τ ~ Gamma(ν₀/2, ν₀s₀²/2)
                         </div>
                         <p>To build the Gibbs sampler, we need the full conditional distributions:</p>
                         <ol class="list-decimal ml-6 mt-2">
                             <li>[θ|τ, y] ∝ e<sup>-τ/2 ∑(y<sub>i</sub>-θ)<sup>2</sup></sup> · e<sup>-(1/2t₀²)(θ-μ₀)<sup>2</sup></sup>, which simplifies to:
                                 <div class="formula">
-                                    <p>θ|τ, y ~ N(θ<sub>n</sub>, [nτ + 1/t₀²]<sup>-1</sup>)</p>
+                                    θ|τ, y ~ N(θ<sub>n</sub>, [nτ + 1/t₀²]<sup>-1</sup>)
                                 </div>
                                 <p>where θ<sub>n</sub> = (nτȳ + μ₀/t₀²)/(nτ + 1/t₀²)</p>
                             </li>
                             <li>[τ|θ, y] ∝ τ<sup>(n+ν₀)/2-1</sup> · e<sup>-(τ/2)[∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]</sup>, which gives:
                                 <div class="formula">
-                                    <p>τ|θ, y ~ Gamma((n+ν₀)/2, [∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]/2)</p>
+                                    τ|θ, y ~ Gamma((n+ν₀)/2, [∑(y<sub>i</sub>-θ)<sup>2</sup> + ν₀s₀²]/2)
                                 </div>
                             </li>
                         </ol>
@@ -994,10 +994,11 @@
                         <h4 class="font-bold">Real-World Example: Climate Model Parameter Estimation</h4>
                         <p>Climate scientists use MCMC methods to estimate parameters in complex climate models:</p>
                         <ul class="list-disc ml-6 mt-2">
-                            <li>Parameters might include climate sensitivity, aerosol effects, and ocean mixing rates</li>
-                            <li>The model is run with different parameter values and compared to historical temperature data</li>
-                            <li>Multiple MCMC chains help explore the high-dimensional parameter space</li>
-                            <li>Convergence diagnostics ensure reliable posterior estimates</li>
+                            <li><strong>Parameters:</strong> Climate sensitivity, aerosol effects, and ocean mixing rates</li>
+                            <li><strong>Data:</strong> Historical temperature data</li>
+                            <li><strong>Model:</strong> Complex climate model</li>
+                            <li><strong>Posterior:</strong> Estimated using MCMC</li>
+                            <li><strong>Uncertainty:</strong> Quantified through posterior distributions</li>
                         </ul>
                         <p class="mt-2">The resulting posterior distributions quantify uncertainty in future climate projections.</p>
                     </div>
@@ -1032,6 +1033,28 @@
                     <div class="formula">
                         p(y|X,β,σ²) = (2πσ²)^(-n/2) exp(-(y-Xβ)'(y-Xβ)/(2σ²))
                     </div>
+
+                    <p>Alternatively, using the precision parameter τ = 1/σ², the likelihood can be written as:</p>
+                    
+                    <div class="formula">
+                        p(y|X,β,τ) ∝ τ^(n/2) exp(-τ/2 · (y-Xβ)'(y-Xβ))
+                    </div>
+                    
+                    <p>The maximum likelihood estimates (MLE) of these parameters are:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>β̂ = (X'X)⁻¹X'y with covariance cov(β̂|σ²) = σ²(X'X)⁻¹</li>
+                        <li>σ̂² = s²/(n-p) where s² = (y-Xβ̂)'(y-Xβ̂) is the sum of squared residuals</li>
+                    </ul>
+                    
+                    <p>The likelihood can be rewritten using these quantities:</p>
+                    
+                    <div class="formula">
+                        (y-Xβ)'(y-Xβ) = s² + (β-β̂)'X'X(β-β̂)
+                    </div>
+                    
+                    <div class="formula">
+                        p(y|X,β,σ²) ∝ (σ²)^(-n/2) exp(-s²/(2σ²) - (β-β̂)'X'X(β-β̂)/(2σ²))
+                    </div>
                     
                     <div class="example-box">
                         <h4 class="font-bold">Example: Housing Price Model</h4>
@@ -1044,38 +1067,195 @@
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">3.2 Priors and Posteriors</h3>
                     
-                    <p class="mb-4">Common prior choices for linear regression parameters include:</p>
+                    <p class="mb-4">We'll discuss different types of prior specifications for (β,τ) or (β,σ²) in the linear regression model.</p>
+                    
+                    <h4 class="font-bold mt-6">Conjugate Prior for β when σ² is known</h4>
+                    
+                    <p class="mb-4">When σ² is known, the conjugate prior for β is:</p>
+                    
+                    <div class="formula">
+                        β ~ N(b₀, B₀)
+                    </div>
+                    
+                    <p>Where B₀ is an invertible p×p matrix. With this prior, the posterior distribution becomes:</p>
+                    
+                    <div class="formula">
+                        β|y ~ N((τX'X + B₀⁻¹)⁻¹(τX'Xβ̂ + B₀⁻¹b₀), (τX'X + B₀⁻¹)⁻¹)
+                    </div>
+                    
+                    <p class="mb-4">The posterior mean is a weighted average of the prior mean b₀ and the maximum likelihood estimate β̂. Note that X'X doesn't need to be invertible as long as B₀ is invertible.</p>
+                    
+                    <h4 class="font-bold mt-6">Conjugate Prior for β and σ²: Normal-invgamma Prior</h4>
+                    
+                    <p class="mb-4">The conjugate prior for both parameters is:</p>
+                    
+                    <div class="formula">
+                        π(β,σ²) = π(β|σ²)π(σ²)
+                    </div>
+                    
+                    <p>Where:</p>
+                    
+                    <div class="formula">
+                        β|σ² ~ N(b₀, σ²B₀)
+                    </div>
+                    
+                    <div class="formula">
+                        σ² ~ inv-gamma(ν₀/2, ν₀σ₀²/2)
+                    </div>
+                    
+                    <p>With B₀ invertible and ν₀, σ₀² > 0. The posterior distribution is:</p>
+                    
+                    <div class="formula">
+                        π(β,σ²|y) = π(β|σ²,y)π(σ²|y)
+                    </div>
+                    
+                    <p>Where:</p>
+                    
+                    <div class="formula">
+                        β|σ²,y,X ~ N(bₙ, σ²Bₙ)
+                    </div>
+                    
+                    <div class="formula">
+                        σ²|y,X ~ inv-gamma(νₙ/2, νₙσₙ²/2)
+                    </div>
+                    
+                    <p>With:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>Bₙ = (X'X + B₀⁻¹)⁻¹</li>
+                        <li>bₙ = Bₙ(X'Xβ̂ + B₀⁻¹b₀)</li>
+                        <li>νₙ = ν₀ + n</li>
+                        <li>νₙσₙ² = ν₀σ₀² + s² + (b₀-β̂)'(B₀ + (X'X)⁻¹)⁻¹(b₀-β̂)</li>
+                    </ul>
+                    
+                    <p class="mb-4">The marginal posterior for β is a multivariate t-distribution: β|y,X ~ t_νₙ(bₙ, σₙ²Bₙ).</p>
+                    
+                    <p>For new observations, the predictive distribution is:</p>
+                    
+                    <div class="formula">
+                        Yₙₑw|y,X,Xₙₑw ~ t_νₙ(Xₙₑwbₙ, σₙ²(Iₘ + XₙₑwBₙXₙₑw'))
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">Zellner's g-Prior</h4>
+                    
+                    <p class="mb-4">A popular prior specification is the g-prior proposed by Zellner:</p>
+                    
+                    <div class="formula">
+                        σ² ~ inv-gamma(0/2, 0×σ₀²/2) ∝ 1/σ² I(0,+∞)(σ²) [improper]
+                    </div>
+                    
+                    <div class="formula">
+                        β|σ² ~ N(b₀, σ²B₀), with B₀ = c(X'X)⁻¹
+                    </div>
+                    
+                    <p>Where c is a positive constant. This prior requires X'X to be invertible. The posterior becomes:</p>
+                    
+                    <div class="formula">
+                        β|σ²,y,X ~ N(bₙ, σ²Bₙ)
+                    </div>
+                    
+                    <div class="formula">
+                        σ²|y,X ~ inv-gamma(n/2, s²/2 + (β̂-b₀)'Bₙ⁻¹(β̂-b₀)/2)
+                    </div>
+                    
+                    <p>Where:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>Bₙ = c/(c+1) · (X'X)⁻¹</li>
+                        <li>bₙ = c/(c+1) · β̂ + 1/(c+1) · b₀</li>
+                    </ul>
+                    
+                    <p class="mb-4">Note that the posterior mean is a weighted average of the prior mean b₀ and the MLE β̂. As c increases, more weight is given to the observed data. Often c = log(n) is used.</p>
+                    
+                    <h4 class="font-bold mt-6">Reference Prior</h4>
+                    
+                    <p class="mb-4">The flat (improper) prior for (β,σ²) is:</p>
+                    
+                    <div class="formula">
+                        π(β,σ²) ∝ 1/σ² · I(0,+∞)(σ²) or π(β,τ) ∝ 1/τ · I(0,+∞)(τ)
+                    </div>
+                    
+                    <p>With this prior, the posterior becomes:</p>
+                    
+                    <div class="formula">
+                        π(β,τ|y) = π(β|τ,y)π(τ|y)
+                    </div>
+                    
+                    <p>Where:</p>
+                    
+                    <div class="formula">
+                        β|τ,y,X ~ N(β̂, (τX'X)⁻¹)
+                    </div>
+                    
+                    <div class="formula">
+                        τ|y,X ~ gamma((n-p)/2, s²/2)
+                    </div>
+                    
+                    <p class="mb-4">This posterior is proper if n > p and X'X is invertible.</p>
+                    
+                    <p>For new observations, the predictive distribution is:</p>
+                    
+                    <div class="formula">
+                        Yₙₑw|y,X,Xₙₑw ~ t_{n-p}(Xₙₑwβ̂, s²/(n-p) · (Iₘ + Xₙₑw(X'X)⁻¹Xₙₑw'))
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">Conditionally Conjugate Independence Prior</h4>
+                    
+                    <p class="mb-4">A common choice is to assume β and τ are a priori independent:</p>
+                    
+                    <div class="formula">
+                        β ~ N₍ₚ₎(b₀, B₀) and τ ~ gamma(a, b)
+                    </div>
+                    
+                    <p class="mb-4">This prior is semi-conjugate, meaning the full conditionals in a Gibbs sampler are in closed form. Specifically, the full conditional of β is a p-dimensional Gaussian, and the full conditional of τ is a gamma density.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <h4 class="font-bold">For Regression Coefficients β</h4>
-                            <ul class="list-disc ml-6">
-                                <li><strong>Normal prior:</strong> β ~ N(μ₀, Σ₀)</li>
-                                <li><strong>Reference prior:</strong> p(β) ∝ constant</li>
-                                <li><strong>Zellner's g-prior:</strong> β ~ N(0, gσ²(X'X)⁻¹)</li>
-                            </ul>
+                            <h4 class="font-bold">3.2.1 Conjugate Prior for β when σ² is known</h4>
+                            <p class="mb-2">When σ² is known, the conjugate prior for β is:</p>
+                            <div class="formula">
+                                β ~ N(b₀, B₀)
+                            </div>
+                            <p>Where B₀ is an invertible p×p matrix. With this prior, the posterior distribution becomes:</p>
+                            <div class="formula">
+                                β|y ~ N((τX'X + B₀⁻¹)⁻¹(τX'Xβ̂ + B₀⁻¹b₀), (τX'X + B₀⁻¹)⁻¹)
+                            </div>
+                            <p class="mb-4">The posterior mean is a weighted average of the prior mean b₀ and the maximum likelihood estimate β̂. Note that X'X doesn't need to be invertible as long as B₀ is invertible.</p>
                         </div>
                         <div>
-                            <h4 class="font-bold">For Error Variance σ²</h4>
-                            <ul class="list-disc ml-6">
-                                <li><strong>Inverse-Gamma prior:</strong> σ² ~ IG(a₀, b₀)</li>
-                                <li><strong>Jeffreys prior:</strong> p(σ²) ∝ 1/σ²</li>
-                                <li><strong>Half-Cauchy prior:</strong> For hierarchical models</li>
+                            <h4 class="font-bold">3.2.2 Conjugate Prior for β and σ²: Normal-invgamma Prior</h4>
+                            <p class="mb-2">The conjugate prior for both parameters is:</p>
+                            <div class="formula">
+                                π(β,σ²) = π(β|σ²)π(σ²)
+                            </div>
+                            <p>Where:</p>
+                            <div class="formula">
+                                β|σ² ~ N(b₀, σ²B₀)
+                            </div>
+                            <div class="formula">
+                                σ² ~ inv-gamma(ν₀/2, ν₀σ₀²/2)
+                            </div>
+                            <p>With B₀ invertible and ν₀, σ₀² > 0. The posterior distribution is:</p>
+                            <div class="formula">
+                                π(β,σ²|y) = π(β|σ²,y)π(σ²|y)
+                            </div>
+                            <p>Where:</p>
+                            <div class="formula">
+                                β|σ²,y,X ~ N(bₙ, σ²Bₙ)
+                            </div>
+                            <div class="formula">
+                                σ²|y,X ~ inv-gamma(νₙ/2, νₙσₙ²/2)
+                            </div>
+                            <p>With:</p>
+                            <ul class="list-disc ml-6 mb-4">
+                                <li>Bₙ = (X'X + B₀⁻¹)⁻¹</li>
+                                <li>bₙ = Bₙ(X'Xβ̂ + B₀⁻¹b₀)</li>
+                                <li>νₙ = ν₀ + n</li>
+                                <li>νₙσₙ² = ν₀σ₀² + s² + (b₀-β̂)'(B₀ + (X'X)⁻¹)⁻¹(b₀-β̂)</li>
                             </ul>
+                            <p class="mb-4">The marginal posterior for β is a multivariate t-distribution: β|y,X ~ t_νₙ(bₙ, σₙ²Bₙ).</p>
                         </div>
                     </div>
-                    
-                    <p class="mb-4">With a normal prior for β and Jeffreys prior for σ², the posterior distributions are:</p>
-                    
-                    <div class="formula">
-                        β|σ²,y,X ~ N(β̂, σ²(X'X + Σ₀⁻¹)⁻¹)
-                    </div>
-                    
-                    <div class="formula">
-                        σ²|y,X ~ IG((n+p)/2, [y'y - β̂'(X'X + Σ₀⁻¹)β̂]/2)
-                    </div>
-                    
-                    <p>Where β̂ = (X'X + Σ₀⁻¹)⁻¹(X'y + Σ₀⁻¹μ₀)</p>
                     
                     <div class="concept-diagram text-center mt-6">
                         <svg width="500" height="250" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
@@ -1103,9 +1283,10 @@
                             <text x="75" y="45" font-size="12" fill="#10b981">Posterior Lines</text>
                             <text x="75" y="60" font-size="12" fill="#3b82f6">Data Points</text>
                         </svg>
+                        <p class="text-center text-sm text-gray-500 mt-2">Visualization of how prior beliefs (orange dashed lines) are updated with observed data (blue points) to form posterior distributions (green lines).</p>
                     </div>
                     
-                    <div class="example-box mt-6">
+                    <div class="example-box">
                         <h4 class="font-bold">Example: Stock Return Prediction</h4>
                         <p>A financial analyst develops a Bayesian linear model to predict stock returns based on economic indicators:</p>
                         <ul class="list-disc ml-6 mt-2">
@@ -1141,23 +1322,76 @@
                         </div>
                     </div>
                     
+                    <p class="mb-4">A GLM consists of three elements:</p>
+                    
+                    <ol class="list-decimal ml-6 mb-4">
+                        <li><strong>Random component:</strong> The distribution of Y<sub>i</sub> given x<sub>i</sub> belongs to an exponential family:
+                            <div class="formula">
+                                f(y<sub>i</sub>|θ<sub>i</sub>,φ) = exp((y<sub>i</sub>θ<sub>i</sub>-b(θ<sub>i</sub>))/φ + c(y<sub>i</sub>,φ))
+                            </div>
+                            where θ<sub>i</sub> is the natural parameter and φ is the scale parameter. We denote by μ<sub>i</sub> the expectation E[Y<sub>i</sub>|x<sub>i</sub>].
+                        </li>
+                        <li><strong>Linear predictor:</strong> η<sub>i</sub> = x<sub>i</sub><sup>T</sup>β (we choose the covariates)</li>
+                        <li><strong>Link function:</strong> g(μ<sub>i</sub>) = η<sub>i</sub>, or equivalently, μ<sub>i</sub> = h(η<sub>i</sub>) = h(x<sub>i</sub><sup>T</sup>β) where h is the inverse of g</li>
+                    </ol>
+                    
+                    <p class="mb-4">The natural link function is obtained by equating the natural parameter to the linear predictor.</p>
+                    
+                    <p class="mb-4">The parameters of interest in GLMs are β and φ, with common prior specifications being:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>π(β,φ) = π(β|φ)π(φ)</li>
+                        <li>π(β,φ) = π(β)π(φ)</li>
+                    </ul>
+                    
+                    <p class="mb-4">The typical prior for β is N<sub>p</sub>(b<sub>0</sub>,B<sub>0</sub>), where the prior mean is often chosen as 0 if the response is centered, and B<sub>0</sub> is a covariance matrix given by a constant c (larger than 1, e.g., 10) times a frequentist estimate.</p>
+                    
                     <h4 class="font-bold mt-6">3.3.1 Binary Response Regression</h4>
                     
-                    <p class="mb-4">In logistic regression, we model binary outcomes using the logit link function:</p>
+                    <p class="mb-4">In binary response regression, Y ∈ {0,1} and the random component follows a Bernoulli distribution: Y<sub>i</sub>|x<sub>i</sub> ~ Be(π<sub>i</sub>).</p>
+                    
+                    <p class="mb-4">Since μ<sub>i</sub> = π<sub>i</sub> ∈ (0,1), a proper choice for the link function is π<sub>i</sub> = F(x<sub>i</sub><sup>T</sup>β) where F is a cumulative distribution function. Common choices include:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Probit model:</strong> F(x) = Φ(x) (standard normal CDF)</li>
+                        <li><strong>Logit model:</strong> F(x) = e<sup>x</sup>/(1+e<sup>x</sup>) (logistic CDF)</li>
+                        <li><strong>Complementary log-log model:</strong> F(x) = 1-e<sup>-e<sup>x</sup></sup></li>
+                    </ul>
+                    
+                    <p class="mb-4">The Bernoulli distribution belongs to the exponential family with no scale parameter, as:</p>
                     
                     <div class="formula">
-                        logit(p) = log(p/(1-p)) = Xβ
+                        P(Y<sub>i</sub>=y|x<sub>i</sub>) = π<sub>i</sub><sup>y</sup>(1-π<sub>i</sub>)<sup>1-y</sup> = exp(y·log(π<sub>i</sub>/(1-π<sub>i</sub>))+log(1-π<sub>i</sub>))
                     </div>
                     
-                    <p>The likelihood function is:</p>
+                    <h5 class="font-semibold mt-4 mb-2">Gibbs Sampler for the Probit Model</h5>
+                    
+                    <p class="mb-4">For the probit model, a useful computational approach introduces latent variables:</p>
                     
                     <div class="formula">
-                        p(y|X,β) = ∏ᵢ pᵢʸⁱ(1-pᵢ)¹⁻ʸⁱ
+                        Z₁,...,Zₙ ~ N(xᵢ<sup>T</sup>β, 1) independently
                     </div>
                     
-                    <p>Where pᵢ = 1/(1+exp(-xᵢ'β))</p>
+                    <div class="formula">
+                        Yᵢ = { 1 if Zᵢ > 0
+                              { 0 if Zᵢ ≤ 0
+                    </div>
                     
-                    <p class="mb-4">Unlike linear regression, there is no conjugate prior for β, so MCMC methods are typically used.</p>
+                    <p class="mb-4">This is equivalent to Yᵢ being Bernoulli with parameter Φ(xᵢ<sup>T</sup>β). The full conditionals for Gibbs sampling are:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>Zᵢ|β,y ~ N(xᵢ<sup>T</sup>β,1) truncated to (0,∞) if yᵢ=1, or truncated to (-∞,0) if yᵢ=0</li>
+                        <li>β|Z,y ~ N(b,B) where B = (X'X + B₀<sup>-1</sup>)<sup>-1</sup> and b = B(X'Xβ̂ + B₀<sup>-1</sup>b₀)</li>
+                    </ul>
+                    
+                    <p class="mb-4">This approach transforms the probit regression into a conditionally normal model, making computation efficient.</p>
+                    
+                    <div class="formula">
+                        p(y|X,β) = ∏<sub>i</sub> p<sub>i</sub><sup>y<sub>i</sub></sup>(1-p<sub>i</sub>)<sup>1-y<sub>i</sub></sup>
+                    </div>
+                    
+                    <p>For the logit model, p<sub>i</sub> = 1/(1+exp(-x<sub>i</sub>'β))</p>
+                    
+                    <p class="mb-4">Unlike linear regression, there is no conjugate prior for β in logistic regression, so MCMC methods are typically used.</p>
                     
                     <div class="example-box">
                         <h4 class="font-bold">Example: Credit Default Prediction</h4>
@@ -1194,6 +1428,39 @@
                     <h2 class="text-2xl font-bold text-blue-700 mb-4">4. Hierarchical Models</h2>
                     
                     <p class="mb-4">Hierarchical models (also called multilevel models) are designed for data with a hierarchical or grouped structure. They allow for partial pooling of information across groups.</p>
+                    
+                    <p class="mb-4">These models address situations where important predictor variables may be:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>Not taken into account but should have been</li>
+                        <li>Difficult to measure and consequently left out</li>
+                        <li>Perhaps impossible to measure</li>
+                    </ul>
+                    
+                    <p class="mb-4">Such variables are sometimes referred to as latent variables. In a generic two-level hierarchical model, we have:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>Data y</li>
+                        <li>Latent variables γ</li>
+                        <li>Parameters θ</li>
+                    </ul>
+                    
+                    <p class="mb-4">The joint distribution is given by:</p>
+                    
+                    <div class="formula">
+                        L(y,γ,θ) = p(y|θ,γ)p(γ|θ)π(θ)
+                    </div>
+                    
+                    <p class="mb-4">From this we can obtain the posterior distribution:</p>
+                    
+                    <div class="formula">
+                        p(θ,γ|y) ∝ L(y,γ,θ)
+                    </div>
+                    
+                    <p class="mb-4">For prediction of future data z, the predictive density is:</p>
+                    
+                    <div class="formula">
+                        p(z|y) = ∫∫ p(z|θ,γ,y)p(θ,γ|y) dθ dγ
+                    </div>
                     
                     <div class="concept-diagram text-center mb-6">
                         <svg width="500" height="250" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
@@ -1396,6 +1663,88 @@
                         </ul>
                         <p class="mt-2">The posterior samples provide full information about all parameters at all levels of the hierarchy.</p>
                     </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">4.2 Linear Mixed Effect Models</h3>
+                    
+                    <p class="mb-4">Linear mixed effects models include both fixed effects (population-level parameters) and random effects (group-level deviations).</p>
+                    
+                    <p class="mb-4">In LMMs, we have:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Within-group model:</strong>
+                            <div class="formula">
+                                Yᵢⱼ = xᵢⱼᵀβⱼ + εᵢⱼ, εᵢⱼ ~ N(0,σ²) i.i.d.
+                            </div>
+                            Or in matrix form:
+                            <div class="formula">
+                                Yⱼ|βⱼ,σ² ~ N(Xⱼβⱼ, σ²Iₙⱼ)
+                            </div>
+                        </li>
+                        <li><strong>Between-group model:</strong>
+                            <div class="formula">
+                                βⱼ|θ,Σ ~ N(θ,Σ) i.i.d.
+                            </div>
+                        </li>
+                        <li><strong>Prior:</strong>
+                            <div class="formula">
+                                θ,Σ ~ π(θ)π(Σ)
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <p class="mb-4">This can be reparameterized as:</p>
+                    
+                    <div class="formula">
+                        βⱼ = θ + γⱼ, with γⱼ ~ N(0,Σ) i.i.d.
+                    </div>
+                    
+                    <p class="mb-4">Substituting into the within-group model:</p>
+                    
+                    <div class="formula">
+                        Yᵢⱼ = xᵢⱼᵀθ + xᵢⱼᵀγⱼ + εᵢⱼ
+                    </div>
+                    
+                    <p class="mb-4">Here, θ is called a <strong>fixed effect</strong> (constant across groups), and γ₁,...,γⱼ are <strong>random effects</strong> (group-specific). This explains the name "mixed effects" model.</p>
+                    
+                    <p class="mb-4">A more general form allows different covariates for fixed and random effects:</p>
+                    
+                    <div class="formula">
+                        Yᵢⱼ = xᵢⱼᵀθ + zᵢⱼᵀγⱼ + εᵢⱼ
+                    </div>
+                    
+                    <p class="mb-4">Typical priors for the parameters are:</p>
+                    
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>θ ~ N(μ₀,L₀)</li>
+                        <li>Σ ~ InvWishart(S₀⁻¹,η₀)</li>
+                        <li>σ² ~ InvGamma(ν₀/2, ν₀σ₀²/2)</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Math Scores and Socioeconomic Status</h4>
+                        <p class="mb-2">Extending our math score example to include socioeconomic status (SES):</p>
+                        <div class="formula">
+                            Yᵢⱼ = β₁ⱼ + β₂ⱼSESᵢⱼ + εᵢⱼ
+                        </div>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Each school has its own intercept (β₁ⱼ) and slope (β₂ⱼ)</li>
+                            <li>These coefficients follow a bivariate normal distribution across schools</li>
+                            <li>Schools with few students have regression lines shrunk toward the overall average</li>
+                            <li>This balances individual school patterns with patterns across all schools</li>
+                        </ul>
+                        <p class="mt-2">The hierarchical approach provides more stable estimates, especially for schools with limited data.</p>
+                    </div>
+                    
+                    <div class="note-box mt-6">
+                        <h4 class="font-bold">Key Benefits of Hierarchical Models</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Efficiently share information across related groups</li>
+                            <li>Provide more stable estimates for groups with limited data</li>
+                            <li>Model variance and correlation at multiple levels</li>
+                            <li>Balance between complete pooling (ignoring group differences) and no pooling (analyzing groups separately)</li>
+                            <li>Naturally handle unbalanced designs (different sample sizes per group)</li>
+                        </ul>
+                    </div>
                 </section>
 
                 <div class="section-divider"></div>
@@ -1520,7 +1869,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="tip-box">
                         <h4 class="font-bold">Diagnostic Plots for Model Checking</h4>
                         <ul class="list-disc ml-6 mt-2">
@@ -1529,7 +1878,7 @@
                             <li><strong>Predictive intervals:</strong> Check if observed values fall within predicted ranges</li>
                             <li><strong>Density overlays:</strong> Compare densities of observed and replicated data</li>
                         </ul>
-                    </div>
+</div>
                     
                     <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">5.3 Covariate Selection</h3>
                     
