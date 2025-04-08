@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Guide to Bayesian Statistics</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .example-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .formula {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Cambria Math', Georgia, serif;
+        }
+        .concept-diagram {
+            margin: 20px auto;
+            max-width: 100%;
+            display: block;
+        }
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(to right, #3b82f6, #93c5fd, #3b82f6);
+            margin: 40px 0;
+            border-radius: 2px;
+        }
+        .note-box {
+            background-color: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .tip-box {
+            background-color: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th {
+            background-color: #e0e7ff;
+            padding: 10px;
+            text-align: left;
+        }
+        .comparison-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .toc-link {
+            display: block;
+            padding: 5px 0;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .toc-link:hover {
+            color: #3b82f6;
+            transform: translateX(5px);
+        }
+        .progress-nav {
+            position: sticky;
+            top: 20px;
+            z-index: 10;
+        }
+        .scrollable-content {
+            max-height: none;
+            overflow-y: visible;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        }
+        /* Stick Breaking Visualization Styles */
+        .stick-breaking-viz {
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .stick {
+            height: 30px;
+            background-color: #e0e0e0; /* Represents the whole stick */
+            display: flex;
+            overflow: hidden;
+            border-radius: 3px;
+        }
+        .stick-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+            text-align: center;
+            border-right: 1px solid #fff; /* Separator */
+        }
+        .stick-segment:last-child {
+            border-right: none;
+        }
+        /* Example widths - illustrative */
+        .w1 { width: 35%; background-color: #3b82f6; }
+        .w2 { width: 25%; background-color: #10b981; }
+        .w3 { width: 15%; background-color: #f97316; }
+        .w4 { width: 10%; background-color: #ef4444; }
+        .w-rem { width: 15%; background-color: #6b7280; font-size: 0.7em; } /* Remainder */
+
+        /* DPM Visualization Styles */
+        .dpm-viz {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 20px auto;
+            background-color: #f9f9f9;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        .dpm-level {
+            border: 1px dashed #9ca3af;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .dpm-level h5 {
+            font-weight: bold;
+            color: #4b5563;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .dpm-atoms, .dpm-params, .dpm-data {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .dpm-atom, .dpm-param, .dpm-point {
+            border: 1px solid #6b7280;
+            padding: 5px 8px;
+            margin: 5px;
+            border-radius: 3px;
+            background-color: #fff;
+            min-width: 40px;
+        }
+        .dpm-atom { background-color: #e0e7ff; } /* Atoms of G */
+        .dpm-param { background-color: #ecfdf5; } /* Theta_i */
+        .dpm-point { background-color: #fff7ed; } /* Y_i */
+        .dpm-arrow {
+            margin: 0 5px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container pt-8 pb-16">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-blue-700 mb-4">Understanding Bayesian Statistics</h1>
+            <p class="text-xl text-gray-600">A Visual and Conceptual Guide</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Table of Contents -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 progress-nav">
+                    <h2 class="text-xl font-bold text-blue-700 mb-4">Contents</h2>
+                    <nav class="toc">
+                        <a href="#introduction" class="toc-link">Introduction to Bayesian Statistics</a>
+                        <a href="#basics" class="toc-link">1. Basics of Bayesian Inference</a>
+                        <a href="#simulation" class="toc-link">2. Simulation Methods</a>
+                        <a href="#linear-models" class="toc-link">3. Bayesian Linear Models</a>
+                        <a href="#hierarchical" class="toc-link">4. Hierarchical Models</a>
+                        <a href="#model-assessment" class="toc-link">5. Model Assessment</a>
+                        <a href="#survival" class="toc-link">6. Survival Analysis</a>
+                        <a href="#spatial" class="toc-link">7. Spatial Models</a>
+                        <a href="#nonparametrics" class="toc-link">8. Bayesian Nonparametrics</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-3 scrollable-content">
+                <!-- Introduction Section -->
+                <section id="introduction" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">Introduction to Bayesian Statistics</h2>
+                    
+                    <p class="mb-4">Welcome to your guide on Bayesian statistics! This visual and conceptual guide will help you understand the fundamentals of Bayesian thinking and its applications in data analysis and decision making.</p>
+                    
+                    <div class="tip-box">
+                        <h3 class="font-bold">Why Bayesian Statistics Matters</h3>
+                        <p>Bayesian statistics provides a framework for updating our beliefs based on new evidence. Unlike traditional (frequentist) statistics, Bayesian methods allow us to:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Incorporate prior knowledge into our analyses</li>
+                            <li>Express uncertainty in a more intuitive way</li>
+                            <li>Make probability statements about hypotheses</li>
+                            <li>Continuously update our understanding as new data arrives</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6">
+                        <h3 class="text-xl font-semibold text-blue-600 mb-3">The Bayesian Perspective: A Simple Example</h3>
+                        
+                        <div class="example-box">
+                            <h4 class="font-bold">Disease Testing Scenario</h4>
+                            <p>Imagine a medical test for a rare disease that affects 1% of the population. The test is 95% accurate, meaning:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>If you have the disease, the test has a 95% chance of being positive</li>
+                                <li>If you don't have the disease, the test has a 95% chance of being negative</li>
+                            </ul>
+                            <p class="mt-2">If you test positive, what's the probability you actually have the disease?</p>
+                            
+                            <div class="flex justify-center mt-4">
+                                <div class="bg-white p-4 rounded-lg border border-blue-200">
+                                    <p class="font-semibold text-center">Using Bayes' Theorem:</p>
+                                    <div class="formula">
+                                        P(Disease|Positive) = P(Positive|Disease) × P(Disease) / P(Positive)
+                                    </div>
+                                    <p class="mt-2">
+                                        P(Disease|Positive) = 0.95 × 0.01 / [0.95 × 0.01 + 0.05 × 0.99] ≈ 0.16 or 16%
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <p class="mt-4">Surprisingly, even with a positive test result, there's only a 16% chance you have the disease. This counterintuitive result is what makes Bayesian thinking so powerful!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Basics of Bayesian Inference -->
+                <section id="basics" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">1. Basics of Bayesian Inference</h2>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">1.1 Bayesian Learning: Likelihood, Prior and Posterior</h3>
+                    
+                    <p class="mb-4">Bayesian inference is built on three key components:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="card bg-blue-50 p-4">
+                            <h4 class="font-bold text-blue-700">Prior</h4>
+                            <p>Your initial belief about a parameter before seeing data</p>
+                            <div class="text-center text-3xl mt-2">
+                                <i class="fas fa-brain text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="card bg-blue-50 p-4">
+                            <h4 class="font-bold text-blue-700">Likelihood</h4>
+                            <p>How probable your data is given different parameter values</p>
+                            <div class="text-center text-3xl mt-2">
+                                <i class="fas fa-chart-line text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="card bg-blue-50 p-4">
+                            <h4 class="font-bold text-blue-700">Posterior</h4>
+                            <p>Your updated belief about the parameter after seeing data</p>
+                            <div class="text-center text-3xl mt-2">
+                                <i class="fas fa-lightbulb text-blue-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="concept-diagram text-center">
+                        <svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Prior Distribution -->
+                            <g transform="translate(50, 100)">
+                                <path d="M0,80 C20,80 40,20 80,20 C120,20 140,80 160,80" stroke="#3b82f6" fill="none" stroke-width="3"/>
+                                <text x="80" y="100" text-anchor="middle" font-size="14">Prior P(θ)</text>
+                            </g>
+                            
+                            <!-- Multiplication Sign -->
+                            <text x="235" y="100" text-anchor="middle" font-size="24">×</text>
+                            
+                            <!-- Likelihood -->
+                            <g transform="translate(260, 100)">
+                                <path d="M0,80 C30,-20 80,-20 160,80" stroke="#10b981" fill="none" stroke-width="3"/>
+                                <text x="80" y="100" text-anchor="middle" font-size="14">Likelihood P(D|θ)</text>
+                            </g>
+                            
+                            <!-- Equals Sign -->
+                            <text x="445" y="100" text-anchor="middle" font-size="24">=</text>
+                            
+                            <!-- Posterior -->
+                            <g transform="translate(470, 100)">
+                                <path d="M0,50 C20,50 40,0 60,0 C80,0 100,20 120,80" stroke="#f97316" fill="none" stroke-width="3"/>
+                                <text x="60" y="100" text-anchor="middle" font-size="14">Posterior P(θ|D)</text>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="example-box mt-6">
+                        <h4 class="font-bold">Real-World Example: Email Spam Filter</h4>
+                        <p>Imagine you're building a spam filter:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Prior:</strong> Initially, you believe 30% of all emails are spam (P(spam) = 0.3)</li>
+                            <li><strong>Likelihood:</strong> You observe that 80% of spam emails contain the word "free," while only 10% of legitimate emails do</li>
+                            <li><strong>Data:</strong> You receive a new email containing the word "free"</li>
+                        </ul>
+                        
+                        <div class="bg-white p-4 rounded-lg border border-blue-200 mt-4">
+                            <p class="font-semibold">Using Bayes' Theorem to calculate the posterior probability:</p>
+                            <div class="formula">
+                                P(spam|"free") = P("free"|spam) × P(spam) / P("free")
+                            </div>
+                            <p>P(spam|"free") = 0.8 × 0.3 / [0.8 × 0.3 + 0.1 × 0.7] = 0.24 / 0.31 ≈ 0.77 or 77%</p>
+                        </div>
+                        
+                        <p class="mt-4">After seeing the word "free," your belief that the email is spam increased from 30% to 77%.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.2 Bayes' Theorem for Dominated Models</h3>
+                    
+                    <p class="mb-4">Bayes' theorem can be applied in different contexts:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">1.2.1 Bayes' Theorem for Events</h4>
+                            <div class="formula">
+                                P(A|B) = P(B|A) × P(A) / P(B)
+                            </div>
+                            <p>Where A and B are events, and P(B) > 0</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">1.2.2 Bayes' Theorem for Random Variables</h4>
+                            <div class="formula">
+                                f(θ|x) = f(x|θ) × f(θ) / f(x)
+                            </div>
+                            <p>Where θ is a parameter and x is observed data</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold">1.2.3 Bayes' Theorem for Dominated Models</h4>
+                        <p class="mb-2">For continuous distributions, the posterior distribution is proportional to the product of the likelihood and the prior:</p>
+                        <div class="formula">
+                            f(θ|x) ∝ f(x|θ) × f(θ)
+                        </div>
+                        <p>The symbol ∝ means "proportional to". The denominator f(x) is often hard to calculate but serves as a normalizing constant.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.3 Main Inferential Problems</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">1.3.1 Point and Interval Estimation</h4>
+                            <p class="mb-2">In Bayesian analysis, we can derive various estimates from the posterior distribution:</p>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Point estimates:</strong> Posterior mean, median, or mode</li>
+                                <li><strong>Interval estimates:</strong> Credible intervals (e.g., 95% highest posterior density interval)</li>
+                            </ul>
+                            
+                            <div class="mt-4">
+                                <p class="font-semibold">Example: Estimating Batting Average</p>
+                                <p>A baseball player gets 7 hits in 20 at-bats. With a Beta(1,1) prior (uniform), the posterior is Beta(8,14):</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>Posterior mean: 8/(8+14) = 0.364</li>
+                                    <li>95% credible interval: [0.193, 0.544]</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">1.3.2 Hypothesis Testing</h4>
+                            <p class="mb-2">Bayesian hypothesis testing involves calculating the posterior probabilities of competing hypotheses:</p>
+                            <div class="formula">
+                                P(H₁|Data) / P(H₂|Data) = [P(Data|H₁) / P(Data|H₂)] × [P(H₁) / P(H₂)]
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="font-semibold">Example: Testing a New Drug</p>
+                                <p>Comparing hypotheses H₁: "drug is effective" vs H₂: "drug is not effective"</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>Prior odds: P(H₁)/P(H₂) = 1 (equal prior probability)</li>
+                                    <li>Bayes Factor: P(Data|H₁)/P(Data|H₂) = 20</li>
+                                    <li>Posterior odds: 20 × 1 = 20</li>
+                                    <li>So P(H₁|Data) = 20/21 ≈ 0.95 or 95%</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.4 Posterior Predictive Distributions</h3>
+                    
+                    <p class="mb-4">The posterior predictive distribution gives us the probability of future observations based on our current data:</p>
+                    
+                    <div class="formula">
+                        p(x̃|x) = ∫ p(x̃|θ) p(θ|x) dθ
+                    </div>
+                    
+                    <p>Where x̃ is a future observation, x is our observed data, and θ represents our parameters.</p>
+                    
+                    <div class="example-box mt-4">
+                        <h4 class="font-bold">Example: Predicting Future Sales</h4>
+                        <p>A coffee shop has recorded daily sales that follow a normal distribution. After collecting data for several months:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>The posterior distribution for the mean is N(80, 5²)</li>
+                            <li>The known variance is 100</li>
+                        </ul>
+                        <p class="mt-2">The posterior predictive distribution for tomorrow's sales is:</p>
+                        <div class="formula">
+                            p(x̃|data) ~ N(80, 5² + 10²) = N(80, 125)
+                        </div>
+                        <p>This means our prediction incorporates both our uncertainty about the mean and the inherent variability in daily sales.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.5 Exchangeability</h3>
+                    
+                    <p class="mb-4">Exchangeability is a key concept in Bayesian statistics. A sequence of random variables is exchangeable if their joint distribution is invariant to permutation.</p>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Exchangeability vs. Independence</h4>
+                        <p>Independent and identically distributed (i.i.d.) random variables are exchangeable, but exchangeable variables need not be independent.</p>
+                        <p class="mt-2">For example, in a sequence of coin flips:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>If the coin has a fixed probability p of heads, the flips are i.i.d.</li>
+                            <li>If p is unknown and has a prior distribution, the flips are exchangeable but not independent (they're linked through the unknown p)</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="mt-4">By de Finetti's theorem, exchangeable sequences can be represented as mixtures of i.i.d. sequences, which provides theoretical justification for Bayesian modeling.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.6 Specifying Prior Distributions</h3>
+                    
+                    <p class="mb-4">Choosing appropriate prior distributions is a crucial step in Bayesian analysis:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">1.6.1 Reference Priors</h4>
+                            <p>Reference priors are "minimally informative" and aim to let the data speak for themselves. Common choices include:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Uniform priors</li>
+                                <li>Maximum entropy priors</li>
+                                <li>Priors that maximize the expected information from the data</li>
+                            </ul>
+                            
+                            <div class="example-box mt-4">
+                                <p class="font-semibold">Example: Estimating a Proportion</p>
+                                <p>For estimating a proportion θ, a uniform prior Beta(1,1) is a common reference prior, representing equal probability for all possible values of θ between 0 and 1.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">1.6.2 Jeffreys Priors</h4>
+                            <p>Jeffreys priors are invariant to reparameterization and are proportional to the square root of the Fisher information:</p>
+                            <div class="formula">
+                                p(θ) ∝ √|I(θ)|
+                            </div>
+                            <p>Where I(θ) is the Fisher information.</p>
+                            
+                            <div class="example-box mt-4">
+                                <p class="font-semibold">Example: Normal Distribution</p>
+                                <p>For a normal distribution with known variance σ², the Jeffreys prior for the mean μ is proportional to a constant, which simplifies to a uniform prior.</p>
+                                <p class="mt-2">For unknown variance σ², the Jeffreys prior is p(σ) ∝ 1/σ.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">1.6.3 Scientifically Informed Priors</h4>
+                            <p>When prior knowledge or expert opinion is available, we can construct informative priors:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Based on previous studies or historical data</li>
+                                <li>Elicited from expert knowledge</li>
+                                <li>Derived from physical or theoretical constraints</li>
+                            </ul>
+                            
+                            <div class="example-box mt-4">
+                                <p class="font-semibold">Example: Drug Efficacy</p>
+                                <p>Based on similar drugs, scientists believe a new treatment has between 30% and 60% efficacy, with 50% being most likely. This could be modeled as a Beta(5,5) prior centered at 0.5 with most mass between 0.3 and 0.7.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">1.6.4 Merging of the Priors</h4>
+                            <p>When multiple sources of prior information exist, they can be combined:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Linear pooling: weighted average of individual priors</li>
+                                <li>Logarithmic pooling: geometric mean of priors</li>
+                                <li>Using one source as prior and others as data</li>
+                            </ul>
+                            
+                            <div class="example-box mt-4">
+                                <p class="font-semibold">Example: Weather Forecasting</p>
+                                <p>Three meteorologists provide probability estimates for rain tomorrow: 0.3, 0.5, and 0.7. With equal weights, linear pooling gives (0.3 + 0.5 + 0.7)/3 = 0.5 as the combined prior probability.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">1.7 Asymptotic Normality of the Posterior Distribution</h3>
+                    
+                    <p class="mb-4">As sample size increases, under mild conditions, the posterior distribution approaches a normal distribution centered at the maximum likelihood estimate:</p>
+                    
+                    <div class="formula">
+                        p(θ|x) ≈ N(θ̂, I⁻¹(θ̂)/n)
+                    </div>
+                    
+                    <p>Where θ̂ is the maximum likelihood estimate, I(θ̂) is the Fisher information, and n is the sample size.</p>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Important Implications</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>With large enough samples, the posterior becomes less sensitive to the choice of prior</li>
+                            <li>Bayesian credible intervals become approximately equal to frequentist confidence intervals</li>
+                            <li>Computation can be simplified by using normal approximations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box mt-4">
+                        <h4 class="font-bold">Example: Coin Flipping</h4>
+                        <p>With a Beta(1,1) prior on the probability of heads, after observing 100 flips with 60 heads:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>The posterior is Beta(61,41)</li>
+                            <li>This is approximately normal with mean 0.6 and variance 0.0024</li>
+                        </ul>
+                        <p class="mt-2">As n increases further, the normal approximation becomes even more accurate.</p>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Simulation Methods -->
+                <section id="simulation" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">2. Simulation Methods for Bayesian Statistics</h2>
+                    
+                    <p class="mb-4">Many Bayesian models result in posterior distributions that cannot be expressed in closed form. Simulation methods allow us to draw samples from these complex distributions and make inference based on these samples.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">2.1 The Monte Carlo Method</h3>
+                    
+                    <p class="mb-4">Monte Carlo methods use random sampling to obtain numerical results. The basic idea is to draw many samples from a distribution and use these samples to approximate quantities of interest.</p>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Estimating an Expected Value</h4>
+                        <p>Suppose we want to calculate E[g(θ)] where θ has posterior distribution p(θ|x).</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>Draw N samples θ₁, θ₂, ..., θₙ from p(θ|x)</li>
+                            <li>Compute g(θᵢ) for each sample</li>
+                            <li>Estimate E[g(θ)] ≈ (1/N) Σᵢ g(θᵢ)</li>
+                        </ol>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Application: Insurance Risk Assessment</p>
+                            <p>An insurance company wants to estimate the expected payout for a new policy. If the distribution of claims follows a complex model with posterior parameters from historical data, Monte Carlo sampling can approximate the expected payout and help set appropriate premiums.</p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">2.1.1 Monte Carlo Method for the Posterior Predictive Distribution</h4>
+                    
+                    <p class="mb-4">The posterior predictive distribution p(x̃|x) can be approximated using Monte Carlo methods:</p>
+                    
+                    <ol class="list-decimal ml-6 mb-4">
+                        <li>Draw samples θ₁, θ₂, ..., θₙ from the posterior p(θ|x)</li>
+                        <li>For each θᵢ, draw a future observation x̃ᵢ from p(x̃|θᵢ)</li>
+                        <li>The set {x̃₁, x̃₂, ..., x̃ₙ} provides a sample from the posterior predictive distribution</li>
+                    </ol>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">The Augmentation Trick</h4>
+                        <p>Sometimes working with a joint distribution p(θ,z|x) is easier than the marginal p(θ|x), where z is an auxiliary variable. Steps:</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>Draw (θᵢ,zᵢ) from the joint posterior p(θ,z|x)</li>
+                            <li>Use the θᵢ values and discard the zᵢ</li>
+                        </ol>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.2 Rejection Sampling</h3>
+                    
+                    <p class="mb-4">Rejection sampling is a technique for generating samples from a distribution when direct sampling is difficult.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">How It Works</h4>
+                            <ol class="list-decimal ml-6">
+                                <li>Find a proposal distribution q(θ) that is easy to sample from and a constant M such that p(θ|x) ≤ M·q(θ) for all θ</li>
+                                <li>Draw a sample θ' from q(θ)</li>
+                                <li>Generate a uniform random number u between 0 and 1</li>
+                                <li>If u ≤ p(θ'|x)/(M·q(θ')), accept θ'; otherwise, reject and go back to step 2</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="concept-diagram">
+                                <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Target Distribution -->
+                                    <path d="M50,180 C70,100 120,60 150,60 C180,60 230,100 250,180" stroke="#f97316" fill="none" stroke-width="3"/>
+                                    <text x="150" y="50" text-anchor="middle" font-size="12">Target p(θ|x)</text>
+                                    
+                                    <!-- Proposal Distribution -->
+                                    <path d="M20,180 C70,40 230,40 280,180" stroke="#3b82f6" fill="none" stroke-width="2" stroke-dasharray="5,5"/>
+                                    <text x="150" y="30" text-anchor="middle" font-size="12">Proposal M·q(θ)</text>
+                                    
+                                    <!-- Accepted Points -->
+                                    <circle cx="80" cy="120" r="4" fill="#10b981"/>
+                                    <circle cx="130" cy="70" r="4" fill="#10b981"/>
+                                    <circle cx="190" cy="90" r="4" fill="#10b981"/>
+                                    
+                                    <!-- Rejected Points -->
+                                    <circle cx="100" cy="50" r="4" fill="#ef4444"/>
+                                    <circle cx="220" cy="60" r="4" fill="#ef4444"/>
+                                    
+                                    <!-- Legend -->
+                                    <circle cx="250" cy="170" r="4" fill="#10b981"/>
+                                    <text x="260" y="173" font-size="10">Accept</text>
+                                    <circle cx="250" cy="155" r="4" fill="#ef4444"/>
+                                    <text x="260" y="158" font-size="10">Reject</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Sampling from a Truncated Distribution</h4>
+                        <p>Suppose we want to sample from a normal distribution N(0,1) but restricted to the interval [1,3].</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>Use the unrestricted N(0,1) as the proposal q(θ)</li>
+                            <li>Define p(θ|x) as the N(0,1) density for θ in [1,3] and 0 elsewhere</li>
+                            <li>When a sample falls in [1,3], accept it; otherwise reject it</li>
+                        </ol>
+                        <p class="mt-2">This is a special case of rejection sampling where the acceptance probability is either 0 or 1.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.3 Markov Chain Monte Carlo Methods</h3>
+                    
+                    <p class="mb-4">MCMC methods construct a Markov chain such that its stationary distribution is the target posterior distribution. After running the chain for a while (burn-in), samples from the chain approximate samples from the posterior.</p>
+                    
+                    <h4 class="font-bold mt-6">2.3.1 General State Space Markov Chains</h4>
+                    
+                    <p class="mb-4">A Markov chain is a sequence of random variables where the future state depends only on the current state, not on the sequence of states that preceded it.</p>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Key Properties of Markov Chains</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Irreducibility:</strong> The chain can reach any state from any other state</li>
+                            <li><strong>Aperiodicity:</strong> The chain doesn't cycle in a deterministic pattern</li>
+                            <li><strong>Positive recurrence:</strong> All states are visited infinitely often</li>
+                        </ul>
+                        <p class="mt-2">A Markov chain with these properties converges to a unique stationary distribution, regardless of the starting state.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.4 The Metropolis-Hastings Algorithm</h3>
+                    
+                    <p class="mb-4">The Metropolis-Hastings algorithm is a general MCMC method for obtaining a sequence of random samples from a probability distribution that is difficult to sample from directly.</p>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+                        <h4 class="font-bold mb-2">Algorithm Steps</h4>
+                        <ol class="list-decimal ml-6">
+                            <li>Start with an initial value θ⁰</li>
+                            <li>For t = 1 to T:
+                                <ol class="list-decimal ml-6">
+                                    <li>Generate a candidate θ* from a proposal distribution q(θ*|θᵗ⁻¹)</li>
+                                    <li>Calculate the acceptance ratio:
+                                        <div class="formula">
+                                            α = min(1, [p(θ*|x) / p(θᵗ⁻¹|x)] × [q(θᵗ⁻¹|θ*) / q(θ*|θᵗ⁻¹)])
+                                        </div>
+                                    </li>
+                                    <li>Generate u ~ Uniform(0,1)</li>
+                                    <li>If u ≤ α, set θᵗ = θ*; otherwise, set θᵗ = θᵗ⁻¹</li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Estimating Parameters in a Mixture Model</h4>
+                        <p>Consider a dataset that might come from a mixture of two normal distributions. The posterior for the mixture parameters is complicated. Using Metropolis-Hastings:</p>
+                        <ol class="list-decimal ml-6 mt-2">
+                            <li>Start with initial guesses for the means, variances, and mixing proportion</li>
+                            <li>Propose new values using normal distributions centered at the current values</li>
+                            <li>Accept or reject based on how well they explain the data and the prior beliefs</li>
+                        </ol>
+                        <p class="mt-2">After convergence, the samples provide estimates of the posterior distribution for all parameters.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.5 Gibbs Sampler</h3>
+                    
+                    <p class="mb-4">The Gibbs sampler is a special case of the Metropolis-Hastings algorithm where the proposal distributions are the full conditional distributions, resulting in acceptance probabilities of 1.</p>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
+                        <h4 class="font-bold mb-2">Algorithm Steps</h4>
+                        <p>For a parameter vector θ = (θ₁, θ₂, ..., θₚ):</p>
+                        <ol class="list-decimal ml-6">
+                            <li>Start with initial values θ⁰ = (θ₁⁰, θ₂⁰, ..., θₚ⁰)</li>
+                            <li>For t = 1 to T:
+                                <ol class="list-decimal ml-6">
+                                    <li>Sample θ₁ᵗ from p(θ₁|θ₂ᵗ⁻¹, θ₃ᵗ⁻¹, ..., θₚᵗ⁻¹, x)</li>
+                                    <li>Sample θ₂ᵗ from p(θ₂|θ₁ᵗ, θ₃ᵗ⁻¹, ..., θₚᵗ⁻¹, x)</li>
+                                    <li>...</li>
+                                    <li>Sample θₚᵗ from p(θₚ|θ₁ᵗ, θ₂ᵗ, ..., θₚ₋₁ᵗ, x)</li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="concept-diagram text-center">
+                        <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Axes -->
+                            <line x1="50" y1="200" x2="350" y2="200" stroke="black" stroke-width="1"/>
+                            <line x1="50" y1="50" x2="50" y2="200" stroke="black" stroke-width="1"/>
+                            <text x="200" y="220" text-anchor="middle" font-size="14">θ₁</text>
+                            <text x="30" y="125" text-anchor="middle" font-size="14" transform="rotate(-90, 30, 125)">θ₂</text>
+                            
+                            <!-- Contours of joint distribution -->
+                            <ellipse cx="200" cy="100" rx="120" ry="70" fill="none" stroke="#3b82f6" stroke-width="1"/>
+                            <ellipse cx="200" cy="100" rx="80" ry="45" fill="none" stroke="#3b82f6" stroke-width="1"/>
+                            <ellipse cx="200" cy="100" rx="40" ry="25" fill="none" stroke="#3b82f6" stroke-width="1"/>
+                            
+                            <!-- Gibbs sampling path -->
+                            <polyline points="150,150 220,150 220,80 270,80 270,110 200,110 200,90 240,90 240,125 180,125 180,95" 
+                                    fill="none" stroke="#f97316" stroke-width="2"/>
+                            
+                            <!-- Starting point -->
+                            <circle cx="150" cy="150" r="4" fill="#ef4444"/>
+                            <text x="140" y="165" font-size="10">Start</text>
+                            
+                            <!-- Horizontal/Vertical Steps -->
+                            <text x="350" y="175" font-size="10">Sample θ₁|θ₂</text>
+                            <text x="20" y="40" font-size="10">Sample θ₂|θ₁</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="example-box mt-6">
+                        <h4 class="font-bold">Example: Normal Distribution with Unknown Mean and Variance</h4>
+                        <p>For a normal model with data x = (x₁, ..., xₙ), we want to estimate both the mean μ and variance σ².</p>
+                        <p class="mt-2">With conjugate priors μ ~ N(μ₀, τ₀²) and σ² ~ Inv-Gamma(α, β), the conditional distributions are:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>μ|σ², x ~ N((τ₀⁻²μ₀ + nσ⁻²x̄)/(τ₀⁻² + nσ⁻²), 1/(τ₀⁻² + nσ⁻²))</li>
+                            <li>σ²|μ, x ~ Inv-Gamma(α + n/2, β + Σ(xᵢ - μ)²/2)</li>
+                        </ul>
+                        <p class="mt-2">The Gibbs sampler alternates between sampling from these two conditionals.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">2.6 Convergence Diagnostics</h3>
+                    
+                    <p class="mb-4">Determining when a Markov chain has converged to its stationary distribution is crucial. Various diagnostic methods can help:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Visual Methods</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Trace plots:</strong> Plot parameter values against iteration number</li>
+                                <li><strong>Autocorrelation plots:</strong> Show correlation between samples at different lags</li>
+                                <li><strong>Running means:</strong> Plot cumulative means to check stability</li>
+                            </ul>
+                            <p class="mt-2">Look for stabilization and random fluctuation around a central value.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Numerical Diagnostics</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Gelman-Rubin statistic:</strong> Compare within-chain and between-chain variance</li>
+                                <li><strong>Effective sample size:</strong> Estimate how many independent samples the correlated MCMC samples are equivalent to</li>
+                                <li><strong>Geweke diagnostic:</strong> Compare means from different segments of the chain</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Practical Tips for MCMC</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Run multiple chains with different starting points</li>
+                            <li>Discard early samples as burn-in</li>
+                            <li>Thin chains by keeping every kth sample if autocorrelation is high</li>
+                            <li>Adjust proposal distributions to achieve acceptance rates around 20-40%</li>
+                            <li>Check convergence with both visual and numerical diagnostics</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box mt-6">
+                        <h4 class="font-bold">Real-World Example: Climate Model Parameter Estimation</h4>
+                        <p>Climate scientists use MCMC methods to estimate parameters in complex climate models:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Parameters might include climate sensitivity, aerosol effects, and ocean mixing rates</li>
+                            <li>The model is run with different parameter values and compared to historical temperature data</li>
+                            <li>Multiple MCMC chains help explore the high-dimensional parameter space</li>
+                            <li>Convergence diagnostics ensure reliable posterior estimates</li>
+                        </ul>
+                        <p class="mt-2">The resulting posterior distributions quantify uncertainty in future climate projections.</p>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Bayesian Linear Models -->
+                <section id="linear-models" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">3. Bayesian Linear Models</h2>
+                    
+                    <p class="mb-4">Bayesian linear models extend traditional linear regression by incorporating prior information and quantifying uncertainty about all parameters.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">3.1 The Likelihood in the Linear Regression Model</h3>
+                    
+                    <p class="mb-4">In a linear regression model, we have:</p>
+                    
+                    <div class="formula">
+                        y = Xβ + ε, where ε ~ N(0, σ²I)
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>y is an n×1 vector of responses</li>
+                        <li>X is an n×p design matrix of predictors</li>
+                        <li>β is a p×1 vector of regression coefficients</li>
+                        <li>ε is an n×1 vector of independent normal errors with variance σ²</li>
+                    </ul>
+                    
+                    <p>The likelihood function is:</p>
+                    
+                    <div class="formula">
+                        p(y|X,β,σ²) = (2πσ²)^(-n/2) exp(-(y-Xβ)'(y-Xβ)/(2σ²))
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Housing Price Model</h4>
+                        <p>A real estate analyst models house prices based on size, location, and age:</p>
+                        <div class="formula">
+                            Price = β₀ + β₁×Size + β₂×Location + β₃×Age + ε
+                        </div>
+                        <p class="mt-2">The likelihood tells us how probable the observed prices are, given specific values for the coefficients and error variance.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">3.2 Priors and Posteriors</h3>
+                    
+                    <p class="mb-4">Common prior choices for linear regression parameters include:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">For Regression Coefficients β</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Normal prior:</strong> β ~ N(μ₀, Σ₀)</li>
+                                <li><strong>Reference prior:</strong> p(β) ∝ constant</li>
+                                <li><strong>Zellner's g-prior:</strong> β ~ N(0, gσ²(X'X)⁻¹)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">For Error Variance σ²</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Inverse-Gamma prior:</strong> σ² ~ IG(a₀, b₀)</li>
+                                <li><strong>Jeffreys prior:</strong> p(σ²) ∝ 1/σ²</li>
+                                <li><strong>Half-Cauchy prior:</strong> For hierarchical models</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-4">With a normal prior for β and Jeffreys prior for σ², the posterior distributions are:</p>
+                    
+                    <div class="formula">
+                        β|σ²,y,X ~ N(β̂, σ²(X'X + Σ₀⁻¹)⁻¹)
+                    </div>
+                    
+                    <div class="formula">
+                        σ²|y,X ~ IG((n+p)/2, [y'y - β̂'(X'X + Σ₀⁻¹)β̂]/2)
+                    </div>
+                    
+                    <p>Where β̂ = (X'X + Σ₀⁻¹)⁻¹(X'y + Σ₀⁻¹μ₀)</p>
+                    
+                    <div class="concept-diagram text-center mt-6">
+                        <svg width="500" height="250" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Data points -->
+                            <circle cx="100" cy="80" r="3" fill="#3b82f6"/>
+                            <circle cx="150" cy="100" r="3" fill="#3b82f6"/>
+                            <circle cx="200" cy="130" r="3" fill="#3b82f6"/>
+                            <circle cx="250" cy="135" r="3" fill="#3b82f6"/>
+                            <circle cx="300" cy="160" r="3" fill="#3b82f6"/>
+                            <circle cx="350" cy="170" r="3" fill="#3b82f6"/>
+                            <circle cx="400" cy="200" r="3" fill="#3b82f6"/>
+                            
+                            <!-- Prior regression lines -->
+                            <line x1="50" y1="50" x2="450" y2="150" stroke="#f97316" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="50" y1="70" x2="450" y2="170" stroke="#f97316" stroke-width="1" stroke-dasharray="5,5"/>
+                            <line x1="50" y1="90" x2="450" y2="190" stroke="#f97316" stroke-width="1" stroke-dasharray="5,5"/>
+                            
+                            <!-- Posterior regression lines -->
+                            <line x1="50" y1="65" x2="450" y2="185" stroke="#10b981" stroke-width="2"/>
+                            <line x1="50" y1="60" x2="450" y2="180" stroke="#10b981" stroke-width="1" stroke-opacity="0.5"/>
+                            <line x1="50" y1="70" x2="450" y2="190" stroke="#10b981" stroke-width="1" stroke-opacity="0.5"/>
+                            
+                            <!-- Labels -->
+                            <text x="75" y="30" font-size="12" fill="#f97316">Prior Lines</text>
+                            <text x="75" y="45" font-size="12" fill="#10b981">Posterior Lines</text>
+                            <text x="75" y="60" font-size="12" fill="#3b82f6">Data Points</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="example-box mt-6">
+                        <h4 class="font-bold">Example: Stock Return Prediction</h4>
+                        <p>A financial analyst develops a Bayesian linear model to predict stock returns based on economic indicators:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Prior knowledge:</strong> Based on economic theory, the analyst believes that interest rates have a negative effect and economic growth has a positive effect on returns</li>
+                            <li><strong>Data:</strong> Monthly returns and economic indicators for the past 10 years</li>
+                            <li><strong>Posterior inference:</strong> The posterior distribution combines prior beliefs with the data, giving more precise estimates and credible intervals for the effects of each indicator</li>
+                            <li><strong>Prediction:</strong> Posterior predictive probabilities with uncertainty quantification</li>
+                        </ul>
+                        <p class="mt-2">The analyst can use the posterior predictive distribution to forecast returns and quantify uncertainty.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">3.3 Generalized Linear Models</h3>
+                    
+                    <p class="mb-4">Generalized Linear Models (GLMs) extend linear models to handle response variables with non-normal distributions.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Components of a GLM</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Random component:</strong> Response distribution from the exponential family</li>
+                                <li><strong>Systematic component:</strong> Linear predictor η = Xβ</li>
+                                <li><strong>Link function:</strong> g(μ) = η connects expected response to linear predictor</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Common GLM Types</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Logistic regression:</strong> For binary responses</li>
+                                <li><strong>Poisson regression:</strong> For count data</li>
+                                <li><strong>Gamma regression:</strong> For positive continuous data</li>
+                                <li><strong>Negative binomial:</strong> For overdispersed counts</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">3.3.1 Binary Response Regression</h4>
+                    
+                    <p class="mb-4">In logistic regression, we model binary outcomes using the logit link function:</p>
+                    
+                    <div class="formula">
+                        logit(p) = log(p/(1-p)) = Xβ
+                    </div>
+                    
+                    <p>The likelihood function is:</p>
+                    
+                    <div class="formula">
+                        p(y|X,β) = ∏ᵢ pᵢʸⁱ(1-pᵢ)¹⁻ʸⁱ
+                    </div>
+                    
+                    <p>Where pᵢ = 1/(1+exp(-xᵢ'β))</p>
+                    
+                    <p class="mb-4">Unlike linear regression, there is no conjugate prior for β, so MCMC methods are typically used.</p>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Credit Default Prediction</h4>
+                        <p>A bank wants to predict the probability of loan default based on customer characteristics:</p>
+                        <div class="formula">
+                            logit(P(Default)) = β₀ + β₁×Income + β₂×CreditScore + β₃×DebtRatio
+                        </div>
+                        
+                        <p class="mt-4">With a Bayesian approach:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Prior:</strong> Normal priors for β coefficients based on previous default studies</li>
+                            <li><strong>Likelihood:</strong> Bernoulli likelihood for default/non-default outcomes</li>
+                            <li><strong>Posterior:</strong> Obtained via MCMC sampling</li>
+                            <li><strong>Prediction:</strong> Posterior predictive probabilities with uncertainty quantification</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="note-box mt-6">
+                        <h4 class="font-bold">Why Use Bayesian GLMs?</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Naturally incorporates uncertainty in all parameters</li>
+                            <li>Handles separation problems (perfect prediction) better than maximum likelihood</li>
+                            <li>Allows for inclusion of prior information about coefficients</li>
+                            <li>Provides full posterior predictive distributions, not just point estimates</li>
+                            <li>Can be extended to more complex models like multilevel/hierarchical structures</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Hierarchical Models -->
+                <section id="hierarchical" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">4. Hierarchical Models</h2>
+                    
+                    <p class="mb-4">Hierarchical models (also called multilevel models) are designed for data with a hierarchical or grouped structure. They allow for partial pooling of information across groups.</p>
+                    
+                    <div class="concept-diagram text-center mb-6">
+                        <svg width="500" height="250" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Levels -->
+                            <rect x="50" y="30" width="400" height="50" fill="#e0e7ff" stroke="#3b82f6" stroke-width="2" rx="5"/>
+                            <text x="250" y="60" text-anchor="middle" font-size="16">Hyperparameters (Population Level)</text>
+                            
+                            <rect x="50" y="110" width="400" height="50" fill="#ecfdf5" stroke="#10b981" stroke-width="2" rx="5"/>
+                            <text x="250" y="140" text-anchor="middle" font-size="16">Group-Level Parameters</text>
+                            
+                            <rect x="50" y="190" width="400" height="50" fill="#fff7ed" stroke="#f97316" stroke-width="2" rx="5"/>
+                            <text x="250" y="220" text-anchor="middle" font-size="16">Data (Individual Observations)</text>
+                            
+                            <!-- Arrows -->
+                            <line x1="250" y1="80" x2="250" y2="110" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+                            <line x1="250" y1="160" x2="250" y2="190" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+                            
+                            <!-- Arrow Marker -->
+                            <defs>
+                                <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Why Use Hierarchical Models?</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Partial pooling:</strong> Balance between complete pooling (ignoring group differences) and no pooling (analyzing groups separately)</li>
+                            <li><strong>Shrinkage:</strong> Group estimates are pulled toward the population mean, especially for groups with little data</li>
+                            <li><strong>Information sharing:</strong> Groups can "borrow strength" from each other</li>
+                            <li><strong>Handle unbalanced designs:</strong> Works well even when group sizes vary substantially</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="example-box mt-6">
+                        <h4 class="font-bold">Example: Educational Assessment</h4>
+                        <p>Researchers analyze test scores of students nested within schools:</p>
+                        
+                        <div class="mt-4 mb-4">
+                            <p class="font-semibold">Hierarchical Structure:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li><strong>Level 1:</strong> Students (individual test scores)</li>
+                                <li><strong>Level 2:</strong> Schools (school-specific effects)</li>
+                                <li><strong>Level 3:</strong> Districts (district-level factors)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="formula">
+                            Score_ijk = β₀ + α_j + γ_k + β₁×X_ijk + ε_ijk
+                        </div>
+                        <p class="mt-2">Where:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>i = student, j = school, k = district</li>
+                            <li>α_j ~ N(0, σ²_school) are school-specific random effects</li>
+                            <li>γ_k ~ N(0, σ²_district) are district-specific random effects</li>
+                        </ul>
+                        
+                        <p class="mt-4">This model allows researchers to:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Estimate school and district effects while accounting for student characteristics</li>
+                            <li>Quantify variation at each level of the hierarchy</li>
+                            <li>Make more accurate predictions for new schools with limited data</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="mt-6 mb-4">A general hierarchical model can be written as:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Data Level</h4>
+                            <div class="formula">
+                                y_ij ~ p(y_ij|θ_j)
+                            </div>
+                            <p>Data within group j depends on group-specific parameters θ_j</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Group Level</h4>
+                            <div class="formula">
+                                θ_j ~ p(θ_j|φ)
+                            </div>
+                            <p>Group parameters come from a population distribution with hyperparameters φ</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold">Population Level</h4>
+                        <div class="formula">
+                            φ ~ p(φ)
+                        </div>
+                        <p>Hyperparameters have their own prior distributions</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">4.1 Linear Mixed Effect Models</h3>
+                    
+                    <p class="mb-4">Linear mixed effects models include both fixed effects (population-level parameters) and random effects (group-level deviations).</p>
+                    
+                    <div class="formula">
+                        y = Xβ + Zu + ε
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>β are fixed effects (common across all groups)</li>
+                        <li>u are random effects (specific to each group)</li>
+                        <li>X and Z are design matrices for fixed and random effects</li>
+                        <li>u ~ N(0, Σ) with covariance matrix Σ</li>
+                        <li>ε ~ N(0, σ²I) are individual-level errors</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Longitudinal Study of Patient Recovery</h4>
+                        <p>A medical study tracks recovery times for patients after surgery, with measurements taken at several time points:</p>
+                        
+                        <div class="formula">
+                            y_ij = β₀ + β₁×time_ij + u₀ᵢ + u₁ᵢ×time_ij + ε_ij
+                        </div>
+                        
+                        <p class="mt-2">Where:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>y_ij is the recovery measure for patient i at time j</li>
+                            <li>β₀, β₁ are fixed effects (population average intercept and slope)</li>
+                            <li>u₀ᵢ, u₁ᵢ are random effects (patient-specific deviations from the population intercept and slope)</li>
+                            <li>(u₀ᵢ, u₁ᵢ) ~ N(0, Σ) with Σ allowing for correlation between random intercepts and slopes</li>
+                        </ul>
+                        
+                        <div class="concept-diagram text-center mt-4">
+                            <svg width="500" height="200" viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Axes -->
+                                <line x1="50" y1="150" x2="450" y2="150" stroke="black" stroke-width="1"/>
+                                <line x1="50" y1="30" x2="50" y2="150" stroke="black" stroke-width="1"/>
+                                <text x="250" y="180" text-anchor="middle" font-size="14">Time</text>
+                                <text x="25" y="90" text-anchor="middle" font-size="14" transform="rotate(-90, 25, 90)">Recovery</text>
+                                
+                                <!-- Population (fixed effects) line -->
+                                <line x1="50" y1="120" x2="450" y2="60" stroke="#3b82f6" stroke-width="3"/>
+                                <text x="460" y="60" font-size="12">Population</text>
+                                
+                                <!-- Patient-specific (random effects) lines -->
+                                <line x1="50" y1="140" x2="450" y2="100" stroke="#f97316" stroke-width="1.5"/>
+                                <line x1="50" y1="130" x2="450" y2="40" stroke="#f97316" stroke-width="1.5"/>
+                                <line x1="50" y1="100" x2="450" y2="50" stroke="#f97316" stroke-width="1.5"/>
+                                <line x1="50" y1="110" x2="450" y2="80" stroke="#f97316" stroke-width="1.5"/>
+                                
+                                <text x="460" y="90" font-size="12">Patients</text>
+                            </svg>
+                        </div>
+                        
+                        <p class="mt-4">This model captures both the average recovery trajectory and individual differences in recovery patterns.</p>
+                    </div>
+                    
+                    <div class="comparison-table mt-6">
+                        <h4 class="font-bold mb-2">Frequentist vs. Bayesian Mixed Effects Models</h4>
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    <th>Aspect</th>
+                                    <th>Frequentist Approach</th>
+                                    <th>Bayesian Approach</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Variance components</td>
+                                    <td>Point estimates via REML or ML</td>
+                                    <td>Full posterior distributions with uncertainty</td>
+                                </tr>
+                                <tr>
+                                    <td>Random effects</td>
+                                    <td>Estimated as BLUPs</td>
+                                    <td>Full posterior distributions</td>
+                                </tr>
+                                <tr>
+                                    <td>Inference</td>
+                                    <td>Approximate confidence intervals</td>
+                                    <td>Exact credible intervals</td>
+                                </tr>
+                                <tr>
+                                    <td>Small samples</td>
+                                    <td>Can be biased</td>
+                                    <td>Can incorporate prior information</td>
+                                </tr>
+                                <tr>
+                                    <td>Complex covariance</td>
+                                    <td>Computational challenges</td>
+                                    <td>Handled naturally with MCMC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="note-box mt-6">
+                        <h4 class="font-bold">Implementation in Practice</h4>
+                        <p>Bayesian hierarchical models are typically implemented using:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>MCMC sampling:</strong> Using software like JAGS, Stan, or PyMC</li>
+                            <li><strong>Gibbs sampling:</strong> Particularly efficient for certain hierarchical structures</li>
+                            <li><strong>Hamiltonian Monte Carlo:</strong> More efficient for complex hierarchical models with many parameters</li>
+                        </ul>
+                        <p class="mt-2">The posterior samples provide full information about all parameters at all levels of the hierarchy.</p>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Model Assessment -->
+                <section id="model-assessment" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">5. Model Assessment</h2>
+                    
+                    <p class="mb-4">Model assessment in Bayesian statistics involves evaluating how well models fit the data, comparing different models, and selecting variables for inclusion.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">5.1 Model Selection</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">5.1.1 Model Selection Based on Posterior Probabilities</h4>
+                            <p class="mb-2">When comparing a set of models M₁, M₂, ..., Mₖ, we can compute the posterior probability of each model:</p>
+                            <div class="formula">
+                                P(Mᵢ|y) ∝ P(y|Mᵢ) × P(Mᵢ)
+                            </div>
+                            <p>Where P(y|Mᵢ) is the marginal likelihood or evidence for model i, and P(Mᵢ) is the prior probability of the model.</p>
+                            
+                            <div class="mt-4">
+                                <p class="font-semibold">Bayes Factors</p>
+                                <p>The Bayes factor for comparing models i and j is:</p>
+                                <div class="formula">
+                                    BF_ij = P(y|Mᵢ) / P(y|Mⱼ)
+                                </div>
+                                <p>Interpretations of Bayes factors:</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>BF_ij = 1-3: Weak evidence for Mᵢ</li>
+                                    <li>BF_ij = 3-20: Positive evidence for Mᵢ</li>
+                                    <li>BF_ij = 20-150: Strong evidence for Mᵢ</li>
+                                    <li>BF_ij > 150: Very strong evidence for Mᵢ</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">5.1.2 Model Selection Based on Predictive Information Criteria</h4>
+                            <p class="mb-2">Information criteria balance model fit and complexity:</p>
+                            
+                            <div class="mt-2">
+                                <p class="font-semibold">Deviance Information Criterion (DIC)</p>
+                                <div class="formula">
+                                    DIC = D(θ̄) + 2p_D
+                                </div>
+                                <p>Where D(θ̄) is the deviance at the posterior mean, and p_D is the effective number of parameters.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="font-semibold">Widely Applicable Information Criterion (WAIC)</p>
+                                <div class="formula">
+                                    WAIC = -2(lppd - p_WAIC)
+                                </div>
+                                <p>Where lppd is the log pointwise predictive density, and p_WAIC measures model complexity.</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="font-semibold">Leave-One-Out Cross-Validation (LOO)</p>
+                                <p>LOO estimates out-of-sample predictive accuracy by approximating leave-one-out cross-validation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Comparing Economic Growth Models</h4>
+                        <p>Economists compare three models for predicting GDP growth:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>M₁:</strong> Based on domestic indicators only</li>
+                            <li><strong>M₂:</strong> Includes international trade factors</li>
+                            <li><strong>M₃:</strong> Adds monetary policy variables</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Results:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>WAIC: M₁ = 450, M₂ = 425, M₃ = 428</li>
+                                <li>LOO: M₁ = 455, M₂ = 430, M₃ = 435</li>
+                                <li>Bayes Factor BF₂₁ = 15 (positive evidence for M₂ over M₁)</li>
+                                <li>Bayes Factor BF₂₃ = 2.5 (weak evidence for M₂ over M₃)</li>
+                            </ul>
+                            <p class="mt-2">Conclusion: Model M₂ with international trade factors has the best predictive performance according to all criteria, though the advantage over M₃ is modest.</p>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">5.2 Model Checking</h3>
+                    
+                    <p class="mb-4">Model checking evaluates how well a model fits the observed data and identifies potential problems.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Posterior Predictive Checks</h4>
+                            <p>Compare observed data to data simulated from the posterior predictive distribution:</p>
+                            <ol class="list-decimal ml-6 mt-2">
+                                <li>Draw parameters θ from the posterior distribution</li>
+                                <li>Generate replicated data y_rep from the model using θ</li>
+                                <li>Compare features of y_rep to the observed data y</li>
+                            </ol>
+                            <p class="mt-2">Discrepancies indicate potential model inadequacies.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Bayesian p-values</h4>
+                            <p>Calculate the probability that a test statistic T for replicated data exceeds the observed statistic:</p>
+                            <div class="formula">
+                                p_B = P(T(y_rep) ≥ T(y) | y)
+                            </div>
+                            <p>Values close to 0 or 1 indicate poor fit.</p>
+                            
+                            <div class="concept-diagram text-center mt-4">
+                                <svg width="300" height="150" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Distribution of T(y_rep) -->
+                                    <path d="M20,120 C40,30 120,10 150,10 C180,10 260,30 280,120" stroke="#3b82f6" fill="#e0e7ff" fill-opacity="0.5" stroke-width="2"/>
+                                    
+                                    <!-- Observed T(y) -->
+                                    <line x1="90" y1="10" x2="90" y2="120" stroke="#f97316" stroke-width="2" stroke-dasharray="5,3"/>
+                                    <text x="90" y="135" text-anchor="middle" font-size="12">T(y)</text>
+                                    
+                                    <!-- Labels -->
+                                    <text x="150" y="75" text-anchor="middle" font-size="12">Distribution of T(y_rep)</text>
+                                    <text x="240" y="100" text-anchor="middle" font-size="12" fill="#f97316">p_B = 0.8</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Diagnostic Plots for Model Checking</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Residual plots:</strong> Check for patterns in residuals</li>
+                            <li><strong>QQ plots:</strong> Compare quantiles of residuals to theoretical distributions</li>
+                            <li><strong>Predictive intervals:</strong> Check if observed values fall within predicted ranges</li>
+                            <li><strong>Density overlays:</strong> Compare densities of observed and replicated data</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">5.3 Covariate Selection</h3>
+                    
+                    <p class="mb-4">Selecting which covariates to include in a model is a critical step in model building.</p>
+                    
+                    <h4 class="font-bold mt-6">5.3.1 A Hierarchical Mixture Model for Variable Selection</h4>
+                    
+                    <p class="mb-4">Bayesian variable selection often uses indicator variables to determine whether predictors should be included:</p>
+                    
+                    <div class="formula">
+                        β_j = γ_j × α_j
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>γ_j is an indicator (0 or 1) for inclusion of predictor j</li>
+                        <li>α_j is the coefficient value if the predictor is included</li>
+                        <li>P(γ_j = 1) = π_j is the prior probability of including predictor j</li>
+                    </ul>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Spike and Slab Priors</h4>
+                            <p>A common approach uses a mixture of two distributions:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li><strong>Spike:</strong> Concentrated mass at or near zero</li>
+                                <li><strong>Slab:</strong> Diffuse distribution for non-zero coefficients</li>
+                            </ul>
+                            <div class="formula">
+                                p(β_j) = π_j × N(0, τ²) + (1-π_j) × δ₀
+                            </div>
+                            <p>Where δ₀ is a point mass at zero or a very narrow distribution.</p>
+                        </div>
+                        <div>
+                            <div class="concept-diagram">
+                                <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Axes -->
+                                    <line x1="50" y1="150" x2="250" y2="150" stroke="black" stroke-width="1"/>
+                                    <line x1="150" y1="50" x2="150" y2="150" stroke="black" stroke-width="1"/>
+                                    <text x="150" y="170" text-anchor="middle" font-size="12">0</text>
+                                    <text x="250" y="170" text-anchor="middle" font-size="12">β</text>
+                                    
+                                    <!-- Spike -->
+                                    <path d="M145,150 L145,60 L155,60 L155,150 Z" fill="#f97316" fill-opacity="0.7"/>
+                                    <text x="150" y="45" text-anchor="middle" font-size="12">Spike</text>
+                                    
+                                    <!-- Slab -->
+                                    <path d="M50,150 C80,140 120,80 150,70 C180,80 220,140 250,150" stroke="#3b82f6" fill="#e0e7ff" fill-opacity="0.5" stroke-width="2"/>
+                                    <text x="200" y="100" text-anchor="middle" font-size="12">Slab</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Genomic Prediction</h4>
+                        <p>In a genomic study, researchers want to identify which genes influence a disease from thousands of potential predictors:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Prior:</strong> Each gene has a small prior probability of being relevant (π_j = 0.01)</li>
+                            <li><strong>Data:</strong> Genomic data for thousands of genes</li>
+                            <li><strong>Posterior inference:</strong> The posterior distribution combines prior beliefs with the data, giving posterior inclusion probabilities for each gene</li>
+                            <li><strong>Selection:</strong> Genes with high posterior probabilities (e.g., > 0.5) are selected for further investigation</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Results for Key Genes:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Gene A: Posterior inclusion probability = 0.95</li>
+                                <li>Gene B: Posterior inclusion probability = 0.82</li>
+                                <li>Gene C: Posterior inclusion probability = 0.12</li>
+                                <li>Gene D: Posterior inclusion probability = 0.03</li>
+                            </ul>
+                            <p class="mt-2">Genes A and B are strong candidates for association with the disease.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="note-box mt-6">
+                        <h4 class="font-bold">Alternative Approaches to Variable Selection</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Shrinkage priors:</strong> Use priors that shrink small effects toward zero (Laplace, horseshoe)</li>
+                            <li><strong>Bayes factors:</strong> Compare models with and without specific predictors</li>
+                            <li><strong>Model averaging:</strong> Average predictions across models with different variable combinations</li>
+                            <li><strong>Projection predictive selection:</strong> Project complex models onto simpler submodels</li>
+                        </ul>
+                        <p class="mt-2">These approaches avoid the "all or nothing" nature of classical variable selection methods.</p>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Survival Analysis -->
+                <section id="survival" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">6. Survival Analysis</h2>
+                    
+                    <p class="mb-4">Survival analysis deals with time-to-event data, such as the time until death, failure, or any defined event occurs. Bayesian approaches provide a natural framework for handling the unique challenges of survival data.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">6.1 Models for Exchangeable Observations</h3>
+                    
+                    <h4 class="font-bold mt-6">6.1.1 Survival and Hazard Functions</h4>
+                    
+                    <p class="mb-4">Key functions in survival analysis include:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <p class="font-semibold">Survival Function S(t)</p>
+                            <div class="formula">
+                                S(t) = P(T > t)
+                            </div>
+                            <p>Probability of surviving beyond time t</p>
+                            
+                            <div class="concept-diagram mt-4">
+                                <svg width="250" height="150" viewBox="0 0 250 150" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Axes -->
+                                    <line x1="30" y1="120" x2="220" y2="120" stroke="black" stroke-width="1"/>
+                                    <line x1="30" y1="30" x2="30" y2="120" stroke="black" stroke-width="1"/>
+                                    <text x="125" y="140" text-anchor="middle" font-size="12">Time</text>
+                                    <text x="15" y="75" text-anchor="middle" font-size="12" transform="rotate(-90, 15, 75)">S(t)</text>
+                                    
+                                    <!-- Survival curve -->
+                                    <path d="M30,30 L80,30 L80,50 L130,50 L130,70 L160,70 L160,90 L190,90 L190,120 L220,120" stroke="#3b82f6" fill="none" stroke-width="2"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Hazard Function h(t)</p>
+                            <div class="formula">
+                                h(t) = lim<sub>Δt→0</sub> P(t ≤ T < t+Δt | T ≥ t) / Δt
+                            </div>
+                            <p>Instantaneous rate of event occurrence</p>
+                            
+                            <div class="concept-diagram mt-4">
+                                <svg width="250" height="150" viewBox="0 0 250 150" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Axes -->
+                                    <line x1="30" y1="120" x2="220" y2="120" stroke="black" stroke-width="1"/>
+                                    <line x1="30" y1="30" x2="30" y2="120" stroke="black" stroke-width="1"/>
+                                    <text x="125" y="140" text-anchor="middle" font-size="12">Time</text>
+                                    <text x="15" y="75" text-anchor="middle" font-size="12" transform="rotate(-90, 15, 75)">h(t)</text>
+                                    
+                                    <!-- Hazard curve (bathtub shape) -->
+                                    <path d="M30,90 C60,50 100,100 150,100 C180,100 200,50 220,30" stroke="#f97316" fill="none" stroke-width="2"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="mb-4">The relationship between survival and hazard functions:</p>
+                    
+                    <div class="formula">
+                        S(t) = exp(-∫<sub>0</sub><sup>t</sup> h(u) du)
+                    </div>
+                    
+                    <p>The cumulative hazard function is H(t) = -log(S(t)).</p>
+                    
+                    <h4 class="font-bold mt-6">6.1.2 Censoring</h4>
+                    
+                    <p class="mb-4">Censoring occurs when the exact event time is not observed:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="card bg-blue-50 p-4">
+                            <h5 class="font-bold text-blue-700">Right Censoring</h5>
+                            <p>Event occurs after the observation period ends</p>
+                            <div class="concept-diagram mt-2">
+                                <svg width="150" height="70" viewBox="0 0 150 70" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="10" y1="35" x2="130" y2="35" stroke="black" stroke-width="1"/>
+                                    <circle cx="10" cy="35" r="3" fill="#3b82f6"/>
+                                    <line x1="100" y1="25" x2="100" y2="45" stroke="#f97316" stroke-width="2"/>
+                                    <text x="105" y="20" font-size="12">Censored</text>
+                                    <text x="140" y="35" font-size="12">→</text>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card bg-blue-50 p-4">
+                            <h5 class="font-bold text-blue-700">Left Censoring</h5>
+                            <p>Event occurs before observation begins</p>
+                            <div class="concept-diagram mt-2">
+                                <svg width="150" height="70" viewBox="0 0 150 70" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="20" y1="35" x2="140" y2="35" stroke="black" stroke-width="1"/>
+                                    <circle cx="140" cy="35" r="3" fill="#3b82f6"/>
+                                    <line x1="50" y1="25" x2="50" y2="45" stroke="#f97316" stroke-width="2"/>
+                                    <text x="45" y="20" font-size="12">Censored</text>
+                                    <text x="10" y="35" font-size="12">←</text>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card bg-blue-50 p-4">
+                            <h5 class="font-bold text-blue-700">Interval Censoring</h5>
+                            <p>Event occurs within a known interval</p>
+                            <div class="concept-diagram mt-2">
+                                <svg width="150" height="70" viewBox="0 0 150 70" xmlns="http://www.w3.org/2000/svg">
+                                    <line x1="10" y1="35" x2="140" y2="35" stroke="black" stroke-width="1"/>
+                                    <circle cx="10" cy="35" r="3" fill="#3b82f6"/>
+                                    <circle cx="140" cy="35" r="3" fill="#3b82f6"/>
+                                    <line x1="50" y1="25" x2="50" y2="45" stroke="#f97316" stroke-width="2"/>
+                                    <line x1="100" y1="25" x2="100" y2="45" stroke="#f97316" stroke-width="2"/>
+                                    <text x="70" y="20" font-size="12">Censored</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="note-box">
+                        <h4 class="font-bold">Advantages of Bayesian Survival Analysis</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Naturally incorporates prior information about survival patterns</li>
+                            <li>Handles different types of censoring in a unified framework</li>
+                            <li>Provides full posterior distributions for all parameters</li>
+                            <li>Easily extends to complex hierarchical models</li>
+                            <li>Generates probabilistic predictions with uncertainty quantification</li>
+                        </ul>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">6.1.3 Likelihood for Right Censored Data</h4>
+                    
+                    <p class="mb-4">For right-censored data, the likelihood contribution is:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>For exact failure times: f(t_i) = h(t_i) × S(t_i)</li>
+                        <li>For right-censored observations: S(t_i)</li>
+                    </ul>
+                    
+                    <div class="formula">
+                        L(θ) = ∏<sub>i∈D</sub> h(t_i|θ) × ∏<sub>i∈C</sub> S(t_i|θ)
+                    </div>
+                    
+                    <p>Where D is the set of individuals with observed events, and C is the set of censored individuals.</p>
+                    
+                    <h4 class="font-bold mt-6">6.1.4 Parametric Models</h4>
+                    
+                    <p class="mb-4">Common parametric survival distributions include:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h5 class="font-bold">Exponential Distribution</h5>
+                            <ul class="list-disc ml-6">
+                                <li>Constant hazard: h(t) = λ</li>
+                                <li>Survival function: S(t) = exp(-λt)</li>
+                                <li>Common prior: λ ~ Gamma(α, β)</li>
+                                <li>Posterior: λ|data ~ Gamma(α + d, β + Σt_i)</li>
+                            </ul>
+                            <p class="mt-2">Where d is the number of events, and Σt_i is the sum of all observation times.</p>
+                        </div>
+                        <div>
+                            <h5 class="font-bold">Weibull Distribution</h5>
+                            <ul class="list-disc ml-6">
+                                <li>Hazard: h(t) = λαt^(α-1)</li>
+                                <li>Survival: S(t) = exp(-λt^α)</li>
+                                <li>Flexible shape: increasing (α > 1) or decreasing (α < 1) hazard</li>
+                                <li>No conjugate prior: MCMC used for posterior sampling</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Medical Device Reliability</h4>
+                        <p>Engineers analyze the time to failure for medical implants:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>100 devices were monitored for up to 5 years</li>
+                            <li>15 failed during the study period</li>
+                            <li>85 were still functioning at the end of the study (right-censored)</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Bayesian Analysis with Weibull Model:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Prior belief: α ~ Gamma(2, 1) and λ ~ Gamma(1, 1)</li>
+                                <li>Posterior estimation via MCMC</li>
+                                <li>Results: α = 1.8 (95% CI: 1.2-2.5), indicating increasing hazard with time</li>
+                                <li>Predicted 10-year reliability: 0.72 (95% CI: 0.65-0.79)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">6.2 Time-to-Event Regression Models</h3>
+                    
+                    <p class="mb-4">Regression models incorporate covariates to explain variation in survival times.</p>
+                    
+                    <h4 class="font-bold mt-6">6.2.1 Accelerated Failure-Time Regression Models</h4>
+                    
+                    <p class="mb-4">In Accelerated Failure-Time (AFT) models, covariates act multiplicatively on time:</p>
+                    
+                    <div class="formula">
+                        log(T) = Xβ + σε
+                    </div>
+                    
+                    <p>Where ε follows a specified distribution (e.g., standard normal for log-normal AFT).</p>
+                    
+                    <div class="concept-diagram text-center mt-6">
+                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Axes -->
+                            <line x1="50" y1="150" x2="350" y2="150" stroke="black" stroke-width="1"/>
+                            <line x1="50" y1="50" x2="50" y2="150" stroke="black" stroke-width="1"/>
+                            <text x="200" y="180" text-anchor="middle" font-size="14">Time</text>
+                            <text x="25" y="100" text-anchor="middle" font-size="14" transform="rotate(-90, 25, 100)">S(t)</text>
+                            
+                            <!-- Survival curves for different covariate values -->
+                            <path d="M50,50 L100,50 L100,70 L150,70 L150,90 L200,90 L200,110 L250,110 L250,130 L300,130 L300,150 L350,150" stroke="#3b82f6" fill="none" stroke-width="2"/>
+                            <path d="M50,50 L150,50 L150,70 L200,70 L200,90 L250,90 L250,110 L300,110 L300,130 L350,130" stroke="#f97316" fill="none" stroke-width="2" stroke-dasharray="5,3"/>
+                            
+                            <!-- Labels -->
+                            <text x="360" y="150" font-size="12" fill="#3b82f6">X = 0</text>
+                            <text x="360" y="130" font-size="12" fill="#f97316">X = 1</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="example-box mt-6">
+                        <h4 class="font-bold">Example: Cancer Survival Analysis</h4>
+                        <p>Oncologists analyze survival times for cancer patients under different treatments:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Covariates: treatment type (A or B), age, tumor size, and biomarker level</li>
+                            <li>Weibull AFT model with log(T) = β₀ + β₁×Treatment + β₂×Age + β₃×TumorSize + β₄×Biomarker + σε</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Bayesian Analysis Results:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Treatment effect (β₁): 0.75 (95% CI: 0.45-1.05), indicating Treatment B extends survival time by factor of exp(0.75) = 2.1</li>
+                                <li>Age effect (β₂): -0.03 (95% CI: -0.04 to -0.02), showing decreased survival with increasing age</li>
+                                <li>Biomarker effect (β₄): 0.25 (95% CI: 0.10-0.40), suggesting positive association with survival</li>
+                            </ul>
+                            <p class="mt-2">The model enables personalized survival predictions based on individual patient characteristics.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="note-box mt-6">
+                        <h4 class="font-bold">Extensions to Basic Survival Models</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Proportional hazards models:</strong> Cox regression with Bayesian estimation</li>
+                            <li><strong>Time-varying coefficients:</strong> Allowing effects to change over time</li>
+                            <li><strong>Joint models:</strong> Connecting survival with longitudinal measurements</li>
+                            <li><strong>Cure models:</strong> Accounting for a proportion of subjects who will never experience the event</li>
+                            <li><strong>Competing risks:</strong> Handling multiple possible event types</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Spatial Models -->
+                <section id="spatial" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">7. Spatial Models</h2>
+                    
+                    <p class="mb-4">Spatial models account for dependencies between observations based on their locations in space. Bayesian methods are particularly well-suited for spatial modeling due to their ability to incorporate complex dependency structures.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">7.1 References and Software</h3>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Common Tools for Bayesian Spatial Analysis</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li><strong>Stan:</strong> Flexible platform for Bayesian modeling with efficient HMC sampling</li>
+                            <li><strong>INLA:</strong> Integrated Nested Laplace Approximation for fast spatial inference</li>
+                            <li><strong>R packages:</strong> spBayes, CARBayes, geoR, spTDyn</li>
+                            <li><strong>Python libraries:</strong> PyMC, GeoPandas with Bambi</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">7.2 Point-referenced Data</h3>
+                    
+                    <p class="mb-4">Point-referenced data (also called geostatistical data) consist of measurements at specific locations, typically represented as coordinates.</p>
+                    
+                    <div class="concept-diagram text-center mb-6">
+                        <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Region -->
+                            <rect x="50" y="50" width="300" height="150" fill="#f1f5f9" stroke="#64748b" stroke-width="1"/>
+                            
+                            <!-- Data points -->
+                            <circle cx="100" cy="80" r="5" fill="#3b82f6"/>
+                            <circle cx="150" cy="120" r="5" fill="#f97316"/>
+                            <circle cx="200" cy="70" r="5" fill="#10b981"/>
+                            <circle cx="250" cy="150" r="5" fill="#f97316"/>
+                            <circle cx="300" cy="100" r="5" fill="#3b82f6"/>
+                            <circle cx="120" cy="160" r="5" fill="#10b981"/>
+                            <circle cx="270" cy="90" r="5" fill="#f97316"/>
+                            
+                            <!-- Prediction point -->
+                            <circle cx="180" cy="120" r="5" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="2,2"/>
+                            <text x="190" y="115" font-size="12" fill="#ef4444">Prediction location</text>
+                            
+                            <!-- Labels -->
+                            <text x="200" y="230" text-anchor="middle" font-size="14">Point-referenced data</text>
+                        </svg>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">7.2.1 A Gaussian Spatial Regression Model</h4>
+                    
+                    <p class="mb-4">A basic spatial regression model with Gaussian process is:</p>
+                    
+                    <div class="formula">
+                        Y(s) = Xβ + w(s) + ε(s)
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>Y(s) is the response at location s</li>
+                        <li>Xβ represents the fixed effects (trend)</li>
+                        <li>w(s) is a spatial random effect (Gaussian process)</li>
+                        <li>ε(s) is measurement error (white noise)</li>
+                    </ul>
+                    
+                    <p class="mb-4">The spatial random effect w(s) follows a multivariate normal distribution with covariance function C(s_i, s_j) that depends on the distance between locations.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Common Covariance Functions</h4>
+                            <ul class="list-disc ml-6">
+                                <li><strong>Exponential:</strong> σ² exp(-d/φ)</li>
+                                <li><strong>Matérn:</strong> Flexible family with smoothness parameter</li>
+                                <li><strong>Gaussian:</strong> σ² exp(-d²/φ²)</li>
+                                <li><strong>Spherical:</strong> Has a finite range</li>
+                            </ul>
+                            <p class="mt-2">Where d is the distance between locations, σ² is the variance, and φ is the range parameter.</p>
+                        </div>
+                        <div>
+                            <div class="concept-diagram">
+                                <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                                    <!-- Axes -->
+                                    <line x1="50" y1="150" x2="250" y2="150" stroke="black" stroke-width="1"/>
+                                    <line x1="50" y1="50" x2="50" y2="150" stroke="black" stroke-width="1"/>
+                                    <text x="150" y="170" text-anchor="middle" font-size="12">Distance (d)</text>
+                                    <text x="25" y="100" text-anchor="middle" font-size="12" transform="rotate(-90, 25, 100)">Correlation</text>
+                                    
+                                    <!-- Correlation functions -->
+                                    <path d="M50,50 C100,90 170,140 250,150" stroke="#3b82f6" fill="none" stroke-width="2"/>
+                                    <path d="M50,50 C70,70 100,120 250,150" stroke="#f97316" fill="none" stroke-width="2" stroke-dasharray="5,3"/>
+                                    <path d="M50,50 C100,50 120,100 150,150 L250,150" stroke="#10b981" fill="none" stroke-width="2" stroke-dasharray="2,2"/>
+                                    
+                                    <!-- Labels -->
+                                    <text x="270" y="80" font-size="10" fill="#3b82f6">Gaussian</text>
+                                    <text x="270" y="100" font-size="10" fill="#f97316">Exponential</text>
+                                    <text x="270" y="120" font-size="10" fill="#10b981">Spherical</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">7.2.2 Bayesian Kriging</h4>
+                    
+                    <p class="mb-4">Kriging is a method for spatial interpolation that provides the best linear unbiased predictor. Bayesian kriging extends this by accounting for uncertainty in all parameters.</p>
+                    
+                    <div class="formula">
+                        p(Y(s₀)|Y) ∝ ∫ p(Y(s₀)|Y, θ) p(θ|Y) dθ
+                    </div>
+                    
+                    <p>Where Y(s₀) is the value at a new location s₀, Y is the observed data, and θ represents all model parameters.</p>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Environmental Monitoring</h4>
+                        <p>Environmental scientists monitor air pollution levels across a city:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Data: PM2.5 measurements at 30 monitoring stations</li>
+                            <li>Covariates: Elevation, distance to major roads, population density</li>
+                            <li>Spatial model with Matérn covariance function</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Bayesian Analysis Results:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Fixed effects: Significant positive association with road proximity and population density</li>
+                                <li>Spatial range (φ): 3.2 km (95% CI: 2.1-4.5 km)</li>
+                                <li>Spatial variance (σ²): 5.4 (95% CI: 3.2-8.1)</li>
+                            </ul>
+                            <p class="mt-2">The model produces a complete pollution surface across the city with uncertainty quantification, helping identify high-risk areas.</p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">7.2.3 More Insight on Bayesian Models for Geo-referenced Spatio-temporal Data</h4>
+                    
+                    <p class="mb-4">Spatio-temporal models extend spatial models by incorporating time dependence:</p>
+                    
+                    <div class="formula">
+                        Y(s,t) = Xβ + w(s,t) + ε(s,t)
+                    </div>
+                    
+                    <p>Common structures for the spatio-temporal process w(s,t) include:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Separable models:</strong> Covariance factorizes into spatial and temporal components</li>
+                        <li><strong>Nonseparable models:</strong> More flexible but computationally demanding</li>
+                        <li><strong>Dynamic models:</strong> Temporal evolution of spatial fields</li>
+                    </ul>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">7.3 Areal Data</h3>
+                    
+                    <p class="mb-4">Areal data are aggregated over regions such as counties, census tracts, or postal codes.</p>
+                    
+                    <div class="concept-diagram text-center mb-6">
+                        <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Regions -->
+                            <path d="M50,50 L150,70 L180,150 L100,180 L50,120 Z" fill="#e0e7ff" stroke="#3b82f6" stroke-width="2"/>
+                            <path d="M150,70 L250,50 L300,130 L180,150 Z" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+                            <path d="M180,150 L300,130 L320,200 L220,220 L100,180 Z" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+                            
+                            <!-- Region labels -->
+                            <text x="100" y="120" text-anchor="middle" font-size="14">A</text>
+                            <text x="220" y="100" text-anchor="middle" font-size="14">B</text>
+                            <text x="200" y="180" text-anchor="middle" font-size="14">C</text>
+                            
+                            <!-- Title -->
+                            <text x="200" y="230" text-anchor="middle" font-size="14">Areal data with neighboring regions</text>
+                        </svg>
+                    </div>
+                    
+                    <h4 class="font-bold mt-6">7.3.1 Conditionally Autoregressive (CAR) Model</h4>
+                    
+                    <p class="mb-4">CAR models account for spatial dependence between adjacent regions:</p>
+                    
+                    <div class="formula">
+                        φᵢ|φ₋ᵢ ~ N(ρ ∑ⱼ wᵢⱼφⱼ/wᵢ₊, τ²/wᵢ₊)
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>φᵢ is the spatial effect for region i</li>
+                        <li>wᵢⱼ = 1 if regions i and j are adjacent, 0 otherwise</li>
+                        <li>wᵢ₊ = ∑ⱼ wᵢⱼ is the number of neighbors for region i</li>
+                        <li>ρ controls the strength of spatial dependence</li>
+                        <li>τ² is the variance parameter</li>
+                    </ul>
+                    
+                    <h4 class="font-bold mt-6">7.3.2 Modification of the Intrinsic CAR Model</h4>
+                    
+                    <p class="mb-4">The intrinsic CAR (ICAR) model is a special case where ρ = 1:</p>
+                    
+                    <div class="formula">
+                        φᵢ|φ₋ᵢ ~ N(∑ⱼ wᵢⱼφⱼ/wᵢ₊, τ²/wᵢ₊)
+                    </div>
+                    
+                    <p>The ICAR model induces strong spatial smoothing but has an improper joint distribution. In practice, it's often combined with an unstructured random effect.</p>
+                    
+                    <h4 class="font-bold mt-6">7.3.3 GLMM + CAR Prior on the Spatial Random Effects</h4>
+                    
+                    <p class="mb-4">Generalized Linear Mixed Models (GLMMs) allow incorporating spatial dependence in non-Gaussian data (e.g., counts, proportions) using CAR priors on random effects:</p>
+                    
+                    <div class="formula">
+                        g(E[Yᵢ]) = Xᵢβ + φᵢ + εᵢ
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>g(.) is the link function (e.g., log for Poisson)</li>
+                        <li>E[Yᵢ] is the expected value of the response in region i</li>
+                        <li>Xᵢβ represents fixed effects</li>
+                        <li>φᵢ follows a CAR prior (e.g., ICAR, BYM)</li>
+                        <li>εᵢ is unstructured error (optional)</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Disease Mapping</h4>
+                        <p>Epidemiologists analyze disease incidence rates across regions:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Data: Disease counts and population sizes for each region</li>
+                            <li>Covariates: Environmental factors, socioeconomic indicators</li>
+                            <li>Poisson GLMM with ICAR prior on spatial random effects</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Bayesian Analysis Results:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Fixed effects: Significant positive association with environmental factors</li>
+                                <li>Spatial variance (τ²): 0.5 (95% CI: 0.2-1.1)</li>
+                                <li>Relative risk map: Highlights high-risk regions</li>
+                            </ul>
+                            <p class="mt-2">The model provides a spatially smoothed disease map, helping identify areas for targeted interventions.</p>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-6 mb-4">A general hierarchical model can be written as:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="font-bold">Data Level</h4>
+                            <div class="formula">
+                                y_ij ~ p(y_ij|θ_j)
+                            </div>
+                            <p>Data within group j depends on group-specific parameters θ_j</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Group Level</h4>
+                            <div class="formula">
+                                θ_j ~ p(θ_j|φ)
+                            </div>
+                            <p>Group parameters come from a population distribution with hyperparameters φ</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold">Population Level</h4>
+                        <div class="formula">
+                            φ ~ p(φ)
+                        </div>
+                        <p>Hyperparameters have their own prior distributions</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">7.4 Spatial Regression Models</h3>
+                    
+                    <p class="mb-4">Spatial regression models incorporate spatial dependence in the response variable:</p>
+                    
+                    <div class="formula">
+                        y = Xβ + w + ε
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>y is the response vector</li>
+                        <li>Xβ represents fixed effects</li>
+                        <li>w is a spatial random effect</li>
+                        <li>ε is measurement error</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Housing Prices</h4>
+                        <p>A real estate analyst models housing prices based on location and features:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Data: Housing prices and features (size, age, location)</li>
+                            <li>Covariates: Location coordinates, size, age</li>
+                            <li>Spatial regression model with ICAR prior on spatial random effects</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Bayesian Analysis Results:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Fixed effects: Significant positive association with size and location</li>
+                                <li>Spatial variance (τ²): 0.2 (95% CI: 0.1-0.4)</li>
+                                <li>Predicted housing prices: Spatially smoothed surface</li>
+                            </ul>
+                            <p class="mt-2">The model provides a spatially informed housing price map, helping identify high-value areas.</p>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">7.5 Spatial Autoregressive (SAR) Models</h3>
+                    
+                    <p class="mb-4">SAR models incorporate spatial dependence in the response variable using a spatial autoregressive term:</p>
+                    
+                    <div class="formula">
+                        y = ρWy + Xβ + ε
+                    </div>
+                    
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>y is the response vector</li>
+                        <li>W is a spatial weights matrix</li>
+                        <li>ρ is the spatial autoregressive parameter</li>
+                        <li>Xβ represents fixed effects</li>
+                        <li>ε is measurement error</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4 class="font-bold">Example: Crime Rates</h4>
+                        <p>Criminologists analyze crime rates across neighborhoods:</p>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Data: Crime rates and neighborhood characteristics</li>
+                            <li>Covariates: Neighborhood features (poverty rate, population density)</li>
+                            <li>SAR model with spatial autoregressive term</li>
+                        </ul>
+                        
+                        <div class="mt-4">
+                            <p class="font-semibold">Bayesian Analysis Results:</p>
+                            <ul class="list-disc ml-6 mt-2">
+                                <li>Fixed effects: Significant positive association with poverty rate</li>
+                                <li>Spatial autoregressive parameter (ρ): 0.5 (95% CI: 0.2-0.8)</li>
+                                <li>Predicted crime rates: Spatially smoothed surface</li>
+                            </ul>
+                            <p class="mt-2">The model provides a spatially informed crime rate map, helping identify high-crime areas.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="section-divider"></div>
+
+                <!-- Bayesian Nonparametrics -->
+                <section id="nonparametrics" class="bg-white rounded-lg shadow-md p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">8. Bayesian Nonparametrics</h2>
+                    
+                    <p class="mb-4">Bayesian Nonparametrics (BNP) offers flexible modeling by placing priors on infinite-dimensional spaces (e.g., spaces of functions or distributions), allowing model complexity to adapt to the data.</p>
+                    
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">8.1 The Dirichlet Process</h3>
+                    
+                    <p class="mb-4">The Dirichlet Process (DP) is a fundamental BNP prior. It's a distribution over probability distributions.</p>
+                    <p>Key properties:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Parameters:</strong> Base measure G₀ (prior expectation) and concentration parameter α (controls discreteness).</li>
+                        <li><strong>Samples:</strong> Samples G ~ DP(α, G₀) are discrete probability measures almost surely.</li>
+                    </ul>
+                    
+                    <div class="formula">
+                        G ~ DP(α, G₀)
+                    </div>
+
+                    <h4 class="font-bold mt-6">8.1.1 Stick Breaking Construction</h4>
+                    <p class="mb-4">Provides a constructive way to sample from a DP:</p>
+                    <div class="formula">
+                        G = ∑_{k=1}^∞ wₖ δ_{θ*ₖ}
+                    </div>
+                    <p>Where:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>θ*ₖ ~ G₀ (Atom locations)</li>
+                        <li>wₖ are weights derived from Beta(1, α) variables (Stick-breaking weights).</li>
+                    </ul>
+                    <div class="stick-breaking-viz concept-diagram">
+                        <div class="stick">
+                            <div class="stick-segment w1">w₁</div>
+                            <div class="stick-segment w2">w₂</div>
+                            <div class="stick-segment w3">w₃</div>
+                            <div class="stick-segment w4">w₄</div>
+                            <div class="stick-segment w-rem">...</div>
+                        </div>
+                        <p class="text-center text-sm text-gray-500">Visualization of the stick-breaking process generating weights.</p>
+                    </div>
+
+                    <h4 class="font-bold mt-6">8.1.2 Weak Convergence of sequences of Dirichlet Processes</h4>
+                    <p class="mb-4">Relates to the asymptotic consistency of BNP posteriors. Under suitable conditions, the posterior distribution concentrates around the true data-generating distribution as sample size increases.</p>
+
+                    <h4 class="font-bold mt-6">8.1.3 Marginal Distribution of a Sample from a Dirichlet Process</h4>
+                    <p class="mb-4">Samples θ₁, θ₂, ... drawn hierarchically (θᵢ ~ G, G ~ DP) exhibit a clustering property described by the Polya Urn Scheme (or Blackwell-MacQueen Urn Scheme).</p>
+                    <p>The predictive distribution for θ_{n+1} given θ₁,...,θₙ involves choosing:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>A new value from G₀ with probability proportional to α.</li>
+                        <li>An existing distinct value θ*ₖ with probability proportional to its current count nₖ.</li>
+                    </ul>
+                    <div class="note-box">
+                        <p>This "rich get richer" property naturally induces clustering.</p>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-blue-600 mt-8 mb-3">8.2 Dirichlet Process Mixture</h3>
+                    
+                    <p class="mb-4">DPMs use the DP as a prior for the mixing distribution in a mixture model, enabling flexible density estimation and clustering without fixing the number of components.</p>
+                    
+                    <h4 class="font-bold mt-6">8.2.1 The Dirichlet Process Mixture Model</h4>
+                    <p class="mb-4">Hierarchical structure:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li>yᵢ | θᵢ ~ F(θᵢ) (Likelihood)</li>
+                        <li>θᵢ | G ~ G (Parameters from random measure G)</li>
+                        <li>G | α, G₀ ~ DP(α, G₀) (DP prior on G)</li>
+                    </ul>
+                    <p>Since G is discrete, multiple θᵢ will share the same value, grouping observations (yᵢ) into clusters.</p>
+                    
+                    <div class="dpm-viz concept-diagram">
+                        <div class="dpm-level">
+                            <h5>DP Prior: G ~ DP(α, G₀)</h5>
+                            <p class="text-xs text-gray-500">Defines a distribution over distributions</p>
+                        </div>
+                        <div class="text-center my-2">↓ Generates ↓</div>
+                        <div class="dpm-level">
+                            <h5>Random Measure G = ∑ wₖ δ<sub>θ*ₖ</sub></h5>
+                            <p class="text-xs text-gray-500">(Discrete distribution with random atoms and weights)</p>
+                            <div class="dpm-atoms">
+                                <span class="dpm-atom">θ*₁ (w₁)</span>
+                                <span class="dpm-atom">θ*₂ (w₂)</span>
+                                <span class="dpm-atom">θ*₃ (w₃)</span>
+                                <span>...</span>
+                            </div>
+                        </div>
+                         <div class="text-center my-2">↓ Samples Drawn ↓</div>
+                        <div class="dpm-level">
+                            <h5>Parameters: θᵢ ~ G</h5>
+                             <p class="text-xs text-gray-500">(Multiple θᵢ share the same θ*ₖ value → Clustering)</p>
+                             <div class="dpm-params">
+                                <span class="dpm-param">θ₁=θ*₂</span> <span class="dpm-arrow">→</span>
+                                <span class="dpm-param">θ₂=θ*₁</span> <span class="dpm-arrow">→</span>
+                                <span class="dpm-param">θ₃=θ*₂</span> <span class="dpm-arrow">→</span>
+                                <span class="dpm-param">θ₄=θ*₁</span> <span class="dpm-arrow">→</span>
+                                <span class="dpm-param">θ₅=θ*₃</span> <span class="dpm-arrow">→</span>
+                                <span>...</span>
+                            </div>
+                        </div>
+                         <div class="text-center my-2">↓ Generate Data ↓</div>
+                         <div class="dpm-level">
+                            <h5>Data: yᵢ ~ F( . | θᵢ)</h5>
+                             <p class="text-xs text-gray-500">(Observations within a cluster share the same parameter)</p>
+                            <div class="dpm-data">
+                                <span class="dpm-point">y₁</span>
+                                <span class="dpm-point">y₂</span>
+                                <span class="dpm-point">y₃</span>
+                                <span class="dpm-point">y₄</span>
+                                <span class="dpm-point">y₅</span>
+                                <span>...</span>
+                            </div>
+                        </div>
+                    </div>
+                       <p class="text-center text-sm text-gray-500">Conceptual diagram of a Dirichlet Process Mixture model.</p>
+                    </div>
+
+                    <h4 class="font-bold mt-6">8.2.2 Clustering under the Dirichlet Process Mixture</h4>
+                    <p class="mb-4">The DPM automatically infers the number of clusters from the data. Posterior inference typically involves MCMC methods:</p>
+                    <ul class="list-disc ml-6 mb-4">
+                        <li><strong>Collapsed Gibbs sampling:</strong> Integrates out G, samples cluster assignments.</li>
+                        <li><strong>Blocked Gibbs sampling:</strong> Uses truncated stick-breaking representation.</li>
+                        <li><strong>Slice sampling:</strong> Avoids truncation using auxiliary variables.</li>
+                    </ul>
+                    <p>The posterior provides insights into the number of clusters, cluster parameters, and cluster assignments.</p>
+                    
+                    <div class="tip-box">
+                        <h4 class="font-bold">Advantages of DPMs</h4>
+                        <ul class="list-disc ml-6 mt-2">
+                            <li>Infers number of clusters automatically.</li>
+                            <li>Provides uncertainty quantification for clusters and parameters.</li>
+                            <li>Flexible density estimation.</li>
+                        </ul>
+                    </div>
+                </section>
+                
+            </div> <!-- End Main Content Column -->
+        </div> <!-- End Grid -->
+
+        <footer class="text-center mt-12 pt-4 border-t border-gray-300 text-gray-500 text-sm">
+            Bayesian Statistics Guide - &copy; 2025
+        </footer>
+    </div> <!-- End Container -->
+
+    <script>
+        // Optional: Add JS for smooth scrolling or dynamic TOC highlighting
+        document.querySelectorAll('.toc a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
