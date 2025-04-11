@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Sequence Classifiers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="components/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
+            <nav class="p-4">
+                <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
+                    <ul class="nav-list">
+                        <li><a href="introduction.html" class="nav-link block px-3 py-2 text-sm">1. Introduction</a></li>
+                        <li><a href="classifying-text.html" class="nav-link block px-3 py-2 text-sm">2. Classifying Text</a></li>
+                        <li><a href="searching-text.html" class="nav-link block px-3 py-2 text-sm">3. Searching Text</a></li>
+                        <li><a href="language-models.html" class="nav-link block px-3 py-2 text-sm">4. Language Models and Word Embeddings</a></li>
+                        <li><a href="sequence-classifiers.html" class="nav-link block px-3 py-2 text-sm">5. Sequence Classifiers</a></li>
+                        <li><a href="transformers.html" class="nav-link block px-3 py-2 text-sm">6. Sequence2Sequence & Transformers</a></li>
+                        <li><a href="applications.html" class="nav-link block px-3 py-2 text-sm">7. Transformer Apps</a></li>
+                    </ul>
+                </div>
+                <div> <h2 class="text-lg font-bold text-gray-700 mb-2">Resources</h2>
+                    <ul>
+                        <li><a href="references.html" class="nav-link block px-3 py-2 text-sm">References</a></li>
+                        <li><a href="glossary.html" class="nav-link block px-3 py-2 text-sm">Glossary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-container w-full p-6 md:ml-64">
+            <div class="content">
+                <!-- Content for Sequence Classifiers goes here -->
+                <section id="sequence-classifiers" class="mb-12 section">
+                    <h2 class="text-2xl font-bold mb-4 section-header">5. Sequence Classifiers and Labellers</h2>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Introduction to Sequence Modeling</h3>
+                        <p class="mb-3">Many NLP tasks involve dealing with sequences of data, such as sentences (sequences of words) or documents (sequences of sentences). Sequence modeling techniques aim to understand and process this sequential information.</p>
+                        <div class="example-box">
+                            <p><strong>Sequence Classification</strong>: Assigning a single label to an entire sequence (e.g., sentiment analysis of a sentence).</p>
+                            <p class="mt-2"><strong>Sequence Labeling</strong>: Assigning a label to each element in a sequence (e.g., part-of-speech tagging for each word in a sentence).</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Common Sequence Labeling Tasks</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Part-of-Speech (POS) Tagging</h4>
+                                <p>Assigning grammatical tags (noun, verb, adjective, etc.) to each word.</p>
+                                <p class="mt-2 text-sm italic">"The quick brown fox" -> [DET, ADJ, ADJ, NOUN]</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Named Entity Recognition (NER)</h4>
+                                <p>Identifying and classifying named entities (persons, organizations, locations, etc.).</p>
+                                <p class="mt-2 text-sm italic">"Apple announced new products in California for $999."</p>
+                                <p class="text-sm">>[ORG, O, O, O, O, O, LOC, O, O, MONEY]</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Chunking</h4>
+                                <p>Identifying phrases or constituents in a sentence (noun phrases, verb phrases, etc.).</p>
+                                <p class="mt-2 text-sm italic">"[NP The quick brown fox] [VP jumps over] [NP the lazy dog]."</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Semantic Role Labeling (SRL)</h4>
+                                <p>Identifying the predicate-argument structure (who did what to whom).</p>
+                                <p class="mt-2 text-sm italic">"[Agent John] [Predicate gave] [Theme a book] [Recipient to Mary]."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Sequential Models</h3>
+                        <p class="mb-3">These models explicitly take into account the sequential nature of language data.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Hidden Markov Models (HMMs)</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <h5 class="font-medium mb-2">Key Components of HMMs</h5>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>States</strong>: Hidden variables representing the underlying structure (e.g., POS tags)</li>
+                                    <li><strong>Observations</strong>: The visible data (e.g., words in a sentence)</li>
+                                    <li><strong>Transition Probabilities</strong>: P(state_t | state_{t-1}) - Probability of moving from one state to another</li>
+                                    <li><strong>Emission Probabilities</strong>: P(observation_t | state_t) - Probability of observing data given a state</li>
+                                </ul>
+                                <h5 class="font-medium mb-2 mt-3">Assumptions</h5>
+                                <ol class="list-decimal ml-5">
+                                    <li>The current state depends only on the previous state (Markov assumption)</li>
+                                    <li>The current observation depends only on the current state</li>
+                                </ol>
+                            </div>
+                            
+                            <div class="example-box mt-4">
+                                <h5 class="font-medium mb-2">HMM Example for POS Tagging</h5>
+                                <p class="mb-2">For the sentence "I like fish":</p>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Observations</strong>: "I", "like", "fish"</li>
+                                    <li><strong>States</strong>: Potential POS tags (PRON, VERB, NOUN, etc.)</li>
+                                    <li><strong>Transition Probabilities</strong>: P(VERB | PRON) - Likelihood of a verb following a pronoun</li>
+                                    <li><strong>Emission Probabilities</strong>: P("like" | VERB) - Likelihood of observing "like" given the tag VERB</li>
+                                </ul>
+                                <p class="mt-2">The most likely sequence might be [PRON, VERB, NOUN].</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Conditional Random Fields (CRFs)</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">CRFs are discriminative models that model the conditional probability P(label_sequence | observation_sequence) directly, unlike HMMs which are generative.</p>
+                                <h5 class="font-medium mb-2">Advantages over HMMs</h5>
+                                <ul class="list-disc ml-5">
+                                    <li>Can handle arbitrary, overlapping features of the input sequence</li>
+                                    <li>Relax the strong independence assumptions of HMMs</li>
+                                    <li>Often achieve better performance in practice for sequence labeling tasks</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Recurrent Neural Networks (RNNs)</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">RNNs are neural networks designed to process sequential data by maintaining a hidden state that captures information from previous steps.</p>
+                                <h5 class="font-medium mb-2">Basic RNN Formulation</h5>
+                                <ul class="list-disc ml-5">
+                                    <li>h_t = f(h_{t-1}, x_t)</li>
+                                    <li>y_t = g(h_t)</li>
+                                    <li>h_t: hidden state at time t</li>
+                                    <li>x_t: input at time t</li>
+                                    <li>y_t: output at time t</li>
+                                    <li>f and g are functions with learned parameters</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5 class="text-lg font-medium mb-2">Bidirectional RNNs</h5>
+                                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                    <p class="mb-2">Process the sequence in both forward and backward directions to capture context from both past and future elements.</p>
+                                    <h5 class="font-medium mb-2">Mechanism</h5>
+                                    <ul class="list-disc ml-5">
+                                        <li>One RNN processes the sequence from left to right (forward hidden states)</li>
+                                        <li>Another RNN processes the sequence from right to left (backward hidden states)</li>
+                                        <li>The final representation for each token combines information from both directions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Long Short-Term Memory (LSTM) Networks</h3>
+                        <p class="mb-3">LSTMs are a specialized RNN architecture designed to better capture long-range dependencies in sequence data.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">LSTM Architecture</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">LSTMs introduce a memory cell and three gates (input, forget, output) to control the flow of information:</p>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Forget Gate</strong>: Decides what information to throw away from the cell state.</li>
+                                    <li><strong>Input Gate</strong>: Decides which new information to store in the cell state.</li>
+                                    <li><strong>Output Gate</strong>: Decides what to output based on the filtered cell state.</li>
+                                </ul>
+                                <p class="mt-2">These gates help prevent the vanishing gradient problem and allow LSTMs to learn long-term dependencies.</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">BiLSTM-CRF Architecture</h4>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">A common and effective architecture for sequence labeling tasks combines Bidirectional LSTMs with a CRF layer.</p>
+                                <h5 class="font-medium mb-2">How it Works</h5>
+                                <ol class="list-decimal ml-5">
+                                    <li><strong>Word Embeddings</strong>: Input words are converted into dense vector representations.</li>
+                                    <li><strong>BiLSTM Layer</strong>: Processes the embeddings to capture contextual information from both directions, producing context-aware representations for each word.</li>
+                                    <li><strong>CRF Layer</strong>: Takes the BiLSTM outputs and finds the most likely sequence of labels, considering dependencies between adjacent labels (e.g., preventing an I-ORG tag from following a B-PER tag).</li>
+                                </ol>
+                            </div>
+                            
+                            <div class="example-box mt-4">
+                                <h5 class="font-medium mb-2">Why Combine BiLSTM and CRF?</h5>
+                                <p class="mb-2">Consider NER for: "Washington visited Washington."</p>
+                                <ul class="list-disc ml-5">
+                                    <li>A simple BiLSTM might output [B-PER, O, B-LOC] or [B-LOC, O, B-PER] depending solely on context.</li>
+                                    <li>The CRF layer learns constraints (like I-TAG must follow B-TAG or O) and considers the entire sequence, improving overall tagging accuracy.</li>
+                                    <li>The combined model might correctly label the first "Washington" as a person (B-PER) and the second as a location (B-LOC)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Transformer-Based Models for Sequence Labeling</h3>
+                        <p class="mb-3">Pre-trained transformer models like BERT have achieved state-of-the-art results on many sequence labeling tasks.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Adapting Transformers for Sequence Labeling</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">Typically involves adding a classification layer on top of the transformer's output representations for each token.</p>
+                                <h5 class="font-medium mb-2">Common Approaches</h5>
+                                <ol class="list-decimal ml-5">
+                                    <li><strong>Token Classification Head</strong>: Add a linear layer on top of each token's final hidden state from the transformer.</li>
+                                    <li><strong>Fine-tuning</strong>: Train the entire model on labeled sequence data</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">BERT + CRF</h4>
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">Similar to the BiLSTM-CRF approach, a CRF layer can be added on top of the BERT token representations.</p>
+                                <h5 class="font-medium mb-2">Mechanism</h5>
+                                <ol class="list-decimal ml-5">
+                                    <li>Input tokens are fed into BERT to get contextualized embeddings.</li>
+                                    <li>The output embeddings are fed into a CRF layer.</li>
+                                    <li>The CRF layer predicts the most likely sequence of labels.</li>
+                                </ol>
+                                <p class="mt-2">This approach combines BERT's powerful contextual representations with the CRF's ability to model tag dependencies.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Evaluation Metrics for Sequence Labeling</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Token-Level Metrics</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">Calculated based on the correctness of the label assigned to each individual token.</p>
+                                <h5 class="font-medium mb-2">Common Metrics</h5>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Accuracy</strong>: Percentage of correctly labeled tokens.</li>
+                                    <li><strong>Precision, Recall, F1-Score (per class)</strong>: Calculated for each label type.</li>
+                                    <li><strong>Macro/Micro Averaging</strong>: Combining per-class scores.</li>
+                                </ul>
+                                
+                                <div class="mt-3">
+                                    <p><strong>Precision</strong> = TP / (TP + FP)</p>
+                                    <p><strong>Recall</strong> = TP / (TP + FN)</p>
+                                    <p><strong>F1-Score</strong> = 2 * (Precision * Recall) / (Precision + Recall)</p>
+                                    <p class="mt-1 text-sm">F1 = 2 × (Precision × Recall) / (Precision + Recall)</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Entity-Level Metrics (for NER)</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">More meaningful for tasks like NER, where correctly identifying the full span and type of an entity matters.</p>
+                                <h5 class="font-medium mb-2">Common Schemes</h5>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Exact Match</strong>: Both the entity span (start/end tokens) and the entity type must match exactly.</li>
+                                    <li><strong>Type Match</strong>: Consider only entity types, ignoring boundaries.</li>
+                                    <li><strong>Boundary Match</strong>: Consider only entity boundaries, ignoring type</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="example-box mt-4">
+                                <h5 class="font-medium mb-2">NER Evaluation Example</h5>
+                                <p class="mb-2">Sentence: "Paris is the capital of France."</p>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Gold Standard</strong>: Paris (LOC), France (LOC)</li>
+                                    <li><strong>Prediction 1</strong>: Paris (LOC), France (ORG) -> Exact Match: TP=1 (Paris), FP=1 (France), FN=1 (France)</li>
+                                    <li><strong>Prediction 2</strong>: Paris (LOC) -> Exact Match: TP=1, FP=0, FN=1</li>
+                                    <li><strong>Prediction 3</strong>: Paris (ORG), France (LOC) -> Exact Match: TP=1, FP=1, FN=1</li>
+                                    <li>Precision: 1/3 = 0.33, Recall: 1/2 = 0.5, F1: 0.4</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Confusion Matrix Analysis</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <p class="mb-2">Visualizes the performance of a classification model by showing the counts of true vs. predicted labels for each class.</p>
+                                <h5 class="font-medium mb-2">Insights Gained</h5>
+                                <ul class="list-disc ml-5">
+                                    <li>Identify which classes are frequently confused with each other.</li>
+                                    <li>Understand if the model struggles more with precision or recall for specific classes.</li>
+                                    <li>Pinpoint systematic errors (e.g., consistently mislabeling ORG as PER).</li>
+                                </ul>
+                                <p class="mt-2">Analyzing these patterns can guide model improvements, data augmentation, and feature engineering efforts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- End of Sequence Classifiers Content -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Active link script -->
+    <script src="components/active-link.js"></script>
+</body>
+</html>

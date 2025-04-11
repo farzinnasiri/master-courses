@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7. Transformer Apps</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="components/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
+            <nav class="p-4">
+                <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
+                    <ul class="nav-list">
+                        <li><a href="introduction.html" class="nav-link block px-3 py-2 text-sm">1. Introduction</a></li>
+                        <li><a href="classifying-text.html" class="nav-link block px-3 py-2 text-sm">2. Classifying Text</a></li>
+                        <li><a href="searching-text.html" class="nav-link block px-3 py-2 text-sm">3. Searching Text</a></li>
+                        <li><a href="language-models.html" class="nav-link block px-3 py-2 text-sm">4. Language Models and Word Embeddings</a></li>
+                        <li><a href="sequence-classifiers.html" class="nav-link block px-3 py-2 text-sm">5. Sequence Classifiers</a></li>
+                        <li><a href="transformers.html" class="nav-link block px-3 py-2 text-sm">6. Sequence2Sequence & Transformers</a></li>
+                        <li><a href="applications.html" class="nav-link block px-3 py-2 text-sm">7. Transformer Apps</a></li>
+                    </ul>
+                </div>
+                <div> <h2 class="text-lg font-bold text-gray-700 mb-2">Resources</h2>
+                    <ul>
+                        <li><a href="references.html" class="nav-link block px-3 py-2 text-sm">References</a></li>
+                        <li><a href="glossary.html" class="nav-link block px-3 py-2 text-sm">Glossary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-container w-full p-6 md:ml-64">
+            <div class="content">
+                <!-- Transformer Applications Section -->
+                <section id="transformer-applications" class="mb-12 section">
+                    <h2 class="text-2xl font-bold mb-4 section-header">7. Transformer Applications</h2>
+                    
+                    <div class="mb-6">
+                        <p class="mb-4">Transformer architectures have revolutionized natural language processing by enabling a wide range of advanced applications. This section explores the practical applications of transformer-based models.</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Major Transformer-Based Applications</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-2">Open-Domain Question Answering</h4>
+                                <p>Systems that can answer questions based on general knowledge without predefined context. Examples include Google's BERT-powered search and AI assistants.</p>
+                                <div class="mt-2 bg-gray-50 p-2 rounded">
+                                    <p class="text-sm italic">Example: "What's the height of the Eiffel Tower?"</p>
+                                </div>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-2">Conversational AI</h4>
+                                <p>Systems capable of maintaining coherent, contextual dialogues with humans, such as chatbots, virtual assistants, and customer service agents.</p>
+                                <div class="mt-2 bg-gray-50 p-2 rounded">
+                                    <p class="text-sm italic">Examples: GPT-based chatbots, customer support systems</p>
+                                </div>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-2">Content Generation</h4>
+                                <p>Systems that can create human-like text for various purposes, including article writing, copywriting, storytelling, and poetry.</p>
+                                <div class="mt-2 bg-gray-50 p-2 rounded">
+                                    <p class="text-sm italic">Examples: Blog post generators, email drafting assistants</p>
+                                </div>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-2">Code Generation</h4>
+                                <p>Models trained on code repositories that can generate code snippets, suggest completions, explain code, or translate between programming languages.</p>
+                                <div class="mt-2 bg-gray-50 p-2 rounded">
+                                    <p class="text-sm italic">Examples: GitHub Copilot, CodeWhisperer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Business and Industry Applications</h3>
+                        
+                        <div class="example-box mb-4">
+                            <h4 class="font-medium mb-2">Healthcare</h4>
+                            <ul class="list-disc ml-5">
+                                <li>Clinical documentation and summarization</li>
+                                <li>Medical literature search and knowledge extraction</li>
+                                <li>Automated diagnostic assistance</li>
+                                <li>Patient communication and triage</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box mb-4">
+                            <h4 class="font-medium mb-2">Finance</h4>
+                            <ul class="list-disc ml-5">
+                                <li>Sentiment analysis for market prediction</li>
+                                <li>Regulatory compliance document processing</li>
+                                <li>Automated report generation</li>
+                                <li>Fraud detection in transactions and communications</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4 class="font-medium mb-2">Education</h4>
+                            <ul class="list-disc ml-5">
+                                <li>Personalized tutoring systems</li>
+                                <li>Automated essay scoring and feedback</li>
+                                <li>Content summarization for study materials</li>
+                                <li>Language learning assistants</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Multimodal Transformer Applications</h3>
+                        <p class="mb-4">Recent advances have expanded transformers beyond text to handle multiple data modalities:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Text-to-Image</h4>
+                                <p class="text-sm">Models like DALL-E, Midjourney and Stable Diffusion that generate images from text descriptions.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Text-to-Video</h4>
+                                <p class="text-sm">Emerging systems that can generate short video clips based on text prompts.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Text-to-Audio</h4>
+                                <p class="text-sm">Systems that generate realistic speech, music, or sound effects from text descriptions.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Vision-Language Models</h4>
+                                <p class="text-sm">Models that understand both images and text, enabling image captioning, visual question answering, and more.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Multimodal Chatbots</h4>
+                                <p class="text-sm">Assistants that can process and generate multiple types of content including text, images, and code.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Document Intelligence</h4>
+                                <p class="text-sm">Systems that can understand complex documents with text, tables, forms, and images.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Ethical Considerations</h3>
+                        <p class="mb-4">As transformer applications become more widespread, several ethical considerations have emerged:</p>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border">
+                            <ul class="space-y-2">
+                                <li><strong>Bias and fairness:</strong> Transformer models can perpetuate and amplify biases present in their training data</li>
+                                <li><strong>Misinformation:</strong> Content generation capabilities can be misused to create convincing fake news or misleading information</li>
+                                <li><strong>Privacy concerns:</strong> Models trained on vast amounts of public data may inadvertently expose private information</li>
+                                <li><strong>Environmental impact:</strong> Training large transformer models requires significant computational resources</li>
+                                <li><strong>Job displacement:</strong> Automation of language tasks may disrupt existing professions</li>
+                                <li><strong>Alignment:</strong> Ensuring AI systems act in accordance with human values and intentions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Active link script -->
+    <script src="components/active-link.js"></script>
+</body>
+</html>

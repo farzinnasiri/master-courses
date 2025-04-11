@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. Sequence2Sequence & Transformers</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="components/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
+            <nav class="p-4">
+                <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
+                    <ul class="nav-list">
+                        <li><a href="introduction.html" class="nav-link block px-3 py-2 text-sm">1. Introduction</a></li>
+                        <li><a href="classifying-text.html" class="nav-link block px-3 py-2 text-sm">2. Classifying Text</a></li>
+                        <li><a href="searching-text.html" class="nav-link block px-3 py-2 text-sm">3. Searching Text</a></li>
+                        <li><a href="language-models.html" class="nav-link block px-3 py-2 text-sm">4. Language Models and Word Embeddings</a></li>
+                        <li><a href="sequence-classifiers.html" class="nav-link block px-3 py-2 text-sm">5. Sequence Classifiers</a></li>
+                        <li><a href="transformers.html" class="nav-link block px-3 py-2 text-sm">6. Sequence2Sequence & Transformers</a></li>
+                        <li><a href="applications.html" class="nav-link block px-3 py-2 text-sm">7. Transformer Apps</a></li>
+                    </ul>
+                </div>
+                <div> <h2 class="text-lg font-bold text-gray-700 mb-2">Resources</h2>
+                    <ul>
+                        <li><a href="references.html" class="nav-link block px-3 py-2 text-sm">References</a></li>
+                        <li><a href="glossary.html" class="nav-link block px-3 py-2 text-sm">Glossary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-container w-full p-6 md:ml-64">
+            <div class="content">
+                <section id="seq2seq" class="mb-12 section">
+                    <h2 class="text-2xl font-bold mb-4 section-header">6. Sequence2Sequence Models & Transformers</h2>
+                    
+                    <div class="mb-6">
+                        <p class="mb-4">Sequence-to-Sequence (Seq2Seq) models are a family of neural network models designed to transform one sequence into another. They're foundational for tasks like machine translation, text summarization, and question answering. Transformers represent a significant advancement in sequence-to-sequence modeling that has revolutionized NLP.</p>
+                        
+                        <div class="concept-card">
+                            <h3 class="text-lg font-semibold mb-2">What are Sequence-to-Sequence Models?</h3>
+                            <p>Sequence-to-Sequence (Seq2Seq) models take a sequence of items (words, letters, etc.) as input and produce another sequence of items as output. Unlike sequence labeling, the output sequence can have a different length than the input sequence.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Core Seq2Seq Applications</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Machine Translation</h4>
+                                <p>Converting text from one language to another.</p>
+                                <p class="mt-1 text-sm italic">Input: "Hello, how are you?"</p>
+                                <p class="text-sm italic">Output: "Hola, ¿cómo estás?"</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Text Summarization</h4>
+                                <p>Generating a concise summary of a longer text.</p>
+                                <p class="mt-1 text-sm italic">Input: [Long article about climate change]</p>
+                                <p class="text-sm italic">Output: "Global temperatures are rising at an alarming rate due to human activities."</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Question Answering</h4>
+                                <p>Generating answers to questions based on context.</p>
+                                <p class="mt-1 text-sm italic">Input: "Who invented the telephone?"</p>
+                                <p class="text-sm italic">Output: "Alexander Graham Bell invented the telephone in 1876."</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Dialogue Systems</h4>
+                                <p>Generating contextually appropriate responses in a conversation.</p>
+                                <p class="mt-1 text-sm italic">Input: "What's the weather going to be like tomorrow?"</p>
+                                <p class="text-sm italic">Output: "Tomorrow will be sunny with a high of 75°F."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Traditional Encoder-Decoder Architecture</h3>
+                        <p class="mb-3">The classical Seq2Seq model consists of two main components: an encoder and a decoder, typically implemented using RNNs (like LSTMs or GRUs).</p>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
+                            <h4 class="font-medium mb-2">Basic Encoder-Decoder Model</h4>
+                            <ol class="list-decimal ml-5 space-y-2">
+                                <li><strong>Encoder</strong>: Processes the input sequence and compresses it into a context vector (also called the thought vector)</li>
+                                <li><strong>Context Vector</strong>: A fixed-size representation that aims to capture the meaning of the input sequence</li>
+                                <li><strong>Decoder</strong>: Takes the context vector and generates the output sequence one element at a time</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4 class="font-medium mb-2">Encoder-Decoder Process</h4>
+                            <p class="mb-2">For the task of translating "Hello, how are you?" to Spanish:</p>
+                            <ol class="list-decimal ml-5">
+                                <li><strong>Encoding</strong>: The encoder RNN processes "Hello, how are you?" word by word</li>
+                                <li><strong>Final Hidden State</strong>: After processing the entire input, the encoder's final hidden state becomes the context vector</li>
+                                <li><strong>Decoding Start</strong>: The decoder begins with this context vector and a special "start of sequence" token</li>
+                                <li><strong>Output Generation</strong>: The decoder generates "Hola", then uses this output and its hidden state to generate "¿cómo", and so on</li>
+                                <li><strong>Termination</strong>: The process continues until the decoder generates an "end of sequence" token or reaches a maximum length</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Attention Mechanism</h3>
+                        <p class="mb-3">A key limitation of the basic encoder-decoder model is the bottleneck created by the fixed-size context vector, especially for long sequences. Attention mechanisms address this by allowing the decoder to focus on different parts of the input sequence at each decoding step.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">How Attention Works</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <h5 class="font-medium mb-2">Attention Mechanism Steps</h5>
+                                <ol class="list-decimal ml-5 space-y-2">
+                                    <li><strong>Encoder Hidden States</strong>: The encoder produces a sequence of hidden states, one for each input token</li>
+                                    <li><strong>Alignment Scores</strong>: At each decoding step, compute scores between the current decoder hidden state and each encoder hidden state</li>
+                                    <li><strong>Attention Weights</strong>: Convert scores to weights using softmax (weights sum to 1)</li>
+                                    <li><strong>Context Vector</strong>: Compute a weighted sum of encoder hidden states using the attention weights</li>
+                                    <li><strong>Combined Representation</strong>: Concatenate or otherwise combine this context vector with the current decoder hidden state</li>
+                                    <li><strong>Output Prediction</strong>: Use this combined representation to predict the next output token</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4 class="font-medium mb-2">Attention Example</h4>
+                            <p class="mb-2">When translating "The cat sat on the mat" to French:</p>
+                            <ul class="list-disc ml-5">
+                                <li>When generating "Le" (The), attention might focus heavily on "The"</li>
+                                <li>When generating "chat" (cat), attention would shift to focus on "cat"</li>
+                                <li>This dynamic focusing allows the model to effectively handle long sequences and align corresponding parts of the input and output</li>
+                            </ul>
+                            <p class="mt-2">Visualizing these attention weights often reveals interesting patterns, like diagonal alignments for word-by-word translation or more complex patterns for structural transformations.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">The Transformer Architecture</h3>
+                        <p class="mb-3">The Transformer, introduced in the "Attention is All You Need" paper (2017), revolutionized sequence modeling by dispensing with recurrence and convolutions entirely, relying solely on attention mechanisms.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Key Components of Transformers</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <h5 class="font-medium mb-2">1. Self-Attention</h5>
+                                <p class="mb-2">Unlike traditional attention which operates between encoder and decoder, self-attention allows a sequence to attend to itself, helping the model understand relationships between different positions in the sequence.</p>
+                                <p class="mb-3">The self-attention mechanism computes:</p>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Query (Q)</strong>: What the current token is looking for</li>
+                                    <li><strong>Key (K)</strong>: What other tokens offer</li>
+                                    <li><strong>Value (V)</strong>: The information to retrieve if there's a match between query and key</li>
+                                </ul>
+                                <p class="mb-2">The attention scores are computed as:</p>
+                                <p>Attention(Q, K, V) = softmax(QK^T / √d_k)V</p>
+                                <p class="mt-2">Where d_k is the dimension of the keys (for scaling).</p>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+                                <h5 class="font-medium mb-2">2. Multi-Head Attention</h5>
+                                <p class="mb-2">Rather than performing a single attention function, multi-head attention runs multiple attention operations in parallel. This allows the model to jointly attend to information from different representation subspaces at different positions.</p>
+                                <p class="mb-2">Multi-head attention:</p>
+                                <ul class="list-disc ml-5">
+                                    <li>Projects Q, K, V into h different spaces (creating h "heads")</li>
+                                    <li>Applies attention independently in each space</li>
+                                    <li>Concatenates the results and projects again</li>
+                                </ul>
+                                <p class="mt-2">This enables the model to capture different types of relationships between tokens.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+                            <h5 class="font-medium mb-2">3. Positional Encoding</h5>
+                            <p class="mb-2">Unlike RNNs, Transformers process all tokens in parallel, losing the inherent order information. Positional encodings are added to the input embeddings to inject information about token positions in the sequence.</p>
+                            <p class="mb-2">Typically uses sine and cosine functions of different frequencies:</p>
+                            <ul class="list-disc ml-5">
+                                <li>PE(pos, 2i) = sin(pos/10000^(2i/d_model))</li>
+                                <li>PE(pos, 2i+1) = cos(pos/10000^(2i/d_model))</li>
+                            </ul>
+                            <p class="mt-2">These encodings have the useful property that relative positions have similar representations for different sequence lengths.</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+                            <h5 class="font-medium mb-2">4. Feed-Forward Networks</h5>
+                            <p class="mb-2">Each encoder and decoder layer contains a fully connected feed-forward network applied to each position independently:</p>
+                            <p>FFN(x) = max(0, xW₁ + b₁)W₂ + b₂</p>
+                            <p class="mt-2">This is a simple two-layer neural network with a ReLU activation that processes each token's representation independently.</p>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+                            <h5 class="font-medium mb-2">5. Layer Normalization and Residual Connections</h5>
+                            <p class="mb-2">Each sub-layer (attention and feed-forward) is followed by:</p>
+                            <ul class="list-disc ml-5">
+                                <li><strong>Layer Normalization</strong>: Normalizes the activations of the previous layer for each example to have zero mean and unit variance</li>
+                                <li><strong>Residual Connection</strong>: Adds the input to the sub-layer to its output, helping with gradient flow during training</li>
+                            </ul>
+                            <p class="mt-2">The combination is typically expressed as: LayerNorm(x + Sublayer(x))</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-medium mb-2">The Complete Transformer Architecture</h4>
+                        
+                        <div class="example-box">
+                            <h5 class="font-medium mb-2">Transformer Encoder-Decoder Structure</h5>
+                            <ol class="list-decimal ml-5">
+                                <li><strong>Encoder</strong>:
+                                    <ul class="list-disc ml-5">
+                                        <li>N identical layers (typically 6 in the original paper)</li>
+                                        <li>Each layer has two sub-layers: multi-head self-attention and feed-forward network</li>
+                                        <li>Residual connections and layer normalization around each sub-layer</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Decoder</strong>:
+                                    <ul class="list-disc ml-5">
+                                        <li>N identical layers (typically 6)</li>
+                                        <li>Each layer has three sub-layers: masked multi-head self-attention, multi-head attention over encoder output, and feed-forward network</li>
+                                        <li>The masking in the first sub-layer prevents positions from attending to subsequent positions (preserves auto-regressive property)</li>
+                                        <li>Residual connections and layer normalization around each sub-layer</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Final Linear and Softmax Layer</strong>: Converts decoder output to probabilities over the vocabulary</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-3">Transformer Training and Inference</h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="text-lg font-medium mb-2">Training Process</h4>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <h5 class="font-medium mb-2">Transformer Training Details</h5>
+                            <!-- Placeholder for more details if needed -->
+                            <p>Transformers are typically trained using large datasets and optimized with techniques like Adam optimization with learning rate schedules (e.g., warm-up followed by decay).</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-lg font-medium mb-2">Inference Process</h4>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <h5 class="font-medium mb-2">Transformer Inference Details</h5>
+                            <p>During inference (generating output), the decoder operates auto-regressively: the token generated at step t becomes part of the input for generating the token at step t+1. Techniques like beam search are often used to find higher-probability output sequences.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-3">Transformer Variants and Advancements</h3>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="concept-card">
+                            <h4 class="font-medium mb-1">BERT (Bidirectional Encoder Representations from Transformers)</h4>
+                            <p>Uses only the encoder part of the transformer and is pre-trained on masked language modeling and next sentence prediction tasks.</p>
+                            <p class="mt-1 text-sm">Excels at understanding tasks like classification, named entity recognition, and question answering.</p>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h4 class="font-medium mb-1">GPT (Generative Pre-trained Transformer)</h4>
+                            <p>Uses only the decoder part of the transformer and is pre-trained on next-token prediction.</p>
+                            <p class="mt-1 text-sm">Excels at generative tasks like text completion, summarization, and translation.</p>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h4 class="font-medium mb-1">T5 (Text-to-Text Transfer Transformer)</h4>
+                            <p>Treats all NLP tasks as text-to-text problems, using the full encoder-decoder architecture.</p>
+                            <p class="mt-1 text-sm">Pre-trained on a mixture of unsupervised and supervised tasks with a unified text-to-text format.</p>
+                        </div>
+                        
+                        <div class="concept-card">
+                            <h4 class="font-medium mb-1">XLNet</h4>
+                            <p>Combines the benefits of autoregressive models (like GPT) and bidirectional models (like BERT) using permutation language modeling.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-3">Conclusion</h3>
+                    <p class="mb-4">This concludes our comprehensive overview of the fundamental concepts, techniques, and applications in Natural Language Processing (NLP). NLP is a rapidly evolving field with a wide range of applications across industries, from chatbots and virtual assistants to text summarization and machine translation.</p>
+                    <p class="mb-4">Understanding the basics of NLP, including text preprocessing, tokenization, and the different types of NLP tasks, is crucial for building effective NLP systems. The choice of NLP technique depends on the specific task, the size and quality of the dataset, and the desired level of accuracy.</p>
+                    <p class="mb-4">Deep learning techniques, particularly transformer-based models, have revolutionized the field of NLP in recent years, achieving state-of-the-art results in many NLP tasks. However, traditional NLP techniques, such as rule-based systems and statistical models, are still widely used and can be effective for certain tasks.</p>
+                    <p class="mb-4">As NLP continues to evolve, we can expect to see new techniques and applications emerge, such as multimodal NLP, which combines text with other forms of data like images and audio. The future of NLP holds much promise, and we hope this guide has provided a solid foundation for exploring this exciting field.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+    <!-- Active link script -->
+    <script src="components/active-link.js"></script>
+</body>
+</html>

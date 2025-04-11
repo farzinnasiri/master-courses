@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. Classifying Text</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="components/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
+            <nav class="p-4">
+                <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
+                    <ul class="nav-list">
+                        <li><a href="introduction.html" class="nav-link block px-3 py-2 text-sm">1. Introduction</a></li>
+                        <li><a href="classifying-text.html" class="nav-link block px-3 py-2 text-sm">2. Classifying Text</a></li>
+                        <li><a href="searching-text.html" class="nav-link block px-3 py-2 text-sm">3. Searching Text</a></li>
+                        <li><a href="language-models.html" class="nav-link block px-3 py-2 text-sm">4. Language Models and Word Embeddings</a></li>
+                        <li><a href="sequence-classifiers.html" class="nav-link block px-3 py-2 text-sm">5. Sequence Classifiers</a></li>
+                        <li><a href="transformers.html" class="nav-link block px-3 py-2 text-sm">6. Sequence2Sequence & Transformers</a></li>
+                        <li><a href="applications.html" class="nav-link block px-3 py-2 text-sm">7. Transformer Apps</a></li>
+                    </ul>
+                </div>
+                <div> <h2 class="text-lg font-bold text-gray-700 mb-2">Resources</h2>
+                    <ul>
+                        <li><a href="references.html" class="nav-link block px-3 py-2 text-sm">References</a></li>
+                        <li><a href="glossary.html" class="nav-link block px-3 py-2 text-sm">Glossary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-container w-full p-6 md:ml-64">
+            <div class="content">
+                <!-- Classifying Text Section -->
+                <section id="classifying-text" class="mb-12 section">
+                    <h2 class="text-2xl font-bold mb-4 section-header">2. Classifying Text</h2>
+                    
+                    <div class="mb-6">
+                        <p class="mb-4">Text classification is the task of assigning predefined categories to text documents. It's one of the fundamental tasks in NLP with applications ranging from spam detection to sentiment analysis and topic categorization.</p>
+                        
+                        <div class="concept-card">
+                            <h3 class="text-lg font-semibold mb-2">What is Text Classification?</h3>
+                            <p>Text classification involves automatically categorizing text documents into one or more predefined classes based on their content. The classification can be binary (two classes), multi-class (multiple mutually exclusive classes), or multi-label (a document can belong to multiple classes simultaneously).</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Common Text Classification Tasks</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Sentiment Analysis</h4>
+                                <p>Determining whether a piece of text expresses positive, negative, or neutral sentiment.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Spam Detection</h4>
+                                <p>Identifying whether an email or message is spam or legitimate.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Topic Categorization</h4>
+                                <p>Classifying documents into topical categories (e.g., sports, politics, technology).</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Language Identification</h4>
+                                <p>Determining which language a text is written in.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Intent Recognition</h4>
+                                <p>Identifying the intention behind a user query (e.g., booking, information seeking).</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Toxicity Detection</h4>
+                                <p>Identifying harmful, offensive, or inappropriate content.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Text Classification Pipeline</h3>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <ol class="list-decimal ml-5 space-y-3">
+                                <li>
+                                    <strong>Data Collection and Preparation</strong>
+                                    <p>Gather labeled text data for training and testing. The quality and representativeness of this data will significantly impact the performance of your classifier.</p>
+                                </li>
+                                <li>
+                                    <strong>Text Preprocessing</strong>
+                                    <p>Clean and normalize text data:</p>
+                                    <ul class="list-disc ml-5">
+                                        <li>Lowercasing</li>
+                                        <li>Removing punctuation and special characters</li>
+                                        <li>Removing stopwords (common words like "the", "and", "is")</li>
+                                        <li>Stemming or lemmatization (reducing words to their root form)</li>
+                                        <li>Handling numbers, URLs, and other special tokens</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Feature Extraction</strong>
+                                    <p>Convert text into numerical features that algorithms can process:</p>
+                                    <ul class="list-disc ml-5">
+                                        <li>Bag of Words (BoW): Simple word count or presence</li>
+                                        <li>TF-IDF (Term Frequency-Inverse Document Frequency): Weighted word frequencies</li>
+                                        <li>N-grams: Sequences of N consecutive words</li>
+                                        <li>Word embeddings: Dense vector representations (Word2Vec, GloVe)</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>Model Selection and Training</strong>
+                                    <p>Choose and train a classification algorithm on the feature-transformed data.</p>
+                                </li>
+                                <li>
+                                    <strong>Evaluation</strong>
+                                    <p>Assess model performance using metrics like accuracy, precision, recall, F1-score, and confusion matrices.</p>
+                                </li>
+                                <li>
+                                    <strong>Deployment and Monitoring</strong>
+                                    <p>Put the model into production and continuously monitor performance.</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Feature Extraction Techniques</h3>
+                        
+                        <div class="example-box mb-4">
+                            <h4 class="font-medium mb-2">Bag of Words (BoW) Example</h4>
+                            <p class="mb-2">Consider these two short documents:</p>
+                            <ul class="list-disc ml-5 mb-3">
+                                <li>Document 1: "I love natural language processing"</li>
+                                <li>Document 2: "Natural language processing is fascinating"</li>
+                            </ul>
+                            <p class="mb-2">The vocabulary is: {"I", "love", "natural", "language", "processing", "is", "fascinating"}</p>
+                            <p class="mb-2">BoW representation:</p>
+                            <ul class="list-disc ml-5">
+                                <li>Document 1: [1, 1, 1, 1, 1, 0, 0] (counts of each word in the vocabulary)</li>
+                                <li>Document 2: [0, 0, 1, 1, 1, 1, 1]</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box mb-4">
+                            <h4 class="font-medium mb-2">TF-IDF Example</h4>
+                            <p class="mb-2">TF-IDF weights terms based on their frequency in a document and rarity across documents.</p>
+                            <p>For the term "natural" in the above documents:</p>
+                            <ul class="list-disc ml-5">
+                                <li>Term Frequency (TF): How often "natural" appears in each document (normalized)</li>
+                                <li>Inverse Document Frequency (IDF): log(Total # of documents / # of documents containing "natural")</li>
+                                <li>TF-IDF = TF × IDF</li>
+                            </ul>
+                            <p class="mt-2">Common terms like "the" get lower weights, while distinctive terms get higher weights.</p>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4 class="font-medium mb-2">Word Embeddings</h4>
+                            <p class="mb-2">Word embeddings map words to dense vector representations where semantically similar words are close in the vector space.</p>
+                            <p class="mb-2">For example, in a well-trained embedding space:</p>
+                            <ul class="list-disc ml-5">
+                                <li>vector("king") - vector("man") + vector("woman") ≈ vector("queen")</li>
+                                <li>Words like "happy", "joyful", and "cheerful" would be close together</li>
+                            </ul>
+                            <p>Popular word embedding models include Word2Vec, GloVe, and FastText.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Classification Algorithms</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Naive Bayes</h4>
+                                <p>A probabilistic classifier based on Bayes' theorem with strong independence assumptions between features. Simple and efficient, particularly for text classification.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Support Vector Machines (SVM)</h4>
+                                <p>Finds the hyperplane that best separates different classes. Effective in high-dimensional spaces like those created by text features.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Decision Trees & Random Forests</h4>
+                                <p>Decision trees split data based on feature values. Random forests combine multiple trees to improve performance and reduce overfitting.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Logistic Regression</h4>
+                                <p>A linear model for classification that uses the logistic function to predict the probability of a class. Simple, interpretable, and often effective.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Neural Networks</h4>
+                                <p>Multi-layer perceptrons, CNNs, RNNs, and transformer-based models that can learn complex patterns in text data.</p>
+                            </div>
+                            
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">k-Nearest Neighbors (k-NN)</h4>
+                                <p>Classifies a document based on the majority class of its k nearest neighbors in the feature space.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Naive Bayes Classifier</h3>
+                        <p class="mb-3">Naive Bayes is particularly popular for text classification due to its simplicity and effectiveness.</p>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <h4 class="font-medium mb-2">The Naive Bayes Formula for Text Classification</h4>
+                            <p class="mb-2">For a document d and class c:</p>
+                            <p class="mb-3">P(c|d) ∝ P(c) × ∏ P(term_i|c)</p>
+                            <p class="mb-2">Where:</p>
+                            <ul class="list-disc ml-5">
+                                <li>P(c|d) is the probability of class c given document d</li>
+                                <li>P(c) is the prior probability of class c</li>
+                                <li>P(term_i|c) is the probability of term_i occurring in class c</li>
+                            </ul>
+                            <p class="mt-3">The "naive" part comes from the assumption that all terms are conditionally independent given the class, which is not true in practice but works surprisingly well.</p>
+                        </div>
+                        
+                        <div class="example-box mt-4">
+                            <h4 class="font-medium mb-2">Naive Bayes Example</h4>
+                            <p class="mb-2">Task: Classify an email as spam or not spam.</p>
+                            <p class="mb-2">Training data:</p>
+                            <ul class="list-disc ml-5 mb-3">
+                                <li>60% of emails are not spam, 40% are spam</li>
+                                <li>The word "money" appears in 5% of non-spam emails and 70% of spam emails</li>
+                                <li>The word "friend" appears in 65% of non-spam emails and 10% of spam emails</li>
+                            </ul>
+                            <p class="mb-2">For a new email containing "money" and "friend":</p>
+                            <p class="mb-1">P(spam|email) ∝ P(spam) × P(money|spam) × P(friend|spam)</p>
+                            <p class="mb-1">P(spam|email) ∝ 0.4 × 0.7 × 0.1 = 0.028</p>
+                            <p class="mb-1">P(not spam|email) ∝ P(not spam) × P(money|not spam) × P(friend|not spam)</p>
+                            <p class="mb-1">P(not spam|email) ∝ 0.6 × 0.05 × 0.65 = 0.01950</p>
+                            <p class="mt-2">Since P(spam|email) > P(not spam|email), the email would be classified as spam.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Evaluation Metrics</h3>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
+                            <h4 class="font-medium mb-2">Common Classification Metrics</h4>
+                            
+                            <div class="overflow-auto">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr>
+                                            <th class="py-2 px-4 border-b text-left">Metric</th>
+                                            <th class="py-2 px-4 border-b text-left">Formula</th>
+                                            <th class="py-2 px-4 border-b text-left">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Accuracy</td>
+                                            <td class="py-2 px-4 border-b">(TP + TN) / (TP + TN + FP + FN)</td>
+                                            <td class="py-2 px-4 border-b">Proportion of correctly classified instances</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Precision</td>
+                                            <td class="py-2 px-4 border-b">TP / (TP + FP)</td>
+                                            <td class="py-2 px-4 border-b">Proportion of positive identifications that were actually correct</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">Recall</td>
+                                            <td class="py-2 px-4 border-b">TP / (TP + FN)</td>
+                                            <td class="py-2 px-4 border-b">Proportion of actual positives that were correctly identified</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">F1-Score</td>
+                                            <td class="py-2 px-4 border-b">2 × (Precision × Recall) / (Precision + Recall)</td>
+                                            <td class="py-2 px-4 border-b">Harmonic mean of precision and recall</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <p class="mt-3">Where:</p>
+                            <ul class="list-disc ml-5">
+                                <li>TP = True Positives (correctly predicted positive class)</li>
+                                <li>TN = True Negatives (correctly predicted negative class)</li>
+                                <li>FP = False Positives (incorrectly predicted positive class)</li>
+                                <li>FN = False Negatives (incorrectly predicted negative class)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4 class="font-medium mb-2">When to Use Different Metrics</h4>
+                            <ul class="list-disc ml-5">
+                                <li><strong>Balanced Classes</strong>: Accuracy is generally suitable</li>
+                                <li><strong>Imbalanced Classes</strong>: Precision, recall, F1-score are better</li>
+                                <li><strong>Cost of False Positives is High</strong>: Focus on precision (e.g., spam filtering)</li>
+                                <li><strong>Cost of False Negatives is High</strong>: Focus on recall (e.g., disease detection)</li>
+                                <li><strong>Need Balance Between Precision and Recall</strong>: Use F1-score</li>
+                            </ul>
+                            <p class="mt-2">For multi-class problems, these metrics can be calculated using micro-averaging (aggregate the contributions of all classes) or macro-averaging (compute the metric independently for each class and take the average).</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Active link script -->
+    <script src="components/active-link.js"></script>
+</body>
+</html>

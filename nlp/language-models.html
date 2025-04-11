@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. Language Models and Word Embeddings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="components/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
+            <nav class="p-4">
+                <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
+                    <ul class="nav-list">
+                        <li><a href="introduction.html" class="nav-link block px-3 py-2 text-sm">1. Introduction</a></li>
+                        <li><a href="classifying-text.html" class="nav-link block px-3 py-2 text-sm">2. Classifying Text</a></li>
+                        <li><a href="searching-text.html" class="nav-link block px-3 py-2 text-sm">3. Searching Text</a></li>
+                        <li><a href="language-models.html" class="nav-link block px-3 py-2 text-sm">4. Language Models and Word Embeddings</a></li>
+                        <li><a href="sequence-classifiers.html" class="nav-link block px-3 py-2 text-sm">5. Sequence Classifiers</a></li>
+                        <li><a href="transformers.html" class="nav-link block px-3 py-2 text-sm">6. Sequence2Sequence & Transformers</a></li>
+                        <li><a href="applications.html" class="nav-link block px-3 py-2 text-sm">7. Transformer Apps</a></li>
+                    </ul>
+                </div>
+                <div> <h2 class="text-lg font-bold text-gray-700 mb-2">Resources</h2>
+                    <ul>
+                        <li><a href="references.html" class="nav-link block px-3 py-2 text-sm">References</a></li>
+                        <li><a href="glossary.html" class="nav-link block px-3 py-2 text-sm">Glossary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-container w-full p-6 md:ml-64">
+            <div class="content">
+                
+                <!-- Language Models and Embeddings Section -->
+                <section id="language-models" class="mb-12 section">
+                    <h2 class="text-2xl font-bold mb-4 section-header">4. Language Models and Word Embeddings</h2>
+                    
+                    <div class="mb-6">
+                        <p class="mb-4">Language models are statistical models that capture the probability distribution of sequences of words. Word embeddings are dense vector representations of words that capture semantic relationships. These two concepts form the foundation of modern NLP systems.</p>
+                        
+                        <div class="concept-card">
+                            <h3 class="text-lg font-semibold mb-2">What are Language Models?</h3>
+                            <p>A language model computes the probability of a sequence of words. It can predict the likelihood of a word given its context, making it useful for tasks like text generation, speech recognition, machine translation, and spelling correction.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">N-gram Language Models</h3>
+                        <p class="mb-3">N-gram models are simple statistical language models that predict the probability of a word based on the N-1 preceding words.</p>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-4">
+                            <h4 class="font-medium mb-2">N-gram Probability</h4>
+                            <p class="mb-2">The probability of a sequence of words w₁, w₂, ..., wₙ can be approximated as:</p>
+                            <p class="mb-3">P(w₁, w₂, ..., wₙ) = P(w₁) × P(w₂|w₁) × P(w₃|w₁,w₂) × ... × P(wₙ|w₁,...,wₙ₋₁)</p>
+                            <p class="mb-2">Using the Markov assumption, an n-gram model simplifies this to:</p>
+                            <p>P(wᵢ|w₁,...,wᵢ₋₁) ≈ P(wᵢ|wᵢ₋ₙ₊₁,...,wᵢ₋₁)</p>
+                            <p class="mt-3">For example, a trigram (n=3) model approximates P(wᵢ|w₁,...,wᵢ₋₁) as P(wᵢ|wᵢ₋₂,wᵢ₋₁).</p>
+                        </div>
+                        
+                        <div class="example-box mb-4">
+                            <h4 class="font-medium mb-2">N-gram Example</h4>
+                            <p class="mb-2">Consider estimating probabilities from this corpus:</p>
+                            <p class="italic mb-3">"I like machine learning. I like natural language processing."</p>
+                            <p class="mb-2">For a bigram model (n=2):</p>
+                            <ul class="list-none ml-5 mb-3">
+                                <li>P(like|I) = count(I like) / count(I) = 2/2 = 1.0</li>
+                                <li>P(machine|like) = count(like machine) / count(like) = 1/2 = 0.5</li>
+                                <li>P(natural|like) = count(like natural) / count(like) = 1/2 = 0.5</li>
+                            </ul>
+                            <p class="mb-2">We can use this model to compute the probability of a new sentence:</p>
+                            <p class="italic mb-2">"I like machine translation"</p>
+                            <p>P(I like machine translation) = P(I) × P(like|I) × P(machine|like) × P(translation|machine)</p>
+                            <p class="mt-2">Note: P(translation|machine) would be 0 in this simple model because "machine translation" never appears in our corpus, which highlights the need for smoothing techniques.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Smoothing Techniques</h4>
+                            <p class="mb-3">Smoothing addresses the zero-probability problem by assigning some probability to unseen n-grams.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Laplace (Add-1) Smoothing</h5>
+                                    <p>Add one to all n-gram counts.</p>
+                                    <p class="mt-1">P(wᵢ|wᵢ₋₁) = (count(wᵢ₋₁,wᵢ) + 1) / (count(wᵢ₋₁) + V)</p>
+                                    <p class="mt-1">Where V is vocabulary size.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Add-k Smoothing</h5>
+                                    <p>Add a fraction k instead of 1.</p>
+                                    <p class="mt-1">P(wᵢ|wᵢ₋₁) = (count(wᵢ₋₁,wᵢ) + k) / (count(wᵢ₋₁) + k×V)</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Good-Turing Smoothing</h5>
+                                    <p>Estimates probability based on the frequency of n-grams that appear once.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Kneser-Ney Smoothing</h5>
+                                    <p>A more sophisticated approach that considers the diversity of contexts in which words appear.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Neural Language Models</h3>
+                        <p class="mb-3">Neural language models use neural networks to learn distributed representations of words and predict the probability of a sequence.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Advantages over N-gram Models</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Better Generalization</h5>
+                                    <p>Neural models can generalize to unseen word combinations by learning word similarities.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">No Sparsity Problem</h5>
+                                    <p>Do not suffer from the curse of dimensionality that affects n-gram models with large n.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Contextual Understanding</h5>
+                                    <p>Better capture long-range dependencies and contextual information.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Shared Parameters</h5>
+                                    <p>Words with similar meanings share statistical strength through learned representations.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Types of Neural Language Models</h4>
+                            
+                            <div class="grid grid-cols-1 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Feedforward Neural Network LM</h5>
+                                    <p>The first neural language model proposed by Bengio et al. (2003). It uses a fixed window of previous words as input.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Recurrent Neural Network LM (RNN-LM)</h5>
+                                    <p>Uses recurrent connections to model sequences of arbitrary length, maintaining a hidden state that captures information from all previous words.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">LSTM and GRU Language Models</h5>
+                                    <p>Use specialized RNN architectures (Long Short-Term Memory or Gated Recurrent Units) to better capture long-range dependencies.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Transformer-based LM</h5>
+                                    <p>Uses self-attention mechanisms instead of recurrence, enabling parallel processing and better handling of long-range dependencies (e.g., BERT, GPT).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Word Embeddings</h3>
+                        <p class="mb-3">Word embeddings are dense vector representations of words in a continuous vector space where semantically similar words are mapped to nearby points.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Why Word Embeddings?</h4>
+                            
+                            <div class="example-box">
+                                <h5 class="font-medium mb-2">One-Hot Encoding vs. Word Embeddings</h5>
+                                <p class="mb-2"><strong>One-Hot Encoding:</strong></p>
+                                <ul class="list-disc ml-5">
+                                    <li>Each word is represented as a sparse vector with a 1 at its index position and 0s elsewhere</li>
+                                    <li>For a vocabulary of 50,000 words, each word is a 50,000-dimensional vector</li>
+                                    <li>All words are equidistant from each other (no notion of similarity)</li>
+                                </ul>
+                                <p class="mb-2"><strong>Word Embeddings:</strong></p>
+                                <ul class="list-disc ml-5">
+                                    <li>Each word is represented as a dense vector (typically 100-300 dimensions)</li>
+                                    <li>Similar words have similar vector representations</li>
+                                    <li>Enables mathematical operations that yield meaningful results (e.g., king - man + woman ≈ queen)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Word2Vec</h4>
+                            <p class="mb-3">Word2Vec is a popular method for learning word embeddings using shallow neural networks. It comes in two architectures:</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Continuous Bag of Words (CBOW)</h5>
+                                    <p>Predicts a target word from its context words.</p>
+                                    <div class="mt-2 text-center">
+                                        <p>Context → <strong>?</strong> ← Context</p>
+                                        <p class="text-sm mt-1">"The [?] runs fast"</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Skip-gram</h5>
+                                    <p>Predicts context words from a target word.</p>
+                                    <div class="mt-2 text-center">
+                                        <p><strong>Target</strong> → Context words</p>
+                                        <p class="text-sm mt-1">"dog" → "The", "runs", "fast"</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="example-box mt-4">
+                                <h5 class="font-medium mb-2">Word2Vec Properties</h5>
+                                <p class="mb-2">Word embeddings learn relationships like:</p>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>Analogies</strong>: "king" is to "queen" as "man" is to "woman"</li>
+                                    <li><strong>Clustering</strong>: Words with similar meanings have vectors close together</li>
+                                    <li><strong>Dimensions</strong>: Different dimensions often capture different semantic or syntactic features</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Other Word Embedding Methods</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">GloVe (Global Vectors)</h5>
+                                    <p>Combines global matrix factorization and local context window methods, focusing on word-word co-occurrence statistics from a corpus.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">FastText</h5>
+                                    <p>Extends Word2Vec by treating each word as a bag of character n-grams, enabling better handling of rare words and out-of-vocabulary words.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">ELMo (Embeddings from Language Models)</h5>
+                                    <p>Generates contextual word embeddings using bidirectional LSTM language models, capturing word sense based on context.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">BERT Embeddings</h5>
+                                    <p>Contextual embeddings from the BERT model, which uses transformer architecture and is pre-trained on masked language modeling and next sentence prediction tasks.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Contextual Word Embeddings</h3>
+                        <p class="mb-3">Unlike static embeddings (Word2Vec, GloVe) that assign the same vector to a word regardless of context, contextual embeddings represent words based on their context.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Benefits of Contextual Embeddings</h4>
+                            
+                            <div class="example-box">
+                                <h5 class="font-medium mb-2">Disambiguation Example</h5>
+                                <p class="mb-2">Consider the word "bank" in different contexts:</p>
+                                <ul class="list-disc ml-5">
+                                    <li>"I deposited money in the <strong>bank</strong>." (financial institution)</li>
+                                    <li>"I sat on the <strong>bank</strong> of the river." (riverside)</li>
+                                </ul>
+                                <p class="mt-2">Static embeddings would assign the same vector to "bank" in both sentences.</p>
+                                <p>Contextual embeddings would produce different vectors that capture the different meanings.</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Pre-trained Language Models for Contextual Embeddings</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">ELMo</h5>
+                                    <p>Uses bidirectional LSTM to generate contextualized word representations.</p>
+                                    <p class="mt-1 text-sm">Pre-training: Language modeling (predict next/previous word)</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">BERT</h5>
+                                    <p>Uses bidirectional transformer architecture to generate deep contextualized representations.</p>
+                                    <p class="mt-1 text-sm">Pre-training: Masked language modeling + Next sentence prediction</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">GPT (Generative Pre-trained Transformer)</h5>
+                                    <p>Uses unidirectional transformer architecture (looks at previous words only).</p>
+                                    <p class="mt-1 text-sm">Pre-training: Language modeling (predict next word)</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">RoBERTa</h5>
+                                    <p>A robustly optimized version of BERT with improved training methodology.</p>
+                                    <p class="mt-1 text-sm">Pre-training: Masked language modeling (no next sentence prediction)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Evaluating Language Models and Embeddings</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Language Model Evaluation</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Perplexity</h5>
+                                    <p>A measure of how well a language model predicts a sample.</p>
+                                    <p class="mt-1">PPL(W) = 2^(-1/N * Σ log₂ P(wᵢ|w₁,...,wᵢ₋₁))</p>
+                                    <p class="mt-1">Lower perplexity indicates better model performance.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Bits Per Character (BPC)</h5>
+                                    <p>Similar to perplexity but applied at the character level.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Downstream Task Performance</h5>
+                                    <p>How well the language model serves as a foundation for specific NLP tasks.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Human Evaluation</h5>
+                                    <p>Assessing the quality of text generated by the language model.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Word Embedding Evaluation</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Word Similarity</h5>
+                                    <p>Compare model's similarity scores between word pairs with human judgments.</p>
+                                    <p class="mt-1 text-sm">Datasets: WordSim-353, SimLex-999, RG-65</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Word Analogy</h5>
+                                    <p>Evaluate model's ability to solve analogies like "king:queen::man:woman".</p>
+                                    <p class="mt-1 text-sm">Datasets: Google analogy dataset, BATS</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Downstream Task Performance</h5>
+                                    <p>How well embeddings perform when used for tasks like named entity recognition, sentiment analysis, etc.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Intrinsic Evaluation</h5>
+                                    <p>Analyze clustering, neighborhood structure, and other properties of the embedding space.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="example-box mt-4">
+                                <h5 class="font-medium mb-2">Word Analogy Example</h5>
+                                <p class="mb-2">Given word vectors, we can solve analogies by vector arithmetic:</p>
+                                <p class="mb-2">"king is to queen as man is to ???"</p>
+                                <p class="mb-2">vec("king") - vec("man") + vec("woman") ≈ vec("queen")</p>
+                                <p>We find the word whose vector is closest to the result of this calculation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Active link script -->
+    <script src="components/active-link.js"></script>
+</body>
+</html>

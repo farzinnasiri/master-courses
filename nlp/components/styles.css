@@ -1,0 +1,68 @@
+:root {
+    --primary-color: #4B5563;
+    --secondary-color: #60A5FA;
+    --background-color: #F9FAFB;
+    --text-color: #1F2937;
+    --code-background: #F3F4F6;
+    --highlight-color: #DBEAFE;
+    --border-color: #E5E7EB;
+    --header-height: 60px;
+    --sidebar-width: 20rem; /* 80px, increased from 16rem/64px */
+}
+
+html { scroll-behavior: smooth; }
+
+body { font-family: 'Segoe UI', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.6; }
+
+header {
+    height: var(--header-height);
+    z-index: 50 !important; /* Increased z-index to ensure it's above sidebar */
+    position: fixed;
+    width: 100%;
+}
+
+.sidebar { 
+    width: var(--sidebar-width) !important;
+    height: 100vh; 
+    overflow-y: auto; 
+    position: fixed; 
+    top: var(--header-height); /* Positioned exactly below the header */
+    z-index: 40; /* Lower z-index than header but higher than content */
+    padding-bottom: 2rem;
+}
+
+.content-container {
+    margin-left: var(--sidebar-width) !important;
+    padding-top: var(--header-height);
+}
+
+@media (max-width: 768px) {
+    .content-container {
+        margin-left: 0 !important;
+        padding-top: var(--header-height);
+    }
+}
+
+.content { max-width: 1200px; margin: 0 auto; }
+
+code { background-color: var(--code-background); padding: 2px 4px; border-radius: 4px; font-family: monospace; font-size: 0.9em; }
+
+pre { background-color: var(--code-background); border-radius: 6px; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+
+.nav-link { transition: background-color 0.2s ease; }
+.nav-link:hover { background-color: var(--highlight-color); }
+.nav-link.active { background-color: var(--highlight-color); border-left: 4px solid var(--secondary-color); }
+
+.section-header { border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+
+.example-box { background-color: var(--highlight-color); border-left: 4px solid var(--secondary-color); padding: 1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+
+.concept-card { border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; transition: transform 0.2s ease; }
+.concept-card:hover { transform: translateY(-3px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+
+@media print { 
+    .sidebar, .search-container, .mobile-menu-button { display: none !important; } 
+    .content-container { margin-left: 0 !important; width: 100% !important; } 
+    .section { page-break-inside: avoid; } 
+    html, body { width: 100%; margin: 0; padding: 0; } 
+}

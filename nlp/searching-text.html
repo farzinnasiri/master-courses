@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. Searching Text</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="components/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto pt-16 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
+            <nav class="p-4">
+                <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
+                    <ul class="nav-list">
+                        <li><a href="introduction.html" class="nav-link block px-3 py-2 text-sm">1. Introduction</a></li>
+                        <li><a href="classifying-text.html" class="nav-link block px-3 py-2 text-sm">2. Classifying Text</a></li>
+                        <li><a href="searching-text.html" class="nav-link block px-3 py-2 text-sm">3. Searching Text</a></li>
+                        <li><a href="language-models.html" class="nav-link block px-3 py-2 text-sm">4. Language Models and Word Embeddings</a></li>
+                        <li><a href="sequence-classifiers.html" class="nav-link block px-3 py-2 text-sm">5. Sequence Classifiers</a></li>
+                        <li><a href="transformers.html" class="nav-link block px-3 py-2 text-sm">6. Sequence2Sequence & Transformers</a></li>
+                        <li><a href="applications.html" class="nav-link block px-3 py-2 text-sm">7. Transformer Apps</a></li>
+                    </ul>
+                </div>
+                <div> <h2 class="text-lg font-bold text-gray-700 mb-2">Resources</h2>
+                    <ul>
+                        <li><a href="references.html" class="nav-link block px-3 py-2 text-sm">References</a></li>
+                        <li><a href="glossary.html" class="nav-link block px-3 py-2 text-sm">Glossary</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-container w-full p-6 md:ml-64">
+            <div class="content">
+                <!-- Searching Text Section -->
+                <section id="searching-text" class="mb-12 section">
+                    <h2 class="text-2xl font-bold mb-4 section-header">3. Searching Text</h2>
+                    
+                    <div class="mb-6">
+                        <p class="mb-4">Information Retrieval (IR) is the process of finding material (usually documents) that satisfies an information need from large collections (usually stored on computers). Search engines like Google, Bing, and academic search systems are examples of IR systems.</p>
+                        
+                        <div class="concept-card">
+                            <h3 class="text-lg font-semibold mb-2">What is Information Retrieval?</h3>
+                            <p>Information Retrieval focuses on finding relevant documents from a collection in response to a user query. It's about finding the right information at the right time in the right format to satisfy a user's information need.</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">The Information Retrieval Process</h3>
+                        
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <ol class="list-decimal ml-5 space-y-3">
+                                <li>
+                                    <strong>Document Collection</strong>
+                                    <p>Gather and store the corpus of documents to be searched.</p>
+                                </li>
+                                <li>
+                                    <strong>Indexing</strong>
+                                    <p>Build efficient data structures (indexes) to allow quick searching.</p>
+                                </li>
+                                <li>
+                                    <strong>Query Processing</strong>
+                                    <p>Interpret and process the user's search query.</p>
+                                </li>
+                                <li>
+                                    <strong>Matching & Ranking</strong>
+                                    <p>Find documents that match the query and rank them by relevance.</p>
+                                </li>
+                                <li>
+                                    <strong>Result Presentation</strong>
+                                    <p>Present search results to the user in a useful format.</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Building a Search Index</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Inverted Index</h4>
+                            <p class="mb-3">The fundamental data structure in information retrieval is the inverted index, which maps from terms to the documents containing them.</p>
+                            
+                            <div class="example-box">
+                                <h5 class="font-medium mb-2">Inverted Index Example</h5>
+                                <p class="mb-2">Consider these documents:</p>
+                                <ul class="list-disc ml-5 mb-3">
+                                    <li>Document 1: "The quick brown fox"</li>
+                                    <li>Document 2: "Quick brown foxes jump"</li>
+                                    <li>Document 3: "The lazy dog sleeps"</li>
+                                </ul>
+                                <p class="mb-2">A simplified inverted index might look like:</p>
+                                <ul class="list-none ml-0 space-y-1">
+                                    <li><strong>the</strong>: {Doc 1, Doc 3}</li>
+                                    <li><strong>quick</strong>: {Doc 1, Doc 2}</li>
+                                    <li><strong>brown</strong>: {Doc 1, Doc 2}</li>
+                                    <li><strong>fox</strong>: {Doc 1}</li>
+                                    <li><strong>foxes</strong>: {Doc 2}</li>
+                                    <li><strong>jump</strong>: {Doc 2}</li>
+                                    <li><strong>lazy</strong>: {Doc 3}</li>
+                                    <li><strong>dog</strong>: {Doc 3}</li>
+                                    <li><strong>sleeps</strong>: {Doc 3}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Index Construction Process</h4>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <ol class="list-decimal ml-5 space-y-2">
+                                    <li><strong>Document Collection</strong>: Gather all documents to be indexed</li>
+                                    <li><strong>Tokenization</strong>: Split text into tokens (roughly words)</li>
+                                    <li><strong>Normalization</strong>: Convert tokens to standard form (lowercase, remove punctuation)</li>
+                                    <li><strong>Stemming/Lemmatization</strong>: Reduce words to their root forms</li>
+                                    <li><strong>Stopword Removal</strong>: Filter out common words (optional)</li>
+                                    <li><strong>Index Creation</strong>: Build the inverted index data structure</li>
+                                    <li><strong>Optimization</strong>: Compress and optimize the index for efficient storage and retrieval</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Positional Index</h4>
+                            <p class="mb-3">A positional index extends the inverted index by storing the positions of each term within documents. This enables phrase queries (e.g., "quick brown fox") and proximity searches (terms near each other).</p>
+                            
+                            <div class="example-box">
+                                <h5 class="font-medium mb-2">Positional Index Example</h5>
+                                <p class="mb-2">For Document 1: "The quick brown fox"</p>
+                                <ul class="list-none ml-0 space-y-1">
+                                    <li><strong>the</strong>: {Doc 1: [0]}</li>
+                                    <li><strong>quick</strong>: {Doc 1: [1]}</li>
+                                    <li><strong>brown</strong>: {Doc 1: [2]}</li>
+                                    <li><strong>fox</strong>: {Doc 1: [3]}</li>
+                                </ul>
+                                <p class="mt-2">With this index, we can verify that "quick brown" appears as a phrase in Document 1 because "quick" is at position 1 and "brown" is at position 2 (adjacent).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Term Weighting and Ranking</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">TF-IDF Weighting</h4>
+                            <p class="mb-3">Term Frequency-Inverse Document Frequency (TF-IDF) is a numerical statistic that reflects how important a word is to a document in a collection.</p>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <h5 class="font-medium mb-2">The TF-IDF Formula</h5>
+                                <p class="mb-2">TF-IDF(t, d, D) = TF(t, d) × IDF(t, D)</p>
+                                <p class="mb-2">Where:</p>
+                                <ul class="list-disc ml-5">
+                                    <li><strong>TF(t, d)</strong>: Term Frequency of term t in document d</li>
+                                    <li><strong>IDF(t, D)</strong>: Inverse Document Frequency of term t in document collection D</li>
+                                </ul>
+                                <p class="mt-2">Term Frequency (TF) is often calculated as:</p>
+                                <ul class="list-disc ml-5">
+                                    <li>Raw count: Number of occurrences of term t in document d</li>
+                                    <li>Boolean: 1 if term appears, 0 if not</li>
+                                    <li>Logarithmically scaled: 1 + log(TF) if TF > 0, else 0</li>
+                                    <li>Normalized: TF divided by the maximum term frequency in document</li>
+                                </ul>
+                                <p class="mt-2">Inverse Document Frequency (IDF) is typically calculated as:</p>
+                                <p>IDF(t, D) = log(N / DF(t))</p>
+                                <p>Where N is the total number of documents and DF(t) is the number of documents containing term t.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="example-box mb-4">
+                            <h4 class="font-medium mb-2">TF-IDF Example</h4>
+                            <p class="mb-2">Consider three documents and the term "algorithm":</p>
+                            <ul class="list-disc ml-5 mb-3">
+                                <li>Document 1: "The algorithm runs efficiently" (1 occurrence of "algorithm")</li>
+                                <li>Document 2: "This algorithm is better than that algorithm" (2 occurrences)</li>
+                                <li>Document 3: "Data structures are important" (0 occurrences)</li>
+                            </ul>
+                            <p class="mb-2">For Document 1:</p>
+                            <ul class="list-none ml-5 mb-2">
+                                <li>TF("algorithm", Doc1) = 1/4 = 0.25 (normalized by document length)</li>
+                                <li>IDF("algorithm", D) = log(3/2) ≈ 0.176 (appears in 2 out of 3 documents)</li>
+                                <li>TF-IDF("algorithm", Doc1, D) = 0.25 × 0.176 ≈ 0.044</li>
+                            </ul>
+                            <p class="mb-2">For Document 2:</p>
+                            <ul class="list-none ml-5">
+                                <li>TF("algorithm", Doc2) = 2/7 ≈ 0.286</li>
+                                <li>IDF("algorithm", D) = log(3/2) ≈ 0.176</li>
+                                <li>TF-IDF("algorithm", Doc2, D) = 0.286 × 0.176 ≈ 0.050</li>
+                            </ul>
+                            <p class="mt-2">Document 2 has a higher TF-IDF score for "algorithm" than Document 1, reflecting that "algorithm" is more important to Document 2.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">Vector Space Model</h4>
+                            <p class="mb-3">The Vector Space Model represents documents and queries as vectors in a high-dimensional space, where each dimension corresponds to a term in the vocabulary.</p>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <h5 class="font-medium mb-2">Document and Query Vectors</h5>
+                                <p class="mb-2">A document d is represented as:</p>
+                                <p class="mb-2">d = (w₁,ₐ, w₂,ₐ, ..., wₙ,ₐ)</p>
+                                <p class="mb-2">Where wᵢ,ₐ is the weight (often TF-IDF) of term i in document d.</p>
+                                <p class="mb-2">Similarly, a query q is represented as:</p>
+                                <p class="mb-2">q = (w₁,q, w₂,q, ..., wₙ,q)</p>
+                                <p class="mb-3">The similarity between a document and a query can be calculated using the cosine similarity:</p>
+                                <p>sim(d, q) = (d · q) / (|d| × |q|)</p>
+                                <p class="mt-2">Where (d · q) is the dot product of the document and query vectors, and |d| and |q| are their magnitudes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Web Search and Crawling</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Web Crawling</h4>
+                            <p class="mb-3">Web crawlers (or spiders) are programs that systematically browse the web, following links from page to page, collecting information, and updating an index.</p>
+                            
+                            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                                <h5 class="font-medium mb-2">Basic Crawling Algorithm</h5>
+                                <pre><code>function crawl(seed_urls):
+    frontier = new Queue(seed_urls)
+    discovered = new Set(seed_urls)
+    
+    while not frontier.isEmpty() and not reached_limit():
+        url = frontier.dequeue()
+        
+        page = download_and_process(url)
+        index_page(url, page)
+        
+        for link in extract_links(page):
+            if link not in discovered:
+                frontier.enqueue(link)
+                discovered.add(link)
+</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Crawling Challenges</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Scale</h5>
+                                    <p>The web contains billions of pages that need to be crawled and indexed.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Freshness</h5>
+                                    <p>Pages change frequently, requiring regular recrawling to maintain an up-to-date index.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Politeness</h5>
+                                    <p>Crawlers must respect robots.txt files and avoid overwhelming servers with too many requests.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Deep Web</h5>
+                                    <p>Much of the web is not accessible by following links (e.g., content behind logins, dynamically generated pages).</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Duplicate Content</h5>
+                                    <p>Many web pages contain identical or near-identical content.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Crawl Traps</h5>
+                                    <p>Some sites have infinite loops of links or dynamically generated URLs that can trap crawlers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-medium mb-2">PageRank Algorithm</h4>
+                            <p class="mb-3">PageRank is a link analysis algorithm that assigns a numerical weight to each page based on the number and quality of links pointing to it. It was a key innovation in Google's original search algorithm.</p>
+                            
+                            <div class="example-box">
+                                <h5 class="font-medium mb-2">How PageRank Works</h5>
+                                <p class="mb-2">The basic intuition behind PageRank:</p>
+                                <ul class="list-disc ml-5">
+                                    <li>A page is important if many important pages link to it</li>
+                                    <li>The importance of a page is divided among its outgoing links</li>
+                                </ul>
+                                <p class="mb-2 mt-2">The simplified PageRank formula:</p>
+                                <p class="mb-2">PR(A) = (1-d) + d × (PR(T₁)/C(T₁) + PR(T₂)/C(T₂) + ... + PR(Tₙ)/C(Tₙ))</p>
+                                <p>Where:</p>
+                                <ul class="list-disc ml-5">
+                                    <li>PR(A) is the PageRank of page A</li>
+                                    <li>PR(Tᵢ) is the PageRank of pages Tᵢ that link to A</li>
+                                    <li>C(Tᵢ) is the number of outbound links from page Tᵢ</li>
+                                    <li>d is a damping factor (typically around 0.85)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Evaluating Search Systems</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-lg font-medium mb-2">Evaluation Metrics</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Precision</h5>
+                                    <p>The fraction of retrieved documents that are relevant.</p>
+                                    <p class="mt-1">Precision = Relevant ∩ Retrieved / Retrieved</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Recall</h5>
+                                    <p>The fraction of relevant documents that are retrieved.</p>
+                                    <p class="mt-1">Recall = Relevant ∩ Retrieved / Relevant</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">F-measure</h5>
+                                    <p>The harmonic mean of precision and recall.</p>
+                                    <p class="mt-1">F₁ = 2 × (Precision × Recall) / (Precision + Recall)</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Mean Average Precision (MAP)</h5>
+                                    <p>The mean of average precision scores for a set of queries.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Normalized Discounted Cumulative Gain (NDCG)</h5>
+                                    <p>Measures the quality of ranking by considering the position of relevant documents.</p>
+                                </div>
+                                
+                                <div class="concept-card">
+                                    <h5 class="font-medium mb-1">Mean Reciprocal Rank (MRR)</h5>
+                                    <p>Average of the reciprocal ranks of the first relevant result for a set of queries.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="example-box">
+                            <h4 class="font-medium mb-2">Precision and Recall Example</h4>
+                            <p class="mb-2">Consider a search for "machine learning tutorials":</p>
+                            <ul class="list-disc ml-5 mb-3">
+                                <li>There are 20 relevant documents in the collection</li>
+                                <li>The system retrieves 15 documents, of which 10 are relevant</li>
+                            </ul>
+                            <p class="mb-2">Precision = 10/15 = 0.67 (67% of retrieved documents are relevant)</p>
+                            <p>Recall = 10/20 = 0.5 (50% of all relevant documents were retrieved)</p>
+                            <p class="mt-3">There's often a trade-off between precision and recall. Returning more documents typically increases recall but may decrease precision, while being more selective improves precision but may reduce recall.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Active link script -->
+    <script src="components/active-link.js"></script>
+</body>
+</html>
