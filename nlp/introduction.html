@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1. Introduction</title>
+    <title>1. Introduction to NLP</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" rel="stylesheet">
     <link href="components/styles.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <header class="bg-white shadow fixed w-full z-10">
+    <header class="bg-blue-600 shadow fixed w-full z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <button id="mobile-menu-button" class="md:hidden mr-3 text-gray-600"><i class="fas fa-bars text-xl"></i></button>
-                <h1 class="text-xl font-bold text-gray-800">Natural Language Processing</h1>
+                <button id="mobile-menu-button" class="md:hidden mr-3 text-white"><i class="fas fa-bars text-xl"></i></button>
+                <h1 class="text-xl font-bold text-white">Natural Language Processing</h1>
+                <button id="sidebar-toggle" class="ml-4 text-white" title="Toggle sidebar"><i class="fas fa-chevron-left"></i></button>
             </div>
         </div>
     </header>
 
     <div class="container mx-auto pt-16 flex">
-        <!-- Sidebar -->
         <aside id="sidebar" class="sidebar bg-white shadow w-64 transform -translate-x-full md:translate-x-0 fixed md:relative z-10">
             <nav class="p-4">
                 <div class="mb-6"> <h2 class="text-lg font-bold text-gray-700 mb-2">Contents</h2>
@@ -43,24 +42,261 @@
             </nav>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="content-container w-full p-6 md:ml-64">
             <div class="content">
-                <!-- Introduction Section -->
                 <section id="introduction" class="mb-12 section">
                     <h2 class="text-2xl font-bold mb-4 section-header">1. Introduction to NLP</h2>
-                    <div class="mb-6"><p class="mb-4">Natural Language Processing (NLP) is a field at the intersection of computer science, artificial intelligence, and linguistics. It focuses on the interaction between computers and human language, particularly how to program computers to process and analyze large amounts of natural language data.</p><div class="concept-card"><h3 class="text-lg font-semibold mb-2">What is Natural Language Processing?</h3><p>NLP enables machines to understand, interpret, and generate human language in a valuable way. It bridges the gap between human communication and computer understanding.</p></div></div>
-                    <div class="mb-6"><h3 class="text-xl font-semibold mb-3">Core NLP Tasks</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="concept-card"><h4 class="font-medium mb-1">Text Classification</h4><p>Categorizing text documents into predefined classes (e.g., spam detection, sentiment analysis).</p></div><div class="concept-card"><h4 class="font-medium mb-1">Information Retrieval</h4><p>Finding relevant information or documents in response to a query (e.g., search engines).</p></div><div class="concept-card"><h4 class="font-medium mb-1">Named Entity Recognition</h4><p>Identifying entities such as persons, organizations, locations in text.</p></div><div class="concept-card"><h4 class="font-medium mb-1">Machine Translation</h4><p>Automatically translating text from one language to another.</p></div><div class="concept-card"><h4 class="font-medium mb-1">Question Answering</h4><p>Providing specific answers to natural language questions.</p></div><div class="concept-card"><h4 class="font-medium mb-1">Text Summarization</h4><p>Creating concise summaries of longer documents while preserving key information.</p></div></div></div>
-                    <div class="mb-6"><h3 class="text-xl font-semibold mb-3">NLP Pipeline</h3><p class="mb-3">Most NLP systems follow a common processing pipeline:</p><div class="bg-white p-4 rounded-lg shadow-sm border"><ol class="list-decimal ml-5 space-y-1"><li><strong>Text Preprocessing</strong>: Cleaning, normalizing</li><li><strong>Tokenization</strong>: Breaking text into units</li><li><strong>Normalization</strong>: Lowercasing, stemming, etc.</li><li><strong>Feature Extraction</strong>: Text to numbers</li><li><strong>Model Application</strong>: ML/DL for task</li><li><strong>Post-processing</strong>: Refining results</li></ol></div></div>
-                    <div class="mb-6"><h3 class="text-xl font-semibold mb-3">Challenges in NLP</h3><div class="example-box"><h4 class="font-medium mb-2">Ambiguity</h4><ul class="list-disc ml-5 text-sm"><li><strong>Lexical</strong>: "Bank" (river vs financial)</li><li><strong>Syntactic</strong>: "Saw man with telescope"</li><li><strong>Referential</strong>: "He fell down" (Who?)</li></ul></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"><div class="concept-card"><h4 class="font-medium mb-1">Context</h4><p class="text-sm">Sarcasm, humor, culture.</p></div><div class="concept-card"><h4 class="font-medium mb-1">Variations</h4><p class="text-sm">Dialects, slang, idioms.</p></div><div class="concept-card"><h4 class="font-medium mb-1">OOV Words</h4><p class="text-sm">New/domain-specific terms.</p></div><div class="concept-card"><h4 class="font-medium mb-1">World Knowledge</h4><p class="text-sm">Lacks common sense.</p></div></div></div>
-                    <div class="mb-6"><h3 class="text-xl font-semibold mb-3">Evolution of NLP</h3><div class="overflow-auto"><table class="min-w-full bg-white border text-sm"><thead><tr><th class="py-1 px-2 border-b text-left">Era</th><th class="py-1 px-2 border-b text-left">Approach</th><th class="py-1 px-2 border-b text-left">Characteristics</th></tr></thead><tbody><tr><td class="py-1 px-2 border-b">50s-80s</td><td class="py-1 px-2 border-b">Rule-based</td><td class="py-1 px-2 border-b">Manual rules</td></tr><tr><td class="py-1 px-2 border-b">80s-00s</td><td class="py-1 px-2 border-b">Statistical</td><td class="py-1 px-2 border-b">Probabilistic models, corpora</td></tr><tr><td class="py-1 px-2 border-b">00s-10s</td><td class="py-1 px-2 border-b">Machine Learning</td><td class="py-1 px-2 border-b">Feature engineering, SVMs</td></tr><tr><td class="py-1 px-2 border-b">10s-Now</td><td class="py-1 px-2 border-b">Deep Learning</td><td class="py-1 px-2 border-b">Embeddings, RNNs, Transformers</td></tr></tbody></table></div></div>
-                    <div><h3 class="text-xl font-semibold mb-3">Practical Applications</h3><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div class="concept-card"><h4 class="font-medium mb-1">Assistants</h4><p class="text-sm">Siri, Alexa</p></div><div class="concept-card"><h4 class="font-medium mb-1">Support</h4><p class="text-sm">Chatbots</p></div><div class="concept-card"><h4 class="font-medium mb-1">Healthcare</h4><p class="text-sm">Record analysis</p></div><div class="concept-card"><h4 class="font-medium mb-1">Finance</h4><p class="text-sm">Sentiment, fraud</p></div><div class="concept-card"><h4 class="font-medium mb-1">Education</h4><p class="text-sm">Essay scoring</p></div><div class="concept-card"><h4 class="font-medium mb-1">Social Media</h4><p class="text-sm">Moderation</p></div></div></div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">What is Natural Language Processing?</h3>
+                        <p class="mb-4">Natural Language Processing (NLP) is a fascinating field sitting at the crossroads of Computer Science, Artificial Intelligence, and Linguistics. Its primary goal is the computational analysis, interpretation, and production of natural (human) language, whether written or spoken. In essence, NLP strives to enable computers to understand and interact with humans using our own language.</p>
+                        <div class="concept-card">
+                            <h4 class="font-medium mb-1">Core Idea</h4>
+                            <p>NLP empowers machines to process, analyze, and generate human language in a meaningful way, bridging the gap between human communication and computer comprehension.</p>
+                        </div>
+                        <p class="mt-4">The etymology of the words 'natural', 'language', and 'processing' traces back to Latin roots meaning 'birth', 'tongue', and 'progress' respectively. This hints that natural languages are typically spoken ('tongue') and evolve over time ('progress').</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Understanding Natural Language</h3>
+                        <p class="mb-4">While many animal species communicate, sometimes quite sophisticatedly, human language possesses unique characteristics. Animal communication is often symbolic but typically lacks the compositional structure found in human language.</p>
+                         <h4 class="text-lg font-semibold mb-2">Development of Human Language</h4>
+                         <ul class="list-disc ml-5 mb-4 space-y-1">
+                             <li><strong>Spoken Language:</strong> The exact origin is debated, potentially dating back millions of years or emerging much more recently.</li>
+                             <li><strong>Written Language:</strong> Its origin is clearer, with early systems like Mesopotamian cuneiform evolving from pictograms to abstract symbols around 3500 BCE.</li>
+                         </ul>
+                        <h4 class="text-lg font-semibold mb-2">Key Features of Human Language</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="concept-card">
+                                <h5 class="font-medium mb-1">Compositionality</h5>
+                                <p>We build sentences with structures like subject-verb-object. This allows for an almost infinite capacity to generate novel sentences from a finite vocabulary.</p>
+                            </div>
+                            <div class="concept-card">
+                                <h5 class="font-medium mb-1">Referential</h5>
+                                <p>Language allows us to convey information about objects, their properties, locations, and actions.</p>
+                            </div>
+                            <div class="concept-card">
+                                <h5 class="font-medium mb-1">Temporal Information</h5>
+                                <p>We can discuss events in the past, present, and future using different tenses.</p>
+                            </div>
+                            <div class="concept-card">
+                                <h5 class="font-medium mb-1">Varied</h5>
+                                <p>Thousands of distinct languages are spoken globally, each with its own nuances.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Data Beyond Text</h3>
+                         <p class="mb-3">While NLP primarily deals with natural language text, the techniques developed within the field have proven incredibly useful for processing a wide variety of data types.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                           <div class="concept-card"><p class="text-sm">Textual Documents</p></div>
+                           <div class="concept-card"><p class="text-sm">Semi-structured Data (e.g., HTML)</p></div>
+                           <div class="concept-card"><p class="text-sm">Programming Code</p></div>
+                           <div class="concept-card"><p class="text-sm">Tabular/Relational Data</p></div>
+                           <div class="concept-card"><p class="text-sm">Biological Sequences (e.g., Genomics)</p></div>
+                           <div class="concept-card"><p class="text-sm">Binary Data (e.g., Executables)</p></div>
+                           <div class="concept-card"><p class="text-sm">Audio Data (e.g., Speech)</p></div>
+                           <div class="concept-card"><p class="text-sm">Images & Video</p></div>
+                           <div class="concept-card"><p class="text-sm">Other Time Series</p></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Core NLP Tasks & Applications</h3>
+                        <p class="mb-3">NLP, sometimes referred to as Text Mining, encompasses a wide array of tasks aimed at extracting useful knowledge from textual data. Modern machine learning, especially deep learning, has dramatically improved performance across these tasks. Key tasks include:</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                            <div class="concept-card"><h4 class="font-medium mb-1">Text Classification</h4><p class="text-sm">Categorizing text (e.g., spam detection, sentiment analysis, topic labeling).</p></div>
+                            <div class="concept-card"><h4 class="font-medium mb-1">Information Retrieval</h4><p class="text-sm">Finding relevant documents or information based on a query (Search).</p></div>
+                            <div class="concept-card"><h4 class="font-medium mb-1">Information Extraction</h4><p class="text-sm">Pulling structured information from unstructured text (e.g., named entities, relationships, events).</p></div>
+                            <div class="concept-card"><h4 class="font-medium mb-1">Machine Translation</h4><p class="text-sm">Translating text between languages.</p></div>
+                            <div class="concept-card"><h4 class="font-medium mb-1">Text Summarization</h4><p class="text-sm">Generating concise summaries of longer texts.</p></div>
+                            <div class="concept-card"><h4 class="font-medium mb-1">Question Answering</h4><p class="text-sm">Providing specific answers to questions posed in natural language.</p></div>
+                             <div class="concept-card"><h4 class="font-medium mb-1">Text Generation</h4><p class="text-sm">Creating new text (e.g., chatbots, story writing, code generation).</p></div>
+                             <div class="concept-card"><h4 class="font-medium mb-1">Clustering</h4><p class="text-sm">Grouping similar documents together without predefined labels.</p></div>
+                             <div class="concept-card"><h4 class="font-medium mb-1">Fact-Checking / Verification</h4><p class="text-sm">Assessing the truthfulness of statements.</p></div>
+                             <div class="concept-card"><h4 class="font-medium mb-1">Sentiment Analysis</h4><p class="text-sm">Determining the emotional tone (positive, negative, neutral).</p></div>
+                             <div class="concept-card"><h4 class="font-medium mb-1">Speech-to-Text / Text-to-Speech</h4><p class="text-sm">Converting between spoken and written language.</p></div>
+                             <div class="concept-card"><h4 class="font-medium mb-1">Dialog Systems / Chatbots</h4><p class="text-sm">Creating conversational agents.</p></div>
+                        </div>
+                        <h4 class="text-lg font-semibold mb-2">Example Domain: Medical Documents</h4>
+                        <p>NLP finds crucial applications in the medical field:</p>
+                        <ul class="list-disc ml-5 space-y-1 text-sm">
+                            <li><strong>Classification:</strong> Labeling documents with procedures, diagnoses, predicting readmission risk.</li>
+                            <li><strong>Extraction:</strong> Identifying tests, drugs, dosages, relationships, events.</li>
+                            <li><strong>Disambiguation:</strong> Clarifying ambiguous abbreviations.</li>
+                            <li><strong>Search:</strong> Finding similar patients for diagnosis or cohort selection.</li>
+                            <li><strong>Translation:</strong> Translating medical jargon into plain language for patients.</li>
+                            <li><strong>Summarization:</strong> Condensing patient histories or research literature.</li>
+                            <li><strong>Anonymization/Synthetic Data:</strong> Protecting privacy or generating artificial datasets.</li>
+                            <li><strong>Question Answering:</strong> Answering clinical questions based on electronic health records (EHR).</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">The Challenges of NLP</h3>
+                        <p class="mb-3">Processing human language automatically is inherently difficult due to its complexity and nuances.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <div class="concept-card">
+                                <h4 class="font-medium mb-1">Ambiguity</h4>
+                                <p class="text-sm mb-2">Words and sentences can often be interpreted in multiple ways. This is a fundamental challenge.</p>
+                                <ul class="list-disc ml-5 text-xs">
+                                    <li><strong>Lexical Category:</strong> Is "duck" a noun or a verb? Is "her" possessive or dative?.</li>
+                                    <li><strong>Lexical Semantics:</strong> Does "make" mean "create" or "cook"?.</li>
+                                    <li><strong>Syntactic:</strong> How should we parse "I made her duck"?</li>
+                                     <li><strong>Referential:</strong> Who or what does a pronoun refer to?</li>
+                                </ul>
+                            </div>
+                            <div class="concept-card">
+                                <h4 class="font-medium mb-1">Expressiveness & Non-sensicality</h4>
+                                <p class="text-sm">Language can express almost anything, including grammatically correct but meaningless sentences or logically inconsistent statements.</p>
+                            </div>
+                             <div class="concept-card">
+                                <h4 class="font-medium mb-1">Redundancy & Variation</h4>
+                                <p class="text-sm">The same meaning can often be expressed in many different ways, including variations in wording, misspellings, slang, and dialects.</p>
+                            </div>
+                             <div class="concept-card">
+                                <h4 class="font-medium mb-1">Prosody</h4>
+                                <p class="text-sm">The way something is said (emphasis, tone) can drastically alter its meaning.</p>
+                            </div>
+                             <div class="concept-card">
+                                <h4 class="font-medium mb-1">Context & World Knowledge</h4>
+                                <p class="text-sm">Understanding often requires background knowledge, common sense, and awareness of context which computers lack.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">A Brief History of NLP</h3>
+                        <p class="mb-3">NLP has evolved significantly, influenced by fields like Linguistics, Computer Science, and Psychology. Key phases include:</p>
+                        <div class="overflow-auto">
+                            <table class="min-w-full bg-white border text-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="py-1 px-2 border-b text-left">Era</th>
+                                        <th class="py-1 px-2 border-b text-left">Approach</th>
+                                        <th class="py-1 px-2 border-b text-left">Characteristics</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="py-1 px-2 border-b">1940s-50s</td><td class="py-1 px-2 border-b">Early Foundations</td><td class="py-1 px-2 border-b">Finite State Automata, Formal Language Theory, Information Theory, early probabilistic methods.</td></tr>
+                                    <tr><td class="py-1 px-2 border-b">1957-70s</td><td class="py-1 px-2 border-b">Symbolic vs. Stochastic</td><td class="py-1 px-2 border-b">Symbolic rules vs. Bayesian methods and corpus use.</td></tr>
+                                    <tr><td class="py-1 px-2 border-b">1970s-93</td><td class="py-1 px-2 border-b">Empiricism & Finite-State</td><td class="py-1 px-2 border-b">Focus on semantics, discourse; probabilistic speech recognition, data-driven tagging/parsing.</td></tr>
+                                     <tr><td class="py-1 px-2 border-b">1994-99</td><td class="py-1 px-2 border-b">Rise of Data-Driven</td><td class="py-1 px-2 border-b">Decline of purely symbolic approaches; heavy use of statistical methods, spurred by the Web.</td></tr>
+                                     <tr><td class="py-1 px-2 border-b">2000-10</td><td class="py-1 px-2 border-b">Machine Learning Dominance</td><td class="py-1 px-2 border-b">Empirical approaches standard; large annotated datasets; rise of unsupervised methods.</td></tr>
+                                    <tr><td class="py-1 px-2 border-b">2010-18</td><td class="py-1 px-2 border-b">Deep Learning Emerges</td><td class="py-1 px-2 border-b">Neural Networks applied to NLP; rise of conversational agents, sentiment analysis focus.</td></tr>
+                                    <tr><td class="py-1 px-2 border-b">2018-Now</td><td class="py-1 px-2 border-b">Transformers & LLMs</td><td class="py-1 px-2 border-b">Transformer architectures revolutionize; Transfer learning with large pre-trained language models (LLMs) dominates.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                     <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Text Preprocessing</h3>
+                        <p class="mb-3">Before applying core NLP algorithms, text usually undergoes several cleaning and normalization steps to make it more suitable for processing.</p>
+
+                        <h4 class="text-lg font-semibold mb-2">1. Text Extraction & Cleaning</h4>
+                         <ul class="list-disc ml-5 mb-3 space-y-1 text-sm">
+                           <li><strong>Source Variety:</strong> Text can come from plain text files, structured formats like HTML, or binary documents like PDF.</li>
+                           <li><strong>Markup Removal:</strong> Non-content information like HTML tags is typically removed.</li>
+                           <li><strong>Binary Document Challenges:</strong> Extracting text from PDFs or Word documents requires handling formatting and structure.</li>
+                           <li><strong>OCR:</strong> Text from scanned images requires Optical Character Recognition, which can introduce errors.</li>
+                           <li><strong>Encoding:</strong> Consistent encoding (like UTF-8 for broad language support) is crucial.</li>
+                           <li><strong>Lowercasing:</strong> Converting text to lowercase reduces vocabulary size but can lose information (e.g., 'WHO' vs 'who').</li>
+                            <li><strong>Punctuation Removal:</strong> Removing punctuation can simplify text but needs care as symbols can be meaningful.</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold mb-2">2. Tokenization</h4>
+                        <p class="mb-3">Tokenization segments text into basic units (tokens), usually words.</p>
+                         <ul class="list-disc ml-5 mb-3 space-y-1 text-sm">
+                            <li><strong>Whitespace Tokenization:</strong> Common for languages using spaces between words.</li>
+                             <li><strong>Challenges:</strong> Handling hyphens, long compound words (agglutination), multi-word expressions, and attached words (clitics).</li>
+                            <li><strong>Languages without Spaces:</strong> Chinese, Japanese, etc., require more complex segmentation algorithms.</li>
+                             <li><strong>Sub-word Tokenization:</strong> Methods like Byte-Pair Encoding (BPE) break words into frequent sub-units, handling rare words and morphology effectively.</li>
+                        </ul>
+
+                        <h4 class="text-lg font-semibold mb-2">3. Sentence Segmentation</h4>
+                         <p class="mb-3">Breaking text into sentences often relies on punctuation, but periods can be ambiguous (used in abbreviations, numbers). Algorithms use rules or ML to resolve this.</p>
+
+                        <h4 class="text-lg font-semibold mb-2">4. Word Normalization & Morphology</h4>
+                         <p class="mb-3">Standardizing words handles variations. Morphology studies word structure (roots and affixes).</p>
+                         <ul class="list-disc ml-5 mb-3 space-y-1 text-sm">
+                            <li><strong>Lemmatization:</strong> Reducing words to their dictionary form (lemma) using lexicons and morphological analysis (e.g., "is" -> "be", "cars" -> "car").</li>
+                            <li><strong>Stemming:</strong> A simpler, rule-based method to chop off affixes, creating a 'stem' (e.g., "running" -> "run"). Faster but less precise than lemmatization.</li>
+                         </ul>
+
+                        <h4 class="text-lg font-semibold mb-2">5. Stopword Removal</h4>
+                         <p class="mb-3">Removing common words (like "the", "a", "is") can reduce data size but may discard important meaning in some contexts.</p>
+
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Regular Expressions (Regex)</h3>
+                        <p class="mb-3">Regular expressions are patterns used to search for and manipulate specific character sequences in text, useful for rule-based tasks.</p>
+                        <h4 class="text-lg font-semibold mb-2">Core Concepts</h4>
+                         <ul class="list-disc ml-5 mb-3 space-y-1 text-sm">
+                           <li><strong>Literals:</strong> Match exact sequences (e.g., `cat`).</li>
+                           <li><strong>Alternation (`|`):</strong> Match one of several patterns (e.g., `cat|dog`).</li>
+                           <li><strong>Wildcard (`.`):</strong> Match any single character.</li>
+                            <li><strong>Character Sets (`[]`):</strong> Match any character inside brackets (e.g., `[aeiou]`, `[a-z]`, `[^0-9]`).</li>
+                            <li><strong>Special Characters (`\`):</strong> Match types like digits (`\d`), word characters (`\w`), whitespace (`\s`), or escape special regex characters.</li>
+                           <li><strong>Repetition Quantifiers (`*`, `+`, `?`, `{n,m}`):</strong> Control repetition frequency.</li>
+                            <li><strong>Anchors (`^`, `$`, `\b`):</strong> Match positions (start/end of string, word boundary).</li>
+                            <li><strong>Grouping (`()`):</strong> Group patterns and capture matches.</li>
+                         </ul>
+                         <h4 class="text-lg font-semibold mb-2">Example: Email Matching</h4>
+                         <p class="mb-1 text-sm">A regex like `[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}` can identify patterns typical of email addresses.</p>
+                         <h4 class="text-lg font-semibold mb-2">Pros and Cons</h4>
+                         <ul class="list-disc ml-5 space-y-1 text-sm">
+                            <li><strong>Pros:</strong> Precise for well-defined patterns.</li>
+                            <li><strong>Cons:</strong> Can be complex, often require manual creation, struggle with variations, may match unintended patterns, limited context awareness.</li>
+                         </ul>
+                    </div>
+
+                     <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-3">Concluding Thoughts</h3>
+                        <p>Natural language is ubiquitous, making automated processing vital. Despite huge progress, NLP remains challenging due to language's inherent ambiguity and richness. Techniques range from foundational preprocessing and pattern matching to sophisticated deep learning, enabling countless applications.</p>
+                    </div>
+
                 </section>
             </div>
         </main>
     </div>
 
-    <!-- Active link script -->
     <script src="components/active-link.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.content-container');
+            const toggleButton = document.getElementById('sidebar-toggle');
+            
+            // Check localStorage for saved state
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            
+            // Apply initial state
+            if (sidebarCollapsed) {
+                sidebar.classList.add('sidebar-collapsed');
+                mainContent.classList.add('sidebar-collapsed');
+                toggleButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            }
+            
+            // Add click event to toggle button
+            toggleButton.addEventListener('click', function() {
+                sidebar.classList.toggle('sidebar-collapsed');
+                mainContent.classList.toggle('sidebar-collapsed');
+                
+                // Toggle button icon
+                if (sidebar.classList.contains('sidebar-collapsed')) {
+                    toggleButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    localStorage.setItem('sidebarCollapsed', 'true');
+                } else {
+                    toggleButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                    localStorage.setItem('sidebarCollapsed', 'false');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
